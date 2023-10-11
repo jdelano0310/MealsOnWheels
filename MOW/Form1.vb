@@ -1,10 +1,19 @@
 ﻿Public Class frmMDI
 
-    Private Sub PositionContainersToParentMiddle()
-        Dim xCoordinate As Int16 = (Me.Size.Width - pbLogo.Size.Width) / 2
-        Dim yCoordinate As Int16 = (Me.Size.Height - pbLogo.Size.Height) / 2
+    Private Sub OpenChild(childForm As Form, Optional formMode As String = "")
 
-        pbLogo.Location = New Point(xCoordinate, yCoordinate)
+        childForm.MdiParent = Me
+        childForm.Tag = formMode
+        childForm.Top = 55
+        childForm.Show()
+
+    End Sub
+
+    Private Sub PositionContainersToParentMiddle()
+        'Dim xCoordinate As Int16 = (Me.Size.Width - pbLogo.Size.Width) / 2
+        'Dim yCoordinate As Int16 = (Me.Size.Height - pbLogo.Size.Height) / 2
+
+        'pbLogo.Location = New Point(xCoordinate, yCoordinate)
 
     End Sub
     Private Sub frmMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -24,5 +33,17 @@
 
     Private Sub frmMDI_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         PositionContainersToParentMiddle()
+    End Sub
+
+    Private Sub btnNewDelivery_Click(sender As Object, e As EventArgs) Handles btnNewDelivery.Click
+
+
+    End Sub
+
+    Private Sub btnNewRecipient_Click(sender As Object, e As EventArgs) Handles btnNewRecipient.Click
+
+        Dim frm As New frmRecipient
+        OpenChild(frm)
+
     End Sub
 End Class

@@ -23,77 +23,66 @@ Partial Class frmMDI
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         btnPanel = New Panel()
-        Button2 = New Button()
-        Button1 = New Button()
-        pbLogo = New PictureBox()
+        btnNewRecipient = New Button()
+        btnNewDelivery = New Button()
         btnPanel.SuspendLayout()
-        CType(pbLogo, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' btnPanel
         ' 
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
-        btnPanel.Controls.Add(Button2)
-        btnPanel.Controls.Add(Button1)
+        btnPanel.Controls.Add(btnNewRecipient)
+        btnPanel.Controls.Add(btnNewDelivery)
         btnPanel.Location = New Point(1, 1)
         btnPanel.Name = "btnPanel"
-        btnPanel.Size = New Size(930, 46)
+        btnPanel.Size = New Size(1060, 46)
         btnPanel.TabIndex = 1
         ' 
-        ' Button2
+        ' btnNewRecipient
         ' 
-        Button2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        Button2.FlatAppearance.BorderSize = 0
-        Button2.FlatStyle = FlatStyle.Flat
-        Button2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Button2.Location = New Point(100, 0)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(96, 45)
-        Button2.TabIndex = 1
-        Button2.Text = "New Recipient"
-        Button2.UseVisualStyleBackColor = False
+        btnNewRecipient.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnNewRecipient.FlatAppearance.BorderSize = 0
+        btnNewRecipient.FlatStyle = FlatStyle.Flat
+        btnNewRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnNewRecipient.Location = New Point(100, 0)
+        btnNewRecipient.Name = "btnNewRecipient"
+        btnNewRecipient.Size = New Size(96, 45)
+        btnNewRecipient.TabIndex = 1
+        btnNewRecipient.Text = "New Recipient"
+        btnNewRecipient.UseVisualStyleBackColor = False
         ' 
-        ' Button1
+        ' btnNewDelivery
         ' 
-        Button1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        Button1.FlatAppearance.BorderSize = 0
-        Button1.FlatStyle = FlatStyle.Flat
-        Button1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Button1.Location = New Point(1, 0)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(96, 45)
-        Button1.TabIndex = 0
-        Button1.Text = "New Delivery"
-        Button1.UseVisualStyleBackColor = False
-        ' 
-        ' pbLogo
-        ' 
-        pbLogo.Image = My.Resources.Resources.MOW_Logo
-        pbLogo.Location = New Point(237, 197)
-        pbLogo.Name = "pbLogo"
-        pbLogo.Size = New Size(457, 78)
-        pbLogo.TabIndex = 3
-        pbLogo.TabStop = False
+        btnNewDelivery.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnNewDelivery.FlatAppearance.BorderSize = 0
+        btnNewDelivery.FlatStyle = FlatStyle.Flat
+        btnNewDelivery.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnNewDelivery.Location = New Point(1, 0)
+        btnNewDelivery.Name = "btnNewDelivery"
+        btnNewDelivery.Size = New Size(96, 45)
+        btnNewDelivery.TabIndex = 0
+        btnNewDelivery.Text = "New Delivery"
+        btnNewDelivery.UseVisualStyleBackColor = False
         ' 
         ' frmMDI
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        ClientSize = New Size(934, 501)
-        Controls.Add(pbLogo)
+        BackgroundImage = My.Resources.Resources.MOW_Logo
+        BackgroundImageLayout = ImageLayout.Center
+        ClientSize = New Size(1064, 841)
         Controls.Add(btnPanel)
+        DoubleBuffered = True
         IsMdiContainer = True
         Name = "frmMDI"
         Text = "Meals On Wheels"
         btnPanel.ResumeLayout(False)
-        CType(pbLogo, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents btnPanel As Panel
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents pbLogo As PictureBox
+    Friend WithEvents btnNewDelivery As Button
+    Friend WithEvents btnNewRecipient As Button
 End Class
