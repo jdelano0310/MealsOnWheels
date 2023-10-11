@@ -1,21 +1,16 @@
-﻿Public Class frmMDI
+﻿Imports Microsoft
+
+Public Class frmMDI
 
     Private Sub OpenChild(childForm As Form, Optional formMode As String = "")
 
         childForm.MdiParent = Me
         childForm.Tag = formMode
-        childForm.Top = 55
+        childForm.Top = 100
         childForm.Show()
 
     End Sub
 
-    Private Sub PositionContainersToParentMiddle()
-        'Dim xCoordinate As Int16 = (Me.Size.Width - pbLogo.Size.Width) / 2
-        'Dim yCoordinate As Int16 = (Me.Size.Height - pbLogo.Size.Height) / 2
-
-        'pbLogo.Location = New Point(xCoordinate, yCoordinate)
-
-    End Sub
     Private Sub frmMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' set the background color of the main form
@@ -28,11 +23,12 @@
             End If
         Next
 
-        PositionContainersToParentMiddle()
+
     End Sub
 
     Private Sub frmMDI_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        PositionContainersToParentMiddle()
+        ' this is required to update the location of the logo
+        Me.Refresh()
     End Sub
 
     Private Sub btnNewDelivery_Click(sender As Object, e As EventArgs) Handles btnNewDelivery.Click
