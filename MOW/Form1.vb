@@ -6,7 +6,7 @@ Public Class frmMDI
 
         childForm.MdiParent = Me
         childForm.Tag = formMode
-        childForm.Top = 100
+        childForm.StartPosition = FormStartPosition.CenterScreen
         childForm.Show()
 
     End Sub

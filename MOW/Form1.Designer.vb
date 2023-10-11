@@ -36,7 +36,7 @@ Partial Class frmMDI
         btnPanel.Controls.Add(btnNewDelivery)
         btnPanel.Location = New Point(1, 1)
         btnPanel.Name = "btnPanel"
-        btnPanel.Size = New Size(1060, 46)
+        btnPanel.Size = New Size(960, 46)
         btnPanel.TabIndex = 1
         ' 
         ' btnNewRecipient
@@ -72,11 +72,12 @@ Partial Class frmMDI
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         BackgroundImage = My.Resources.Resources.MOW_Logo
         BackgroundImageLayout = ImageLayout.Center
-        ClientSize = New Size(1064, 841)
+        ClientSize = New Size(964, 841)
         Controls.Add(btnPanel)
         DoubleBuffered = True
         IsMdiContainer = True
         Name = "frmMDI"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Meals On Wheels"
         btnPanel.ResumeLayout(False)
         ResumeLayout(False)

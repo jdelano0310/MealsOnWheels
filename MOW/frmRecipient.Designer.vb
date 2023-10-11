@@ -47,9 +47,10 @@ Partial Class frmRecipient
         CheckBox1 = New CheckBox()
         Label12 = New Label()
         Panel1 = New Panel()
+        btnCancel = New Button()
+        btnSaveRecipient = New Button()
         btnPanel = New Panel()
         Label13 = New Label()
-        btnSaveRecipient = New Button()
         Panel1.SuspendLayout()
         btnPanel.SuspendLayout()
         SuspendLayout()
@@ -278,11 +279,38 @@ Partial Class frmRecipient
         ' Panel1
         ' 
         Panel1.BackgroundImage = My.Resources.Resources.FooterBackground
+        Panel1.Controls.Add(btnCancel)
         Panel1.Controls.Add(btnSaveRecipient)
         Panel1.Location = New Point(0, 383)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(308, 44)
         Panel1.TabIndex = 29
+        ' 
+        ' btnCancel
+        ' 
+        btnCancel.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnCancel.FlatAppearance.BorderSize = 0
+        btnCancel.FlatStyle = FlatStyle.Flat
+        btnCancel.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnCancel.Location = New Point(221, 6)
+        btnCancel.Name = "btnCancel"
+        btnCancel.Size = New Size(79, 33)
+        btnCancel.TabIndex = 3
+        btnCancel.Text = "Cancel"
+        btnCancel.UseVisualStyleBackColor = False
+        ' 
+        ' btnSaveRecipient
+        ' 
+        btnSaveRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnSaveRecipient.FlatAppearance.BorderSize = 0
+        btnSaveRecipient.FlatStyle = FlatStyle.Flat
+        btnSaveRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnSaveRecipient.Location = New Point(7, 6)
+        btnSaveRecipient.Name = "btnSaveRecipient"
+        btnSaveRecipient.Size = New Size(79, 33)
+        btnSaveRecipient.TabIndex = 2
+        btnSaveRecipient.Text = "Save"
+        btnSaveRecipient.UseVisualStyleBackColor = False
         ' 
         ' btnPanel
         ' 
@@ -305,25 +333,13 @@ Partial Class frmRecipient
         Label13.TabIndex = 28
         Label13.Text = "New Recipient"
         ' 
-        ' btnSaveRecipient
-        ' 
-        btnSaveRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        btnSaveRecipient.FlatAppearance.BorderSize = 0
-        btnSaveRecipient.FlatStyle = FlatStyle.Flat
-        btnSaveRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnSaveRecipient.Location = New Point(7, 6)
-        btnSaveRecipient.Name = "btnSaveRecipient"
-        btnSaveRecipient.Size = New Size(79, 33)
-        btnSaveRecipient.TabIndex = 2
-        btnSaveRecipient.Text = "Save"
-        btnSaveRecipient.UseVisualStyleBackColor = False
-        ' 
         ' frmRecipient
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         ClientSize = New Size(308, 427)
+        ControlBox = False
         Controls.Add(btnPanel)
         Controls.Add(Panel1)
         Controls.Add(CheckBox1)
@@ -350,8 +366,9 @@ Partial Class frmRecipient
         Controls.Add(Label2)
         Controls.Add(TextBox1)
         Controls.Add(Label1)
+        FormBorderStyle = FormBorderStyle.FixedSingle
         Name = "frmRecipient"
-        StartPosition = FormStartPosition.CenterParent
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Recipient"
         Panel1.ResumeLayout(False)
         btnPanel.ResumeLayout(False)
@@ -387,4 +404,5 @@ Partial Class frmRecipient
     Friend WithEvents btnPanel As Panel
     Friend WithEvents Label13 As Label
     Friend WithEvents btnSaveRecipient As Button
+    Friend WithEvents btnCancel As Button
 End Class
