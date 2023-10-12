@@ -25,6 +25,8 @@ Partial Class frmMDI
         btnPanel = New Panel()
         btnNewRecipient = New Button()
         btnNewDelivery = New Button()
+        btnWorkers = New Button()
+        btnRecipients = New Button()
         btnPanel.SuspendLayout()
         SuspendLayout()
         ' 
@@ -32,6 +34,8 @@ Partial Class frmMDI
         ' 
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
+        btnPanel.Controls.Add(btnRecipients)
+        btnPanel.Controls.Add(btnWorkers)
         btnPanel.Controls.Add(btnNewRecipient)
         btnPanel.Controls.Add(btnNewDelivery)
         btnPanel.Location = New Point(1, 1)
@@ -65,6 +69,32 @@ Partial Class frmMDI
         btnNewDelivery.Text = "New Delivery"
         btnNewDelivery.UseVisualStyleBackColor = False
         ' 
+        ' btnWorkers
+        ' 
+        btnWorkers.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnWorkers.FlatAppearance.BorderSize = 0
+        btnWorkers.FlatStyle = FlatStyle.Flat
+        btnWorkers.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnWorkers.Location = New Point(531, 0)
+        btnWorkers.Name = "btnWorkers"
+        btnWorkers.Size = New Size(96, 45)
+        btnWorkers.TabIndex = 2
+        btnWorkers.Text = "Workers"
+        btnWorkers.UseVisualStyleBackColor = False
+        ' 
+        ' btnRecipients
+        ' 
+        btnRecipients.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnRecipients.FlatAppearance.BorderSize = 0
+        btnRecipients.FlatStyle = FlatStyle.Flat
+        btnRecipients.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnRecipients.Location = New Point(432, 1)
+        btnRecipients.Name = "btnRecipients"
+        btnRecipients.Size = New Size(96, 45)
+        btnRecipients.TabIndex = 3
+        btnRecipients.Text = "Recipients"
+        btnRecipients.UseVisualStyleBackColor = False
+        ' 
         ' frmMDI
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -86,4 +116,6 @@ Partial Class frmMDI
     Friend WithEvents btnPanel As Panel
     Friend WithEvents btnNewDelivery As Button
     Friend WithEvents btnNewRecipient As Button
+    Friend WithEvents btnWorkers As Button
+    Friend WithEvents btnRecipients As Button
 End Class
