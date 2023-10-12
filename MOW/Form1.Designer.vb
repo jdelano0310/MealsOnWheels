@@ -23,11 +23,11 @@ Partial Class frmMDI
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         btnPanel = New Panel()
+        lblCurrentUser = New Label()
         btnRecipients = New Button()
         btnWorkers = New Button()
         btnNewRecipient = New Button()
         btnNewDelivery = New Button()
-        lblCurrentUser = New Label()
         btnPanel.SuspendLayout()
         SuspendLayout()
         ' 
@@ -45,6 +45,18 @@ Partial Class frmMDI
         btnPanel.Size = New Size(960, 46)
         btnPanel.TabIndex = 1
         ' 
+        ' lblCurrentUser
+        ' 
+        lblCurrentUser.BackColor = Color.Transparent
+        lblCurrentUser.Dock = DockStyle.Right
+        lblCurrentUser.ForeColor = SystemColors.ControlText
+        lblCurrentUser.Location = New Point(816, 0)
+        lblCurrentUser.Name = "lblCurrentUser"
+        lblCurrentUser.Size = New Size(144, 46)
+        lblCurrentUser.TabIndex = 5
+        lblCurrentUser.Text = "Label1"
+        lblCurrentUser.TextAlign = ContentAlignment.BottomRight
+        ' 
         ' btnRecipients
         ' 
         btnRecipients.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
@@ -55,7 +67,7 @@ Partial Class frmMDI
         btnRecipients.Name = "btnRecipients"
         btnRecipients.Size = New Size(96, 45)
         btnRecipients.TabIndex = 3
-        btnRecipients.Text = "Recipients"
+        btnRecipients.Text = "Manage Recipients"
         btnRecipients.UseVisualStyleBackColor = False
         ' 
         ' btnWorkers
@@ -68,7 +80,7 @@ Partial Class frmMDI
         btnWorkers.Name = "btnWorkers"
         btnWorkers.Size = New Size(96, 45)
         btnWorkers.TabIndex = 2
-        btnWorkers.Text = "Workers"
+        btnWorkers.Text = "Manage Workers"
         btnWorkers.UseVisualStyleBackColor = False
         ' 
         ' btnNewRecipient
@@ -96,17 +108,6 @@ Partial Class frmMDI
         btnNewDelivery.TabIndex = 0
         btnNewDelivery.Text = "New Delivery"
         btnNewDelivery.UseVisualStyleBackColor = False
-        ' 
-        ' lblCurrentUser
-        ' 
-        lblCurrentUser.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        lblCurrentUser.ForeColor = SystemColors.ControlText
-        lblCurrentUser.Location = New Point(816, 29)
-        lblCurrentUser.Name = "lblCurrentUser"
-        lblCurrentUser.Size = New Size(144, 17)
-        lblCurrentUser.TabIndex = 5
-        lblCurrentUser.Text = "Label1"
-        lblCurrentUser.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' frmMDI
         ' 

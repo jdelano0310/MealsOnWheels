@@ -4,7 +4,7 @@ Public Class frmGridList
 
         ' resize the grid to match the form
         grdView.Height = (Me.Height - btnPanel.Height) - 39
-        grdView.Width = Me.Width - 5
+        grdView.Width = Me.Width - 16
 
     End Sub
 
@@ -22,6 +22,12 @@ Public Class frmGridList
         End Select
 
         grdView.DataSource = GetData(SQL)
+
+        ' hide the columns the user doesn't need to see in the grid
+        grdView.Columns(0).Visible = False   ' hide ID
+
+        grdView.Columns(15).Visible = False  ' user the deactivated the record
+        grdView.Columns(16).Visible = False  ' when it was deactivated
 
         lblViewing.Text = "Viewing " & Me.Tag
         Application.DoEvents()
