@@ -3,7 +3,7 @@ Public Class frmGridList
     Private Sub frmGridList_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
 
         ' resize the grid to match the form
-        grdView.Height = (Me.Height - btnPanel.Height) - 35
+        grdView.Height = (Me.Height - btnPanel.Height) - 39
         grdView.Width = Me.Width - 5
 
     End Sub
@@ -25,6 +25,8 @@ Public Class frmGridList
 
         lblViewing.Text = "Viewing " & Me.Tag
         Application.DoEvents()
+
+        grdView.EnableHeadersVisualStyles = False
 
     End Sub
 

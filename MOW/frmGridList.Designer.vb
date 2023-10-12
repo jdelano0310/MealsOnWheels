@@ -47,7 +47,7 @@ Partial Class frmGridList
         lblViewing.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         lblViewing.Location = New Point(0, 9)
         lblViewing.Name = "lblViewing"
-        lblViewing.Size = New Size(139, 29)
+        lblViewing.Size = New Size(339, 29)
         lblViewing.TabIndex = 29
         lblViewing.Text = "Viewing"
         ' 

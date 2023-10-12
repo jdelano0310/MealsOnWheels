@@ -2,6 +2,8 @@
 
 Public Class frmMDI
 
+    Public currentUser As String
+
     Private Sub OpenChild(childForm As Form, Optional formMode As String = "")
 
         childForm.MdiParent = Me
@@ -23,6 +25,8 @@ Public Class frmMDI
             End If
         Next
 
+        currentUser = Environ("username")
+        lblCurrentUser.Text = currentUser
 
     End Sub
 
@@ -47,6 +51,12 @@ Public Class frmMDI
 
         Dim frm As New frmGridList
         OpenChild(frm, "Recipients")
+
+    End Sub
+
+    Private Sub btnWorkers_Click(sender As Object, e As EventArgs) Handles btnWorkers.Click
+        Dim frm As New frmGridList
+        OpenChild(frm, "Workers")
 
     End Sub
 End Class
