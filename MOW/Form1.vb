@@ -42,4 +42,11 @@ Public Class frmMDI
         OpenChild(frm)
 
     End Sub
+
+    Private Sub btnRecipients_Click(sender As Object, e As EventArgs) Handles btnRecipients.Click
+
+        Dim frm As New frmGridList
+        OpenChild(frm, "Recipients")
+
+    End Sub
 End Class
