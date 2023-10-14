@@ -35,6 +35,7 @@ Partial Class frmMDI
         ' 
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
+        btnPanel.BorderStyle = BorderStyle.Fixed3D
         btnPanel.Controls.Add(lblCurrentUser)
         btnPanel.Controls.Add(btnRecipients)
         btnPanel.Controls.Add(btnWorkers)
@@ -42,7 +43,7 @@ Partial Class frmMDI
         btnPanel.Controls.Add(btnNewDelivery)
         btnPanel.Location = New Point(1, 1)
         btnPanel.Name = "btnPanel"
-        btnPanel.Size = New Size(960, 46)
+        btnPanel.Size = New Size(960, 49)
         btnPanel.TabIndex = 1
         ' 
         ' lblCurrentUser
@@ -50,9 +51,9 @@ Partial Class frmMDI
         lblCurrentUser.BackColor = Color.Transparent
         lblCurrentUser.Dock = DockStyle.Right
         lblCurrentUser.ForeColor = SystemColors.ControlText
-        lblCurrentUser.Location = New Point(816, 0)
+        lblCurrentUser.Location = New Point(812, 0)
         lblCurrentUser.Name = "lblCurrentUser"
-        lblCurrentUser.Size = New Size(144, 46)
+        lblCurrentUser.Size = New Size(144, 45)
         lblCurrentUser.TabIndex = 5
         lblCurrentUser.Text = "Label1"
         lblCurrentUser.TextAlign = ContentAlignment.BottomRight
@@ -63,7 +64,7 @@ Partial Class frmMDI
         btnRecipients.FlatAppearance.BorderSize = 0
         btnRecipients.FlatStyle = FlatStyle.Flat
         btnRecipients.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnRecipients.Location = New Point(432, 1)
+        btnRecipients.Location = New Point(432, 0)
         btnRecipients.Name = "btnRecipients"
         btnRecipients.Size = New Size(96, 45)
         btnRecipients.TabIndex = 3

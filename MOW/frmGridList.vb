@@ -60,4 +60,24 @@ Public Class frmGridList
 
     End Function
 
+    Private Sub grdView_DoubleClick(sender As Object, e As EventArgs) Handles grdView.DoubleClick
+        ' display the record in its for, in edit mode
+
+        Dim recordID As Int16
+        Dim grd As DataGridView
+
+        grd = DirectCast(sender, DataGridView)
+        recordID = grd.SelectedRows(0).Cells(0).Value
+
+        'DirectCast((New System.Collections.ArrayList.ArrayListDebugView(DirectCast(sender, System.Windows.Forms.DataGridView).SelectedCells.List).Items(0)), System.Windows.Forms.DataGridViewCell).Value
+        Select Case Me.Tag
+            Case "Recipients"
+                Dim frm As New frmRecipient
+                frmMDI.OpenChild(frm, $"Edit-{recordID}")
+
+            Case "Workers"
+
+        End Select
+
+    End Sub
 End Class

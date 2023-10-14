@@ -4,7 +4,7 @@ Public Class frmMDI
 
     Public currentUser As String
 
-    Private Sub OpenChild(childForm As Form, Optional formMode As String = "")
+    Public Sub OpenChild(childForm As Form, Optional formMode As String = "")
 
         childForm.MdiParent = Me
         childForm.Tag = formMode
