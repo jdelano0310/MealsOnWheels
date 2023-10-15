@@ -12,16 +12,19 @@ Public Class frmGridList
 
         ' load the data list depending on the tag set from the MDI form
 
-        Dim SQL As String = ""
+        'Dim SQL As String = ""
+        Dim _tb As DataTable = Nothing
+        Dim dbLayer As New dbLayer
 
         Select Case Me.Tag
             Case "Recipients"
-                SQL = "Select * from qryActiveRecipients"
+                _tb = dbLayer.GetRecipients()
+
             Case "Workers"
-                SQL = "Select * from qryActiveWorkers"
+                _tb = dbLayer.Getworkers()
         End Select
 
-        grdView.DataSource = GetData(SQL)
+        grdView.DataSource = _tb
 
         ' hide the columns the user doesn't need to see in the grid
         grdView.Columns(0).Visible = False   ' hide ID
@@ -36,30 +39,6 @@ Public Class frmGridList
 
     End Sub
 
-    Private Function GetData(SQL As String) As DataTable
-
-        Dim accessDataFile As String = "C:\Users\jd310\Documents\MOW_Dev.accdb"
-
-        Dim cn As New OleDbConnection
-        Dim cnStr As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & accessDataFile
-
-        cn.ConnectionString = cnStr
-        cn.Open()
-
-        Dim ds As New DataSet
-        Dim da As OleDbDataAdapter
-        Dim tb As DataTable
-
-        da = New OleDbDataAdapter(SQL, cn)
-        da.Fill(ds, Me.Tag)
-        tb = ds.Tables(0)
-
-        cn.Close()
-
-        Return tb
-
-    End Function
-
     Private Sub grdView_DoubleClick(sender As Object, e As EventArgs) Handles grdView.DoubleClick
         ' display the record in its for, in edit mode
 
@@ -69,13 +48,14 @@ Public Class frmGridList
         grd = DirectCast(sender, DataGridView)
         recordID = grd.SelectedRows(0).Cells(0).Value
 
-        'DirectCast((New System.Collections.ArrayList.ArrayListDebugView(DirectCast(sender, System.Windows.Forms.DataGridView).SelectedCells.List).Items(0)), System.Windows.Forms.DataGridViewCell).Value
         Select Case Me.Tag
             Case "Recipients"
                 Dim frm As New frmRecipient
                 frmMDI.OpenChild(frm, $"Edit-{recordID}")
 
             Case "Workers"
+                Dim frm As New frmWorker
+                frmMDI.OpenChild(frm, $"Edit-{recordID}")
 
         End Select
 

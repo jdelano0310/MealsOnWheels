@@ -10,7 +10,8 @@
     Private Sub frmRecipient_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If Me.Tag.ToString().Length > 0 Then
-            ' there is a
+            ' there is a recipient to edit in the tag
+
         End If
     End Sub
 End Class
