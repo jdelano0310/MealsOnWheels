@@ -12,7 +12,6 @@ Public Class frmGridList
 
         ' load the data list depending on the tag set from the MDI form
 
-        'Dim SQL As String = ""
         Dim _tb As DataTable = Nothing
         Dim dbLayer As New dbLayer
 
@@ -32,7 +31,7 @@ Public Class frmGridList
         grdView.Columns(15).Visible = False  ' user the deactivated the record
         grdView.Columns(16).Visible = False  ' when it was deactivated
 
-        lblViewing.Text = "Viewing " & Me.Tag
+        lblViewing.Text = "Viewing active " & Me.Tag
         Application.DoEvents()
 
         grdView.EnableHeadersVisualStyles = False
@@ -51,11 +50,11 @@ Public Class frmGridList
         Select Case Me.Tag
             Case "Recipients"
                 Dim frm As New frmRecipient
-                frmMDI.OpenChild(frm, $"Edit-{recordID}")
+                frmMDI.OpenChild(frm, recordID)
 
             Case "Workers"
                 Dim frm As New frmWorker
-                frmMDI.OpenChild(frm, $"Edit-{recordID}")
+                frmMDI.OpenChild(frm, recordID)
 
         End Select
 

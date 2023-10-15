@@ -49,7 +49,7 @@ Partial Class frmGridList
         lblViewing.Name = "lblViewing"
         lblViewing.Size = New Size(339, 29)
         lblViewing.TabIndex = 29
-        lblViewing.Text = "Viewing"
+        lblViewing.Text = "Viewing active"
         ' 
         ' grdView
         ' 
