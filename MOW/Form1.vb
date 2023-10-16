@@ -43,7 +43,7 @@ Public Class frmMDI
     Private Sub btnNewRecipient_Click(sender As Object, e As EventArgs) Handles btnNewRecipient.Click
 
         Dim frm As New frmRecipient
-        OpenChild(frm)
+        OpenChild(frm, "0")
 
     End Sub
 

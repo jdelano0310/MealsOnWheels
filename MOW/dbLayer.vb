@@ -124,13 +124,23 @@ Public Class dbLayer
         Try
             ' build the insert query using the fieldnames and values from the table passsed in
             For Each clm As DataColumn In fromTable.Columns
-                SQL += $"{clm.ColumnName},"
-                If clm.ColumnName = "Active" Then
-                    sqlValues += $"{frmDr(clm.ColumnName)},"
-                Else
-                    sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                If clm.ColumnName <> "ID" Then
+                    ' don't include the ID field
+                    SQL += $"{clm.ColumnName},"
+                    If clm.ColumnName = "Active" Then
+                        sqlValues += $"{frmDr(clm.ColumnName)},"
+                    ElseIf clm.ColumnName.IndexOf("Date") > -1 Then
+                        If frmDr(clm.ColumnName).ToString.Length > 0 Then
+                            sqlValues += $"#{frmDr(clm.ColumnName)}#,"
+                        Else
+                            sqlValues += "Null,"
+                        End If
+                    Else
+                        sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                    End If
                 End If
             Next
+
             SQL = SQL.Substring(0, SQL.Length - 1) & ") values ("
             SQL += sqlValues.Substring(0, sqlValues.Length - 1) & ")"
 
@@ -161,8 +171,14 @@ Public Class dbLayer
 
     Private Sub CleanUp()
 
-        _rdr.Close()
-        _cmd.Dispose()
+        ' attempt to close any readers or commands
+        Try
+            _rdr.Close()
+            _cmd.Dispose()
+
+        Catch
+
+        End Try
 
         _rdr = Nothing
         _cmd = Nothing

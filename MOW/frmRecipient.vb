@@ -70,6 +70,7 @@
         _dr("state") = txtState.Text
         _dr("cell phone") = mskCellPhone.Text
         _dr("home phone") = mskHomePhone.Text
+        _dr("emailaddress") = txtEmail.Text
         _dr("active") = chkActive.Checked
         _dr("notes") = txtNotes.Text
 
@@ -125,7 +126,10 @@
 
     Private Sub frmRecipient_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        If Me.Tag > 0 Then
+        ' set teh tag as an integer
+        Tag = Int(Me.Tag)
+
+        If Tag > 0 Then
             ' there is a recipient to view/edit in the tag
             GetRecipientData()
             WriteDataToForm()
