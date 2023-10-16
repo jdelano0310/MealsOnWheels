@@ -10,6 +10,15 @@ Public Class dbLayer
     Private _ds As New DataSet
     Private _da As OleDbDataAdapter
     Private _tb As DataTable
+    Private _cmd As OleDbCommand
+    Private _rdr As OleDbDataReader
+
+    Structure dbError
+        Public Message As String
+        Public Num As String
+    End Structure
+
+    Private _dbError As dbError
     Private _recordID As Long
 
     Public Sub New()
@@ -68,38 +77,11 @@ Public Class dbLayer
         End Get
     End Property
 
-    Public Function SaveRecipient(tbl As DataTable) As Boolean
-
-        _cn.Open()
-
-        _da = New OleDbDataAdapter($"Select * from tblMealRecipients Where ID={_recordID}", _cn)
-        _da.Fill(_ds, "tablename")
-        _tb = _ds.Tables(0)
-
-        Dim dr As DataRow
-        Dim frmDr As DataRow = tbl.Rows(0)
-
-        If _recordID = 0 Then
-            ' a new recipient is being saved
-            dr = _tb.NewRow()
-            For Each clm As DataColumn In tbl.Columns
-                dr(clm.ColumnName) = frmDr(clm.ColumnName)
-            Next
-            _tb.Rows.Add()
-        Else
-            ' editing an existing recipient
-            dr = _tb.Rows(0)
-            For Each clm As DataColumn In tbl.Columns
-                dr(clm.ColumnName) = frmDr(clm.ColumnName)
-            Next
-
-        End If
-
-        _cn.Close()
-
-        Return True
-
-    End Function
+    Public ReadOnly Property ErrorInfo As dbError
+        Get
+            Return _dbError
+        End Get
+    End Property
 
     Public ReadOnly Property Getworkers() As DataTable
         Get
@@ -113,4 +95,77 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public Function SaveNewRecipient(tbl As DataTable) As Long
+
+        InsertRecordFromTable("tblMealRecipients", tbl)
+
+        Return _recordID
+
+    End Function
+
+    Public Function SaveNewWorker(tbl As DataTable) As Long
+
+        InsertRecordFromTable("tblWorkers", tbl)
+
+        Return _recordID
+
+    End Function
+
+    Private Sub InsertRecordFromTable(toTableName As String, fromTable As DataTable)
+
+        ' a new record is being saved
+        Dim frmDr As DataRow = fromTable.Rows(0)
+        Dim SQL As String = $"Insert Into {toTableName} ("
+        Dim sqlValues As String = ""
+
+        _cn.Open()
+        _recordID = 0
+
+        Try
+            ' build the insert query using the fieldnames and values from the table passsed in
+            For Each clm As DataColumn In fromTable.Columns
+                SQL += $"{clm.ColumnName},"
+                If clm.ColumnName = "Active" Then
+                    sqlValues += $"{frmDr(clm.ColumnName)},"
+                Else
+                    sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                End If
+            Next
+            SQL = SQL.Substring(0, SQL.Length - 1) & ") values ("
+            SQL += sqlValues.Substring(0, sqlValues.Length - 1) & ")"
+
+            _cmd = New OleDbCommand(SQL, _cn)
+            _rdr = _cmd.ExecuteReader()
+            If _rdr.Item(0) > 0 Then
+                ' record saved correctly - return the new id number
+                CleanUp()
+                SetNewRecordID(toTableName)
+            End If
+
+        Catch ex As Exception
+            _dbError.Message = ex.Message
+            _dbError.Num = ex.StackTrace
+        End Try
+
+        CleanUp()
+    End Sub
+
+    Private Sub SetNewRecordID(tableName As String)
+
+        ' get the new ID created from the previous insert, place it in the record id property
+        _cmd = New OleDbCommand($"Select @@Identity from {tableName}", _cn)
+        _rdr = _cmd.ExecuteReader()
+        _recordID = _rdr.Item(0)
+
+    End Sub
+
+    Private Sub CleanUp()
+
+        _rdr.Close()
+        _cmd.Dispose()
+
+        _rdr = Nothing
+        _cmd = Nothing
+
+    End Sub
 End Class

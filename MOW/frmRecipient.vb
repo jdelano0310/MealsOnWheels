@@ -2,15 +2,14 @@
     Dim _tb As DataTable = Nothing
     Dim _dr As DataRow
     Dim _dbLayer As New dbLayer
+    Dim _recordID As Long = 0
 
     Private Sub GetRecipientData()
 
-        Dim recordID As Long
-
         ' the record id is in the tag property of the form
-        recordID = Me.Tag
+        _recordID = Me.Tag
 
-        _dbLayer.RecordID = recordID
+        _dbLayer.RecordID = _recordID
         _tb = _dbLayer.GetRecipient()
 
     End Sub
@@ -74,20 +73,25 @@
         _dr("active") = chkActive.Checked
         _dr("notes") = txtNotes.Text
 
-        If Me.Tag.ToString().Length = 0 Then
-            ' this is a new recipient
-            _dr("CreatedUser") = frmMDI.currentUser
-            _dr("RecordCreated") = Now
-        End If
-
         If Not chkActive.Checked Then
             ' the recipient is deactivated
             _dr("DeactivatedUser") = frmMDI.currentUser
             _dr("DateDeactivated") = Now
         End If
 
-        If Not _dbLayer.SaveRecipient(_tb) Then
-            MsgBox("There was an issue attempting to save the recipient")
+        If Me.Tag = 0 Then
+            ' this is a new recipient
+            _dr("CreatedUser") = frmMDI.currentUser
+            _dr("RecordCreated") = Now
+
+            _recordID = _dbLayer.SaveNewRecipient(_tb)
+            If _recordID = 0 Then
+                ' if the record id sent back it zero then there was a problem saving the record
+                MsgBox("There was an issue attempting to save the recipient")
+                Exit Sub
+            End If
+
+            Me.Tag = _recordID
         End If
 
     End Sub
@@ -106,11 +110,22 @@
 
     Private Sub btnSaveRecipient_Click(sender As Object, e As EventArgs) Handles btnSaveRecipient.Click
         WriteDataToTable()
+
+        If Me.Tag > 0 Then
+            ' the save was successfull, change the view of the form
+            btnToggleEdit.Visible = True
+            lblHeader.Text = "Viewing Recipient"
+            btnSaveRecipient.Visible = False
+            Application.DoEvents()
+        Else
+
+        End If
+
     End Sub
 
     Private Sub frmRecipient_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        If Me.Tag.ToString().Length > 0 Then
+        If Me.Tag > 0 Then
             ' there is a recipient to view/edit in the tag
             GetRecipientData()
             WriteDataToForm()
@@ -118,10 +133,10 @@
             btnSaveRecipient.Visible = False
             btnToggleEdit.Visible = True
         Else
-            _dbLayer.RecordID = 0
             _tb = _dbLayer.NewRecipientTable()
             _dr = _tb.Rows.Add()
             SetFormEdit(True)
+            chkActive.Checked = True  ' default the receipient to active status
         End If
 
     End Sub
