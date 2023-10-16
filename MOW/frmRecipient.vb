@@ -68,8 +68,8 @@
         _dr("county") = txtCounty.Text
         _dr("zipcode") = txtZip.Text
         _dr("state") = txtState.Text
-        _dr("cell phone") = mskCellPhone.Text
-        _dr("home phone") = mskHomePhone.Text
+        _dr("cellphone") = mskCellPhone.Text
+        _dr("homephone") = mskHomePhone.Text
         _dr("emailaddress") = txtEmail.Text
         _dr("active") = chkActive.Checked
         _dr("notes") = txtNotes.Text
@@ -83,7 +83,7 @@
         If Me.Tag = 0 Then
             ' this is a new recipient
             _dr("CreatedUser") = frmMDI.currentUser
-            _dr("RecordCreated") = Now
+            _dr("DateCreated") = Now
 
             _recordID = _dbLayer.SaveNewRecipient(_tb)
             If _recordID = 0 Then

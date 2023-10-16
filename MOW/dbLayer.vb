@@ -146,7 +146,7 @@ Public Class dbLayer
 
             _cmd = New OleDbCommand(SQL, _cn)
             _rdr = _cmd.ExecuteReader()
-            If _rdr.Item(0) > 0 Then
+            If _rdr.RecordsAffected > 0 Then
                 ' record saved correctly - return the new id number
                 CleanUp()
                 SetNewRecordID(toTableName)
@@ -165,7 +165,8 @@ Public Class dbLayer
         ' get the new ID created from the previous insert, place it in the record id property
         _cmd = New OleDbCommand($"Select @@Identity from {tableName}", _cn)
         _rdr = _cmd.ExecuteReader()
-        _recordID = _rdr.Item(0)
+        _rdr.Read()
+        _recordID = _rdr.GetInt32(0)
 
     End Sub
 

@@ -71,6 +71,7 @@ Partial Class frmGridList
         grdView.Name = "grdView"
         grdView.ReadOnly = True
         grdView.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        grdView.RowHeadersVisible = False
         grdView.RowTemplate.Height = 25
         grdView.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         grdView.ShowEditingIcon = False
