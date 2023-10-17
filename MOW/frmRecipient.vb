@@ -93,10 +93,17 @@
             End If
 
             Me.Tag = _recordID
+        Else
+            _dr("LastModifiedUser") = frmMDI.currentUser
+            _dr("DateLastModified") = Now
+
+            _recordID = _dbLayer.UpdateRecipient(_tb)
+            If _recordID = 0 Then
+                MsgBox("There was an issue attempting to save the recipient")
+            End If
         End If
 
     End Sub
-
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
 
@@ -110,17 +117,26 @@
     End Sub
 
     Private Sub btnSaveRecipient_Click(sender As Object, e As EventArgs) Handles btnSaveRecipient.Click
+
         WriteDataToTable()
 
         If Me.Tag > 0 Then
-            ' the save was successfull, change the view of the form
-            btnToggleEdit.Visible = True
-            lblHeader.Text = "Viewing Recipient"
-            btnSaveRecipient.Visible = False
-            Application.DoEvents()
+            ' the save was successfull
+            If btnToggleEdit.Visible = False Then
+                ' of a new receipient, change the view of the form
+                btnToggleEdit.Visible = True
+            Else
+                ' of an edit to a previous recipient
+                btnToggleEdit.Text = "Edit"
+            End If
+            SetFormEdit(False)
         Else
 
         End If
+
+        lblHeader.Text = "Viewing Recipient"
+        btnSaveRecipient.Visible = False
+        Application.DoEvents()
 
     End Sub
 

@@ -103,9 +103,26 @@ Public Class dbLayer
 
     End Function
 
+    Public Function UpdateRecipient(tbl As DataTable) As Long
+
+        UpdateRecordFromTable("tblMealRecipients", tbl)
+
+        Return _recordID
+
+    End Function
+
+
     Public Function SaveNewWorker(tbl As DataTable) As Long
 
         InsertRecordFromTable("tblWorkers", tbl)
+
+        Return _recordID
+
+    End Function
+
+    Public Function UpdateWorker(tbl As DataTable) As Long
+
+        UpdateRecordFromTable("tblWorkers", tbl)
 
         Return _recordID
 
@@ -136,7 +153,14 @@ Public Class dbLayer
                             sqlValues += "Null,"
                         End If
                     Else
-                        sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                        If frmDr(clm.ColumnName).ToString().IndexOf("'") > -1 Then
+                            ' the text value contains a single quote which needs to be replaced
+                            ' to add this to the query string
+                            sqlValues += $"'{frmDr(clm.ColumnName).frmDr(clm.ColumnName).ToString().Replace("'", "''")}',"
+                        Else
+                            sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                        End If
+
                     End If
                 End If
             Next
@@ -155,9 +179,66 @@ Public Class dbLayer
         Catch ex As Exception
             _dbError.Message = ex.Message
             _dbError.Num = ex.StackTrace
+
         End Try
 
         CleanUp()
+    End Sub
+
+    Private Sub UpdateRecordFromTable(toTableName As String, fromTable As DataTable)
+
+        ' a new record is being saved
+        Dim frmDr As DataRow = fromTable.Rows(0)
+        Dim SQL As String = $"Update {toTableName} Set "
+        Dim successfullSave As Boolean = False
+
+        _cn.Open()
+
+        Try
+            ' build the update query using the fieldnames and values from the table passsed in
+            For Each clm As DataColumn In fromTable.Columns
+                If clm.ColumnName <> "ID" Then
+                    ' don't include the ID field
+                    SQL += $"{clm.ColumnName} = "
+                    If clm.ColumnName = "Active" Then
+                        SQL += $"{frmDr(clm.ColumnName)},"
+                    ElseIf clm.ColumnName.IndexOf("Date") > -1 Then
+                        If frmDr(clm.ColumnName).ToString.Length > 0 Then
+                            SQL += $"#{frmDr(clm.ColumnName)}#,"
+                        Else
+                            SQL += "Null,"
+                        End If
+                    Else
+                        If frmDr(clm.ColumnName).ToString().IndexOf("'") > -1 Then
+                            ' the text value contains a single quote which needs to be replaced
+                            ' to add this to the query string
+                            SQL += $"'{frmDr(clm.ColumnName).frmDr(clm.ColumnName).ToString().Replace("'", "''")}',"
+                        Else
+                            SQL += $"'{frmDr(clm.ColumnName)}',"
+                        End If
+
+                    End If
+                End If
+            Next
+
+            ' remove the last coma and add the ID that is being updated
+            SQL = SQL.Substring(0, SQL.Length - 1) & $" Where ID = {_recordID}"
+
+            _cmd = New OleDbCommand(SQL, _cn)
+            _rdr = _cmd.ExecuteReader()
+            If _rdr.RecordsAffected > 0 Then
+                ' record saved correctly - return the new id number
+                CleanUp()
+            End If
+
+        Catch ex As Exception
+            _dbError.Message = ex.Message
+            _dbError.Num = ex.StackTrace
+            _recordID = 0
+        End Try
+
+        CleanUp()
+
     End Sub
 
     Private Sub SetNewRecordID(tableName As String)

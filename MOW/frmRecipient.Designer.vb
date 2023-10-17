@@ -406,6 +406,7 @@ Partial Class frmRecipient
         Controls.Add(txtFirstName)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.FixedSingle
+        KeyPreview = True
         Name = "frmRecipient"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Recipient"
