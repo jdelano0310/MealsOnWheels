@@ -180,7 +180,7 @@ Public Class dbLayer
         Catch ex As Exception
             _dbError.Message = ex.Message
             _dbError.Num = ex.StackTrace
-
+            CreateDbLogFile("InsertRecordFromTable", (SQL & vbCrLf & ex.Message))
         End Try
 
         CleanUp()
@@ -229,6 +229,7 @@ Public Class dbLayer
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected = 0 Then
                 ' record was not saved
+                CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & "No record affected"))
                 _recordID = 0
             End If
 
@@ -236,6 +237,7 @@ Public Class dbLayer
             _dbError.Message = ex.Message
             _dbError.Num = ex.StackTrace
             _recordID = 0
+            CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & ex.Message))
         End Try
 
         CleanUp()
@@ -268,12 +270,13 @@ Public Class dbLayer
 
     End Sub
 
-    Private Sub CreateDbLogFile(errNo As String, errMessage As String)
+    Private Sub CreateDbLogFile(errWhere As String, errMessage As String)
 
+        ' write any errors encountered to a log file to help in diagnostics
         Dim strFile As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
         Dim fs As FileStream = Nothing
         Using sw As StreamWriter = New StreamWriter(File.Open(strFile, FileMode.Append))
-            sw.WriteLine($"{DateTime.Now:f}: Error#({errNo}")
+            sw.WriteLine($"{DateTime.Now:f}: Error in {errWhere} code")
             sw.WriteLine(errMessage)
             sw.WriteLine("-------------------------------------------------------------------------------------")
         End Using
