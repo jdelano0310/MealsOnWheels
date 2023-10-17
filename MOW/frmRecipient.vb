@@ -26,13 +26,13 @@
         txtCounty.Text = _dr("county")
         txtZip.Text = _dr("zipcode")
         txtState.Text = _dr("state")
-        mskCellPhone.Text = _dr("cell phone")
-        mskHomePhone.Text = _dr("home phone")
+        mskCellPhone.Text = _dr("cellphone")
+        mskHomePhone.Text = _dr("homephone")
         chkActive.Checked = _dr("active")
         txtNotes.Text = "" & _dr("notes")
 
         ' build info section
-        lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("RecordCreated")}"
+        lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
 
         If Not chkActive.Checked Then
             ' the recipient is deactivated

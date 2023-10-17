@@ -325,6 +325,7 @@ Partial Class frmRecipient
         btnSaveRecipient.TabIndex = 24
         btnSaveRecipient.Text = "Save"
         btnSaveRecipient.UseVisualStyleBackColor = False
+        btnSaveRecipient.Visible = False
         ' 
         ' btnPanel
         ' 
