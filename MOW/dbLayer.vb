@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Imports System.Net.NetworkInformation
 Imports System.Runtime.InteropServices.JavaScript.JSType
 
@@ -226,9 +227,9 @@ Public Class dbLayer
 
             _cmd = New OleDbCommand(SQL, _cn)
             _rdr = _cmd.ExecuteReader()
-            If _rdr.RecordsAffected > 0 Then
-                ' record saved correctly - return the new id number
-                CleanUp()
+            If _rdr.RecordsAffected = 0 Then
+                ' record was not saved
+                _recordID = 0
             End If
 
         Catch ex As Exception
@@ -266,4 +267,17 @@ Public Class dbLayer
         _cmd = Nothing
 
     End Sub
+
+    Private Sub CreateDbLogFile(errNo As String, errMessage As String)
+
+        Dim strFile As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
+        Dim fs As FileStream = Nothing
+        Using sw As StreamWriter = New StreamWriter(File.Open(strFile, FileMode.Append))
+            sw.WriteLine($"{DateTime.Now:f}: Error#({errNo}")
+            sw.WriteLine(errMessage)
+            sw.WriteLine("-------------------------------------------------------------------------------------")
+        End Using
+
+    End Sub
+
 End Class
