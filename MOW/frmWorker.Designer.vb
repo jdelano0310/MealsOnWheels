@@ -72,6 +72,7 @@ Partial Class frmWorker
         ' 
         txtFirstName.Location = New Point(71, 53)
         txtFirstName.Name = "txtFirstName"
+        txtFirstName.ReadOnly = True
         txtFirstName.Size = New Size(233, 23)
         txtFirstName.TabIndex = 1
         ' 
@@ -79,6 +80,7 @@ Partial Class frmWorker
         ' 
         txtLastName.Location = New Point(71, 79)
         txtLastName.Name = "txtLastName"
+        txtLastName.ReadOnly = True
         txtLastName.Size = New Size(233, 23)
         txtLastName.TabIndex = 3
         ' 
@@ -97,6 +99,7 @@ Partial Class frmWorker
         ' 
         txtAddress.Location = New Point(71, 105)
         txtAddress.Name = "txtAddress"
+        txtAddress.ReadOnly = True
         txtAddress.Size = New Size(233, 23)
         txtAddress.TabIndex = 5
         ' 
@@ -115,6 +118,7 @@ Partial Class frmWorker
         ' 
         txtCity.Location = New Point(71, 131)
         txtCity.Name = "txtCity"
+        txtCity.ReadOnly = True
         txtCity.Size = New Size(233, 23)
         txtCity.TabIndex = 7
         ' 
@@ -133,6 +137,7 @@ Partial Class frmWorker
         ' 
         txtState.Location = New Point(71, 157)
         txtState.Name = "txtState"
+        txtState.ReadOnly = True
         txtState.Size = New Size(66, 23)
         txtState.TabIndex = 9
         ' 
@@ -151,6 +156,7 @@ Partial Class frmWorker
         ' 
         txtCounty.Location = New Point(71, 183)
         txtCounty.Name = "txtCounty"
+        txtCounty.ReadOnly = True
         txtCounty.Size = New Size(233, 23)
         txtCounty.TabIndex = 14
         ' 
@@ -169,6 +175,7 @@ Partial Class frmWorker
         ' 
         txtZip.Location = New Point(207, 157)
         txtZip.Name = "txtZip"
+        txtZip.ReadOnly = True
         txtZip.Size = New Size(97, 23)
         txtZip.TabIndex = 13
         ' 
@@ -199,6 +206,7 @@ Partial Class frmWorker
         mskHomePhone.Location = New Point(71, 208)
         mskHomePhone.Mask = "(999) 000-0000"
         mskHomePhone.Name = "mskHomePhone"
+        mskHomePhone.ReadOnly = True
         mskHomePhone.Size = New Size(82, 23)
         mskHomePhone.TabIndex = 16
         ' 
@@ -207,6 +215,7 @@ Partial Class frmWorker
         mskCellPhone.Location = New Point(221, 208)
         mskCellPhone.Mask = "(999) 000-0000"
         mskCellPhone.Name = "mskCellPhone"
+        mskCellPhone.ReadOnly = True
         mskCellPhone.Size = New Size(83, 23)
         mskCellPhone.TabIndex = 18
         ' 
@@ -225,6 +234,7 @@ Partial Class frmWorker
         ' 
         txtEmail.Location = New Point(71, 233)
         txtEmail.Name = "txtEmail"
+        txtEmail.ReadOnly = True
         txtEmail.Size = New Size(233, 23)
         txtEmail.TabIndex = 20
         ' 
@@ -244,6 +254,7 @@ Partial Class frmWorker
         txtNotes.Location = New Point(71, 283)
         txtNotes.Multiline = True
         txtNotes.Name = "txtNotes"
+        txtNotes.ReadOnly = True
         txtNotes.Size = New Size(233, 48)
         txtNotes.TabIndex = 25
         ' 
@@ -261,6 +272,7 @@ Partial Class frmWorker
         ' chkActive
         ' 
         chkActive.AutoSize = True
+        chkActive.Enabled = False
         chkActive.Location = New Point(71, 263)
         chkActive.Name = "chkActive"
         chkActive.Size = New Size(15, 14)
@@ -346,7 +358,7 @@ Partial Class frmWorker
         lblHeader.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         lblHeader.Location = New Point(0, 9)
         lblHeader.Name = "lblHeader"
-        lblHeader.Size = New Size(139, 29)
+        lblHeader.Size = New Size(219, 29)
         lblHeader.TabIndex = 28
         lblHeader.Text = "New Worker"
         ' 
@@ -394,6 +406,7 @@ Partial Class frmWorker
         Controls.Add(txtFirstName)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.FixedSingle
+        KeyPreview = True
         Name = "frmWorker"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Worker"
