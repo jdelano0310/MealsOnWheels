@@ -23,34 +23,36 @@ Partial Class frmWorker
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Label1 = New Label()
-        TextBox1 = New TextBox()
-        TextBox2 = New TextBox()
+        txtFirstName = New TextBox()
+        txtLastName = New TextBox()
         Label2 = New Label()
-        TextBox3 = New TextBox()
+        txtAddress = New TextBox()
         Label3 = New Label()
-        TextBox4 = New TextBox()
+        txtCity = New TextBox()
         Label4 = New Label()
-        TextBox5 = New TextBox()
+        txtState = New TextBox()
         Label5 = New Label()
-        TextBox6 = New TextBox()
+        txtCounty = New TextBox()
         Label6 = New Label()
-        TextBox7 = New TextBox()
+        txtZip = New TextBox()
         Label7 = New Label()
         Label8 = New Label()
-        MaskedTextBox1 = New MaskedTextBox()
-        MaskedTextBox2 = New MaskedTextBox()
+        mskHomePhone = New MaskedTextBox()
+        mskCellPhone = New MaskedTextBox()
         Label9 = New Label()
-        TextBox8 = New TextBox()
+        txtEmail = New TextBox()
         Label10 = New Label()
-        TextBox9 = New TextBox()
+        txtNotes = New TextBox()
         Label11 = New Label()
-        CheckBox1 = New CheckBox()
+        chkActive = New CheckBox()
         Label12 = New Label()
         Panel1 = New Panel()
         btnCancel = New Button()
-        btnSaveRecipient = New Button()
+        btnSaveWorker = New Button()
         btnPanel = New Panel()
-        Label13 = New Label()
+        btnToggleEdit = New Button()
+        lblHeader = New Label()
+        lblInfo = New Label()
         Panel1.SuspendLayout()
         btnPanel.SuspendLayout()
         SuspendLayout()
@@ -66,19 +68,19 @@ Partial Class frmWorker
         Label1.Text = "First Name"
         Label1.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox1
+        ' txtFirstName
         ' 
-        TextBox1.Location = New Point(71, 53)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(233, 23)
-        TextBox1.TabIndex = 1
+        txtFirstName.Location = New Point(71, 53)
+        txtFirstName.Name = "txtFirstName"
+        txtFirstName.Size = New Size(233, 23)
+        txtFirstName.TabIndex = 1
         ' 
-        ' TextBox2
+        ' txtLastName
         ' 
-        TextBox2.Location = New Point(71, 79)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(233, 23)
-        TextBox2.TabIndex = 3
+        txtLastName.Location = New Point(71, 79)
+        txtLastName.Name = "txtLastName"
+        txtLastName.Size = New Size(233, 23)
+        txtLastName.TabIndex = 3
         ' 
         ' Label2
         ' 
@@ -91,12 +93,12 @@ Partial Class frmWorker
         Label2.Text = "Last Name"
         Label2.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox3
+        ' txtAddress
         ' 
-        TextBox3.Location = New Point(71, 105)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(233, 23)
-        TextBox3.TabIndex = 5
+        txtAddress.Location = New Point(71, 105)
+        txtAddress.Name = "txtAddress"
+        txtAddress.Size = New Size(233, 23)
+        txtAddress.TabIndex = 5
         ' 
         ' Label3
         ' 
@@ -109,12 +111,12 @@ Partial Class frmWorker
         Label3.Text = "Address"
         Label3.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox4
+        ' txtCity
         ' 
-        TextBox4.Location = New Point(71, 131)
-        TextBox4.Name = "TextBox4"
-        TextBox4.Size = New Size(233, 23)
-        TextBox4.TabIndex = 7
+        txtCity.Location = New Point(71, 131)
+        txtCity.Name = "txtCity"
+        txtCity.Size = New Size(233, 23)
+        txtCity.TabIndex = 7
         ' 
         ' Label4
         ' 
@@ -127,12 +129,12 @@ Partial Class frmWorker
         Label4.Text = "City"
         Label4.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox5
+        ' txtState
         ' 
-        TextBox5.Location = New Point(71, 157)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(66, 23)
-        TextBox5.TabIndex = 9
+        txtState.Location = New Point(71, 157)
+        txtState.Name = "txtState"
+        txtState.Size = New Size(66, 23)
+        txtState.TabIndex = 9
         ' 
         ' Label5
         ' 
@@ -145,12 +147,12 @@ Partial Class frmWorker
         Label5.Text = "State"
         Label5.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox6
+        ' txtCounty
         ' 
-        TextBox6.Location = New Point(71, 183)
-        TextBox6.Name = "TextBox6"
-        TextBox6.Size = New Size(233, 23)
-        TextBox6.TabIndex = 11
+        txtCounty.Location = New Point(71, 183)
+        txtCounty.Name = "txtCounty"
+        txtCounty.Size = New Size(233, 23)
+        txtCounty.TabIndex = 14
         ' 
         ' Label6
         ' 
@@ -163,12 +165,12 @@ Partial Class frmWorker
         Label6.Text = "County"
         Label6.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox7
+        ' txtZip
         ' 
-        TextBox7.Location = New Point(207, 157)
-        TextBox7.Name = "TextBox7"
-        TextBox7.Size = New Size(97, 23)
-        TextBox7.TabIndex = 13
+        txtZip.Location = New Point(207, 157)
+        txtZip.Name = "txtZip"
+        txtZip.Size = New Size(97, 23)
+        txtZip.TabIndex = 13
         ' 
         ' Label7
         ' 
@@ -192,21 +194,21 @@ Partial Class frmWorker
         Label8.Text = "Home"
         Label8.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' MaskedTextBox1
+        ' mskHomePhone
         ' 
-        MaskedTextBox1.Location = New Point(71, 208)
-        MaskedTextBox1.Mask = "(999) 000-0000"
-        MaskedTextBox1.Name = "MaskedTextBox1"
-        MaskedTextBox1.Size = New Size(82, 23)
-        MaskedTextBox1.TabIndex = 16
+        mskHomePhone.Location = New Point(71, 208)
+        mskHomePhone.Mask = "(999) 000-0000"
+        mskHomePhone.Name = "mskHomePhone"
+        mskHomePhone.Size = New Size(82, 23)
+        mskHomePhone.TabIndex = 16
         ' 
-        ' MaskedTextBox2
+        ' mskCellPhone
         ' 
-        MaskedTextBox2.Location = New Point(221, 208)
-        MaskedTextBox2.Mask = "(999) 000-0000"
-        MaskedTextBox2.Name = "MaskedTextBox2"
-        MaskedTextBox2.Size = New Size(83, 23)
-        MaskedTextBox2.TabIndex = 18
+        mskCellPhone.Location = New Point(221, 208)
+        mskCellPhone.Mask = "(999) 000-0000"
+        mskCellPhone.Name = "mskCellPhone"
+        mskCellPhone.Size = New Size(83, 23)
+        mskCellPhone.TabIndex = 18
         ' 
         ' Label9
         ' 
@@ -219,12 +221,12 @@ Partial Class frmWorker
         Label9.Text = "Cell"
         Label9.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' TextBox8
+        ' txtEmail
         ' 
-        TextBox8.Location = New Point(71, 233)
-        TextBox8.Name = "TextBox8"
-        TextBox8.Size = New Size(233, 23)
-        TextBox8.TabIndex = 20
+        txtEmail.Location = New Point(71, 233)
+        txtEmail.Name = "txtEmail"
+        txtEmail.Size = New Size(233, 23)
+        txtEmail.TabIndex = 20
         ' 
         ' Label10
         ' 
@@ -237,13 +239,13 @@ Partial Class frmWorker
         Label10.Text = "Email"
         Label10.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' TextBox9
+        ' txtNotes
         ' 
-        TextBox9.Location = New Point(71, 283)
-        TextBox9.Multiline = True
-        TextBox9.Name = "TextBox9"
-        TextBox9.Size = New Size(233, 48)
-        TextBox9.TabIndex = 22
+        txtNotes.Location = New Point(71, 283)
+        txtNotes.Multiline = True
+        txtNotes.Name = "txtNotes"
+        txtNotes.Size = New Size(233, 48)
+        txtNotes.TabIndex = 25
         ' 
         ' Label11
         ' 
@@ -256,14 +258,14 @@ Partial Class frmWorker
         Label11.Text = "Notes"
         Label11.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' CheckBox1
+        ' chkActive
         ' 
-        CheckBox1.AutoSize = True
-        CheckBox1.Location = New Point(71, 263)
-        CheckBox1.Name = "CheckBox1"
-        CheckBox1.Size = New Size(15, 14)
-        CheckBox1.TabIndex = 24
-        CheckBox1.UseVisualStyleBackColor = True
+        chkActive.AutoSize = True
+        chkActive.Location = New Point(71, 263)
+        chkActive.Name = "chkActive"
+        chkActive.Size = New Size(15, 14)
+        chkActive.TabIndex = 24
+        chkActive.UseVisualStyleBackColor = True
         ' 
         ' Label12
         ' 
@@ -280,7 +282,7 @@ Partial Class frmWorker
         ' 
         Panel1.BackgroundImage = My.Resources.Resources.FooterBackground
         Panel1.Controls.Add(btnCancel)
-        Panel1.Controls.Add(btnSaveRecipient)
+        Panel1.Controls.Add(btnSaveWorker)
         Panel1.Location = New Point(0, 383)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(308, 44)
@@ -299,75 +301,99 @@ Partial Class frmWorker
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = False
         ' 
-        ' btnSaveRecipient
+        ' btnSaveWorker
         ' 
-        btnSaveRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        btnSaveRecipient.FlatAppearance.BorderSize = 0
-        btnSaveRecipient.FlatStyle = FlatStyle.Flat
-        btnSaveRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnSaveRecipient.Location = New Point(7, 6)
-        btnSaveRecipient.Name = "btnSaveRecipient"
-        btnSaveRecipient.Size = New Size(79, 33)
-        btnSaveRecipient.TabIndex = 2
-        btnSaveRecipient.Text = "Save"
-        btnSaveRecipient.UseVisualStyleBackColor = False
+        btnSaveWorker.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnSaveWorker.FlatAppearance.BorderSize = 0
+        btnSaveWorker.FlatStyle = FlatStyle.Flat
+        btnSaveWorker.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnSaveWorker.Location = New Point(7, 6)
+        btnSaveWorker.Name = "btnSaveWorker"
+        btnSaveWorker.Size = New Size(79, 33)
+        btnSaveWorker.TabIndex = 2
+        btnSaveWorker.Text = "Save"
+        btnSaveWorker.UseVisualStyleBackColor = False
         ' 
         ' btnPanel
         ' 
         btnPanel.Anchor = AnchorStyles.None
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
-        btnPanel.Controls.Add(Label13)
+        btnPanel.Controls.Add(btnToggleEdit)
+        btnPanel.Controls.Add(lblHeader)
         btnPanel.Location = New Point(0, 0)
         btnPanel.Name = "btnPanel"
         btnPanel.Size = New Size(308, 46)
         btnPanel.TabIndex = 30
         ' 
-        ' Label13
+        ' btnToggleEdit
         ' 
-        Label13.BackColor = Color.Transparent
-        Label13.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point)
-        Label13.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label13.Location = New Point(0, 9)
-        Label13.Name = "Label13"
-        Label13.Size = New Size(139, 29)
-        Label13.TabIndex = 28
-        Label13.Text = "New Worker"
+        btnToggleEdit.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnToggleEdit.FlatAppearance.BorderSize = 0
+        btnToggleEdit.FlatStyle = FlatStyle.Flat
+        btnToggleEdit.ForeColor = Color.White
+        btnToggleEdit.Location = New Point(236, 12)
+        btnToggleEdit.Name = "btnToggleEdit"
+        btnToggleEdit.Size = New Size(64, 25)
+        btnToggleEdit.TabIndex = 29
+        btnToggleEdit.Text = "Edit"
+        btnToggleEdit.UseVisualStyleBackColor = False
+        btnToggleEdit.Visible = False
+        ' 
+        ' lblHeader
+        ' 
+        lblHeader.BackColor = Color.Transparent
+        lblHeader.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point)
+        lblHeader.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        lblHeader.Location = New Point(0, 9)
+        lblHeader.Name = "lblHeader"
+        lblHeader.Size = New Size(139, 29)
+        lblHeader.TabIndex = 28
+        lblHeader.Text = "New Worker"
+        ' 
+        ' lblInfo
+        ' 
+        lblInfo.ForeColor = Color.White
+        lblInfo.Location = New Point(4, 339)
+        lblInfo.Name = "lblInfo"
+        lblInfo.Size = New Size(300, 33)
+        lblInfo.TabIndex = 33
+        lblInfo.Visible = False
         ' 
         ' frmWorker
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         ClientSize = New Size(308, 427)
         ControlBox = False
+        Controls.Add(lblInfo)
         Controls.Add(btnPanel)
         Controls.Add(Panel1)
-        Controls.Add(CheckBox1)
+        Controls.Add(chkActive)
         Controls.Add(Label12)
-        Controls.Add(TextBox9)
+        Controls.Add(txtNotes)
         Controls.Add(Label11)
-        Controls.Add(TextBox8)
+        Controls.Add(txtEmail)
         Controls.Add(Label10)
-        Controls.Add(MaskedTextBox2)
+        Controls.Add(mskCellPhone)
         Controls.Add(Label9)
-        Controls.Add(MaskedTextBox1)
+        Controls.Add(mskHomePhone)
         Controls.Add(Label8)
-        Controls.Add(TextBox7)
+        Controls.Add(txtZip)
         Controls.Add(Label7)
-        Controls.Add(TextBox6)
+        Controls.Add(txtCounty)
         Controls.Add(Label6)
-        Controls.Add(TextBox5)
+        Controls.Add(txtState)
         Controls.Add(Label5)
-        Controls.Add(TextBox4)
+        Controls.Add(txtCity)
         Controls.Add(Label4)
-        Controls.Add(TextBox3)
+        Controls.Add(txtAddress)
         Controls.Add(Label3)
-        Controls.Add(TextBox2)
+        Controls.Add(txtLastName)
         Controls.Add(Label2)
-        Controls.Add(TextBox1)
+        Controls.Add(txtFirstName)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.FixedSingle
-        ImeMode = ImeMode.NoControl
         Name = "frmWorker"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Worker"
@@ -378,32 +404,34 @@ Partial Class frmWorker
     End Sub
 
     Friend WithEvents Label1 As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents txtFirstName As TextBox
+    Friend WithEvents txtLastName As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents txtAddress As TextBox
     Friend WithEvents Label3 As Label
-    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents txtCity As TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents txtState As TextBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents TextBox6 As TextBox
+    Friend WithEvents txtCounty As TextBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox7 As TextBox
+    Friend WithEvents txtZip As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents MaskedTextBox1 As MaskedTextBox
-    Friend WithEvents MaskedTextBox2 As MaskedTextBox
+    Friend WithEvents mskHomePhone As MaskedTextBox
+    Friend WithEvents mskCellPhone As MaskedTextBox
     Friend WithEvents Label9 As Label
-    Friend WithEvents TextBox8 As TextBox
+    Friend WithEvents txtEmail As TextBox
     Friend WithEvents Label10 As Label
-    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents txtNotes As TextBox
     Friend WithEvents Label11 As Label
-    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents chkActive As CheckBox
     Friend WithEvents Label12 As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents btnPanel As Panel
-    Friend WithEvents Label13 As Label
-    Friend WithEvents btnSaveRecipient As Button
+    Friend WithEvents lblHeader As Label
+    Friend WithEvents btnSaveWorker As Button
     Friend WithEvents btnCancel As Button
+    Friend WithEvents lblInfo As Label
+    Friend WithEvents btnToggleEdit As Button
 End Class

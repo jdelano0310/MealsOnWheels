@@ -46,6 +46,20 @@ Public Class dbLayer
             Return _tb
         End Get
     End Property
+
+    Public ReadOnly Property NewWorkerTable() As DataTable
+        Get
+            ' just returns an empty table with the needed columns to create a new record
+            _da = New OleDbDataAdapter("Select * from tblWorkers where id=0", _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
     Public Property RecordID As Long
         Get
             Return _recordID
@@ -57,6 +71,18 @@ Public Class dbLayer
     Public ReadOnly Property GetRecipient() As DataTable
         Get
             _da = New OleDbDataAdapter($"Select * from tblMealRecipients where id={_recordID}", _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
+    Public ReadOnly Property GetWorker() As DataTable
+        Get
+            _da = New OleDbDataAdapter($"Select * from tblWorkers where id={_recordID}", _cn)
             _da.Fill(_ds, "tablename")
             _tb = _ds.Tables(0)
 
