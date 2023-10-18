@@ -22,17 +22,14 @@ Partial Class frmCalculatedCalendar
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grdView = New DataGridView()
         btnPanel = New Panel()
         lblViewing = New Label()
-        tbFilters = New TabControl()
-        tbByRecip = New TabPage()
-        tbByWorker = New TabPage()
-        tbByDate = New TabPage()
+        pnFilter = New Panel()
+        RadioButton1 = New RadioButton()
         CType(grdView, ComponentModel.ISupportInitialize).BeginInit()
         btnPanel.SuspendLayout()
-        tbFilters.SuspendLayout()
         SuspendLayout()
         ' 
         ' grdView
@@ -41,14 +38,14 @@ Partial Class frmCalculatedCalendar
         grdView.AllowUserToDeleteRows = False
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
-        DataGridViewCellStyle1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         grdView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdView.Location = New Point(0, 106)
         grdView.MultiSelect = False
@@ -83,67 +80,47 @@ Partial Class frmCalculatedCalendar
         lblViewing.TabIndex = 29
         lblViewing.Text = "Viewing Delivery Calendar"
         ' 
-        ' tbFilters
+        ' pnFilter
         ' 
-        tbFilters.Controls.Add(tbByRecip)
-        tbFilters.Controls.Add(tbByWorker)
-        tbFilters.Controls.Add(tbByDate)
-        tbFilters.Location = New Point(0, 41)
-        tbFilters.Name = "tbFilters"
-        tbFilters.SelectedIndex = 0
-        tbFilters.Size = New Size(798, 36)
-        tbFilters.TabIndex = 30
+        pnFilter.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        pnFilter.Location = New Point(1, 64)
+        pnFilter.Name = "pnFilter"
+        pnFilter.Size = New Size(798, 42)
+        pnFilter.TabIndex = 35
         ' 
-        ' tbByRecip
+        ' RadioButton1
         ' 
-        tbByRecip.Location = New Point(4, 24)
-        tbByRecip.Name = "tbByRecip"
-        tbByRecip.Padding = New Padding(3)
-        tbByRecip.Size = New Size(790, 8)
-        tbByRecip.TabIndex = 0
-        tbByRecip.Text = "By Recipient"
-        tbByRecip.UseVisualStyleBackColor = True
-        ' 
-        ' tbByWorker
-        ' 
-        tbByWorker.Location = New Point(4, 24)
-        tbByWorker.Name = "tbByWorker"
-        tbByWorker.Padding = New Padding(3)
-        tbByWorker.Size = New Size(790, 8)
-        tbByWorker.TabIndex = 1
-        tbByWorker.Text = "By Worker"
-        tbByWorker.UseVisualStyleBackColor = True
-        ' 
-        ' tbByDate
-        ' 
-        tbByDate.Location = New Point(4, 24)
-        tbByDate.Name = "tbByDate"
-        tbByDate.Size = New Size(790, 8)
-        tbByDate.TabIndex = 2
-        tbByDate.Text = "By Date"
-        tbByDate.UseVisualStyleBackColor = True
+        RadioButton1.AutoSize = True
+        RadioButton1.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        RadioButton1.Location = New Point(2, 46)
+        RadioButton1.Name = "RadioButton1"
+        RadioButton1.Size = New Size(97, 19)
+        RadioButton1.TabIndex = 36
+        RadioButton1.TabStop = True
+        RadioButton1.Text = "RadioButton1"
+        RadioButton1.UseVisualStyleBackColor = False
         ' 
         ' frmCalculatedCalendar
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         ClientSize = New Size(800, 450)
-        Controls.Add(tbFilters)
+        Controls.Add(RadioButton1)
+        Controls.Add(pnFilter)
         Controls.Add(grdView)
         Controls.Add(btnPanel)
         Name = "frmCalculatedCalendar"
         Text = "Delivery Calendar"
         CType(grdView, ComponentModel.ISupportInitialize).EndInit()
         btnPanel.ResumeLayout(False)
-        tbFilters.ResumeLayout(False)
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents grdView As DataGridView
     Friend WithEvents btnPanel As Panel
     Friend WithEvents lblViewing As Label
-    Friend WithEvents tbFilters As TabControl
-    Friend WithEvents tbByRecip As TabPage
-    Friend WithEvents tbByWorker As TabPage
-    Friend WithEvents tbByDate As TabPage
+    Friend WithEvents pnFilter As Panel
+    Friend WithEvents RadioButton1 As RadioButton
 End Class
