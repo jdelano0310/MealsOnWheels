@@ -21,6 +21,7 @@ Public Class frmGridList
 
             Case "Workers"
                 _tb = dbLayer.Getworkers()
+
         End Select
 
         grdView.DataSource = _tb

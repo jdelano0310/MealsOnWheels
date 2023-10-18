@@ -182,6 +182,7 @@ Public Class frmWorker
         ' make enter act like tab
         If e.KeyChar = Chr(13) Then
             SendKeys.Send("{TAB}")
+            e.Handled = True
         End If
     End Sub
 End Class
