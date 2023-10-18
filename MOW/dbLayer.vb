@@ -122,6 +122,28 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
+        Get
+            Dim SQL As String
+            SQL = "SELECT tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
+            SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            SQL += "FROM (tblCalculatedDeliveryCalendar "
+            SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
+            SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
+            SQL += "WHERE (((tblCalculatedDeliveryCalendar.DeliveryDate)>=Date()) AND "
+            SQL += secondCriteria
+
+            _da = New OleDbDataAdapter(SQL, _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
     Public Function SaveNewRecipient(tbl As DataTable) As Long
 
         InsertRecordFromTable("tblMealRecipients", tbl)
