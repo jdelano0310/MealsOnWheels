@@ -27,9 +27,16 @@ Partial Class frmCalculatedCalendar
         btnPanel = New Panel()
         lblViewing = New Label()
         pnFilter = New Panel()
-        RadioButton1 = New RadioButton()
+        lblFilterType1 = New Label()
+        cboFilterList1 = New ComboBox()
+        rdoByDeliveryDate = New RadioButton()
+        rdoByWorker = New RadioButton()
+        rdoByRecipient = New RadioButton()
+        lblFilterType2 = New Label()
+        cboFilterList2 = New ComboBox()
         CType(grdView, ComponentModel.ISupportInitialize).BeginInit()
         btnPanel.SuspendLayout()
+        pnFilter.SuspendLayout()
         SuspendLayout()
         ' 
         ' grdView
@@ -83,22 +90,98 @@ Partial Class frmCalculatedCalendar
         ' pnFilter
         ' 
         pnFilter.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        pnFilter.Location = New Point(1, 64)
+        pnFilter.Controls.Add(lblFilterType2)
+        pnFilter.Controls.Add(cboFilterList2)
+        pnFilter.Controls.Add(lblFilterType1)
+        pnFilter.Controls.Add(cboFilterList1)
+        pnFilter.Controls.Add(rdoByDeliveryDate)
+        pnFilter.Controls.Add(rdoByWorker)
+        pnFilter.Controls.Add(rdoByRecipient)
+        pnFilter.Location = New Point(1, 47)
         pnFilter.Name = "pnFilter"
-        pnFilter.Size = New Size(798, 42)
+        pnFilter.Size = New Size(798, 57)
         pnFilter.TabIndex = 35
         ' 
-        ' RadioButton1
+        ' lblFilterType1
         ' 
-        RadioButton1.AutoSize = True
-        RadioButton1.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        RadioButton1.Location = New Point(2, 46)
-        RadioButton1.Name = "RadioButton1"
-        RadioButton1.Size = New Size(97, 19)
-        RadioButton1.TabIndex = 36
-        RadioButton1.TabStop = True
-        RadioButton1.Text = "RadioButton1"
-        RadioButton1.UseVisualStyleBackColor = False
+        lblFilterType1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        lblFilterType1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        lblFilterType1.Location = New Point(10, 27)
+        lblFilterType1.Name = "lblFilterType1"
+        lblFilterType1.Size = New Size(56, 23)
+        lblFilterType1.TabIndex = 41
+        lblFilterType1.Text = "Recipient"
+        lblFilterType1.TextAlign = ContentAlignment.MiddleCenter
+        lblFilterType1.Visible = False
+        ' 
+        ' cboFilterList1
+        ' 
+        cboFilterList1.FormattingEnabled = True
+        cboFilterList1.Location = New Point(69, 27)
+        cboFilterList1.Name = "cboFilterList1"
+        cboFilterList1.Size = New Size(175, 23)
+        cboFilterList1.TabIndex = 40
+        cboFilterList1.Visible = False
+        ' 
+        ' rdoByDeliveryDate
+        ' 
+        rdoByDeliveryDate.AutoSize = True
+        rdoByDeliveryDate.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        rdoByDeliveryDate.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        rdoByDeliveryDate.Location = New Point(200, 4)
+        rdoByDeliveryDate.Name = "rdoByDeliveryDate"
+        rdoByDeliveryDate.Size = New Size(110, 19)
+        rdoByDeliveryDate.TabIndex = 39
+        rdoByDeliveryDate.TabStop = True
+        rdoByDeliveryDate.Text = "By Delivery Date"
+        rdoByDeliveryDate.UseVisualStyleBackColor = False
+        ' 
+        ' rdoByWorker
+        ' 
+        rdoByWorker.AutoSize = True
+        rdoByWorker.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        rdoByWorker.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        rdoByWorker.Location = New Point(97, 4)
+        rdoByWorker.Name = "rdoByWorker"
+        rdoByWorker.Size = New Size(79, 19)
+        rdoByWorker.TabIndex = 38
+        rdoByWorker.TabStop = True
+        rdoByWorker.Text = "By Worker"
+        rdoByWorker.UseVisualStyleBackColor = False
+        ' 
+        ' rdoByRecipient
+        ' 
+        rdoByRecipient.AutoSize = True
+        rdoByRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        rdoByRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        rdoByRecipient.Location = New Point(3, 4)
+        rdoByRecipient.Name = "rdoByRecipient"
+        rdoByRecipient.Size = New Size(90, 19)
+        rdoByRecipient.TabIndex = 37
+        rdoByRecipient.TabStop = True
+        rdoByRecipient.Text = "By Recipient"
+        rdoByRecipient.UseVisualStyleBackColor = False
+        ' 
+        ' lblFilterType2
+        ' 
+        lblFilterType2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        lblFilterType2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        lblFilterType2.Location = New Point(254, 27)
+        lblFilterType2.Name = "lblFilterType2"
+        lblFilterType2.Size = New Size(56, 23)
+        lblFilterType2.TabIndex = 43
+        lblFilterType2.Text = "Recipient"
+        lblFilterType2.TextAlign = ContentAlignment.MiddleCenter
+        lblFilterType2.Visible = False
+        ' 
+        ' cboFilterList2
+        ' 
+        cboFilterList2.FormattingEnabled = True
+        cboFilterList2.Location = New Point(313, 27)
+        cboFilterList2.Name = "cboFilterList2"
+        cboFilterList2.Size = New Size(175, 23)
+        cboFilterList2.TabIndex = 42
+        cboFilterList2.Visible = False
         ' 
         ' frmCalculatedCalendar
         ' 
@@ -106,7 +189,6 @@ Partial Class frmCalculatedCalendar
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         ClientSize = New Size(800, 450)
-        Controls.Add(RadioButton1)
         Controls.Add(pnFilter)
         Controls.Add(grdView)
         Controls.Add(btnPanel)
@@ -114,13 +196,20 @@ Partial Class frmCalculatedCalendar
         Text = "Delivery Calendar"
         CType(grdView, ComponentModel.ISupportInitialize).EndInit()
         btnPanel.ResumeLayout(False)
+        pnFilter.ResumeLayout(False)
+        pnFilter.PerformLayout()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
     Friend WithEvents grdView As DataGridView
     Friend WithEvents btnPanel As Panel
     Friend WithEvents lblViewing As Label
     Friend WithEvents pnFilter As Panel
-    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents rdoByDeliveryDate As RadioButton
+    Friend WithEvents rdoByWorker As RadioButton
+    Friend WithEvents rdoByRecipient As RadioButton
+    Friend WithEvents lblFilterType1 As Label
+    Friend WithEvents cboFilterList1 As ComboBox
+    Friend WithEvents lblFilterType2 As Label
+    Friend WithEvents cboFilterList2 As ComboBox
 End Class

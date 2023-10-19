@@ -59,4 +59,10 @@ Public Class frmMDI
         OpenChild(frm, "Workers")
 
     End Sub
+
+    Private Sub btnViewDeliveryCalendar_Click(sender As Object, e As EventArgs) Handles btnViewDeliveryCalendar.Click
+        Dim frm As New frmCalculatedCalendar
+        OpenChild(frm, "0")
+
+    End Sub
 End Class

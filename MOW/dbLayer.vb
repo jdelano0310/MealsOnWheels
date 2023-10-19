@@ -34,6 +34,47 @@ Public Class dbLayer
 
     End Sub
 
+    Public ReadOnly Property GetActiveWorkersWithDeliveries() As DataTable
+        Get
+            ' returns those workers that have deliveries scheduled
+            _da = New OleDbDataAdapter("Select * from qryActiveWorkersWithDeliveries", _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
+    Public ReadOnly Property GetActiveRecipientsWithDeliveries() As DataTable
+        Get
+            ' returns those recipients that have deliveries scheduled
+            _da = New OleDbDataAdapter("Select * from qryActiveRecipientsWithDeliveries", _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
+    Public ReadOnly Property GetCalculatedDeliveryDates() As DataSet
+        Get
+            ' returns delivery dates that have scheduled deliveries
+            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesASC", _cn)
+            _da.Fill(_ds, "Ascending")
+
+            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesDESC", _cn)
+            _da.Fill(_ds, "Descending")
+
+            _cn.Close()
+
+            Return _ds
+        End Get
+    End Property
+
     Public ReadOnly Property NewRecipientTable() As DataTable
         Get
             ' just returns an empty table with the needed columns to create a new record
@@ -125,7 +166,7 @@ Public Class dbLayer
     Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
         Get
             Dim SQL As String
-            SQL = "SELECT tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL = "SELECT ID, DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
             SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
             SQL += "FROM (tblCalculatedDeliveryCalendar "

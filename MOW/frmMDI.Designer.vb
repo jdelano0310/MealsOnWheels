@@ -28,6 +28,7 @@ Partial Class frmMDI
         btnWorkers = New Button()
         btnNewRecipient = New Button()
         btnNewDelivery = New Button()
+        btnViewDeliveryCalendar = New Button()
         btnPanel.SuspendLayout()
         SuspendLayout()
         ' 
@@ -36,6 +37,7 @@ Partial Class frmMDI
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
         btnPanel.BorderStyle = BorderStyle.Fixed3D
+        btnPanel.Controls.Add(btnViewDeliveryCalendar)
         btnPanel.Controls.Add(lblCurrentUser)
         btnPanel.Controls.Add(btnRecipients)
         btnPanel.Controls.Add(btnWorkers)
@@ -110,6 +112,19 @@ Partial Class frmMDI
         btnNewDelivery.Text = "New Delivery"
         btnNewDelivery.UseVisualStyleBackColor = False
         ' 
+        ' btnViewDeliveryCalendar
+        ' 
+        btnViewDeliveryCalendar.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnViewDeliveryCalendar.FlatAppearance.BorderSize = 0
+        btnViewDeliveryCalendar.FlatStyle = FlatStyle.Flat
+        btnViewDeliveryCalendar.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnViewDeliveryCalendar.Location = New Point(254, 0)
+        btnViewDeliveryCalendar.Name = "btnViewDeliveryCalendar"
+        btnViewDeliveryCalendar.Size = New Size(96, 45)
+        btnViewDeliveryCalendar.TabIndex = 6
+        btnViewDeliveryCalendar.Text = "View Delivery Calendar"
+        btnViewDeliveryCalendar.UseVisualStyleBackColor = False
+        ' 
         ' frmMDI
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -134,4 +149,5 @@ Partial Class frmMDI
     Friend WithEvents btnWorkers As Button
     Friend WithEvents btnRecipients As Button
     Friend WithEvents lblCurrentUser As Label
+    Friend WithEvents btnViewDeliveryCalendar As Button
 End Class
