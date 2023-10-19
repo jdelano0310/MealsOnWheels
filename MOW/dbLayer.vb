@@ -37,7 +37,7 @@ Public Class dbLayer
     Public ReadOnly Property GetActiveWorkersWithDeliveries() As DataTable
         Get
             ' returns those workers that have deliveries scheduled
-            _da = New OleDbDataAdapter("Select * from qryActiveWorkersWithDeliveries", _cn)
+            _da = New OleDbDataAdapter("Select 0 as ID, 'Select Worker' as fullname from tblWorkers union Select * from qryActiveWorkersWithDeliveries", _cn)
             _da.Fill(_ds, "tablename")
             _tb = _ds.Tables(0)
 
@@ -50,7 +50,7 @@ Public Class dbLayer
     Public ReadOnly Property GetActiveRecipientsWithDeliveries() As DataTable
         Get
             ' returns those recipients that have deliveries scheduled
-            _da = New OleDbDataAdapter("Select * from qryActiveRecipientsWithDeliveries", _cn)
+            _da = New OleDbDataAdapter("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveries", _cn)
             _da.Fill(_ds, "tablename")
             _tb = _ds.Tables(0)
 
@@ -63,10 +63,10 @@ Public Class dbLayer
     Public ReadOnly Property GetCalculatedDeliveryDates() As DataSet
         Get
             ' returns delivery dates that have scheduled deliveries
-            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesASC", _cn)
+            _da = New OleDbDataAdapter("Select ' Select From Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesASC", _cn)
             _da.Fill(_ds, "Ascending")
 
-            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesDESC", _cn)
+            _da = New OleDbDataAdapter("Select ' Select To Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesDESC", _cn)
             _da.Fill(_ds, "Descending")
 
             _cn.Close()
@@ -184,6 +184,29 @@ Public Class dbLayer
             Return _tb
         End Get
     End Property
+
+    Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String) As DataTable
+        Get
+            Dim SQL As String
+            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
+            SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            SQL += "FROM (tblCalculatedDeliveryCalendar "
+            SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
+            SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
+            SQL += "WHERE tblCalculatedDeliveryCalendar.DeliveryDate BETWEEN #" + fromDate + "# AND #" + toDate + "# "
+            SQL += "ORDER By tblCalculatedDeliveryCalendar.DeliveryDate ASC"
+
+            _da = New OleDbDataAdapter(SQL, _cn)
+            _da.Fill(_ds, "tablename")
+            _tb = _ds.Tables(0)
+
+            _cn.Close()
+
+            Return _tb
+        End Get
+    End Property
+
 
     Public Function SaveNewRecipient(tbl As DataTable) As Long
 

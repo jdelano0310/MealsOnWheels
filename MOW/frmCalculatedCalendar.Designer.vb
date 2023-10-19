@@ -22,7 +22,7 @@ Partial Class frmCalculatedCalendar
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grdView = New DataGridView()
         btnPanel = New Panel()
         lblViewing = New Label()
@@ -46,14 +46,14 @@ Partial Class frmCalculatedCalendar
         grdView.AllowUserToDeleteRows = False
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
-        DataGridViewCellStyle1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         grdView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdView.Location = New Point(0, 106)
         grdView.MultiSelect = False
@@ -74,7 +74,7 @@ Partial Class frmCalculatedCalendar
         btnPanel.Controls.Add(lblViewing)
         btnPanel.Location = New Point(0, 0)
         btnPanel.Name = "btnPanel"
-        btnPanel.Size = New Size(800, 46)
+        btnPanel.Size = New Size(593, 46)
         btnPanel.TabIndex = 33
         ' 
         ' lblViewing
@@ -86,7 +86,7 @@ Partial Class frmCalculatedCalendar
         lblViewing.Name = "lblViewing"
         lblViewing.Size = New Size(339, 29)
         lblViewing.TabIndex = 29
-        lblViewing.Text = "Viewing Delivery Calendar"
+        lblViewing.Text = "View Delivery Calendar"
         ' 
         ' pnFilter
         ' 
@@ -202,7 +202,7 @@ Partial Class frmCalculatedCalendar
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(593, 450)
         Controls.Add(pnFilter)
         Controls.Add(grdView)
         Controls.Add(btnPanel)

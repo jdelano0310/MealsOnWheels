@@ -42,6 +42,8 @@
         lblFilterType1.Visible = True
         cboFilterList1.Visible = True
 
+        grdView.DataSource = Nothing
+
         Select Case rdo.Name
             Case "rdoByRecipient"
                 lblFilterType1.Text = "Recipient"
@@ -82,6 +84,7 @@
         ' hide the columns the user doesn't need to see in the grid
         grdView.Columns(0).Visible = False   ' hide ID
         grdView.Columns(1).Visible = False   ' parent delivery id 
+        grdView.Columns(2).Width = 200
 
         Application.DoEvents()
 
@@ -114,12 +117,34 @@
 
     End Sub
 
-    Private Sub cboFilterList1_Click(sender As Object, e As EventArgs) Handles cboFilterList1.Click
+    Private Sub cboFilterList1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFilterList1.SelectedIndexChanged
+
+        If cboFilterList1.SelectedIndex < 1 Then Exit Sub
 
         If rdoByRecipient.Checked Then
             FillDataGrid($"(([tblMealRecipients].[ID])={cboFilterList1.SelectedValue}));")
         ElseIf rdoByWorker.Checked Then
             FillDataGrid($"(([tblWorkers].[ID])={cboFilterList1.SelectedValue}));")
         End If
+
+    End Sub
+
+    Private Sub btnApply_Click(sender As Object, e As EventArgs) Handles btnApply.Click
+
+        Dim _tb As DataTable = Nothing
+        Dim dbLayer As New dbLayer
+
+        _tb = dbLayer.GetDeliveryCalendarByDate(cboFilterList1.Text, cboFilterList2.Text)
+
+        grdView.DataSource = _tb
+
+        ' hide the columns the user doesn't need to see in the grid
+        grdView.Columns(0).Visible = False   ' hide ID
+        grdView.Columns(1).Visible = False   ' parent delivery id 
+        grdView.Columns(2).Width = 200
+
+        Application.DoEvents()
+
+        grdView.EnableHeadersVisualStyles = False
     End Sub
 End Class
