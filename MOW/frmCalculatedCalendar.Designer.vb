@@ -22,18 +22,19 @@ Partial Class frmCalculatedCalendar
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grdView = New DataGridView()
         btnPanel = New Panel()
         lblViewing = New Label()
         pnFilter = New Panel()
+        btnApply = New Button()
+        lblFilterType2 = New Label()
+        cboFilterList2 = New ComboBox()
         lblFilterType1 = New Label()
         cboFilterList1 = New ComboBox()
         rdoByDeliveryDate = New RadioButton()
         rdoByWorker = New RadioButton()
         rdoByRecipient = New RadioButton()
-        lblFilterType2 = New Label()
-        cboFilterList2 = New ComboBox()
         CType(grdView, ComponentModel.ISupportInitialize).BeginInit()
         btnPanel.SuspendLayout()
         pnFilter.SuspendLayout()
@@ -45,14 +46,14 @@ Partial Class frmCalculatedCalendar
         grdView.AllowUserToDeleteRows = False
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
-        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        DataGridViewCellStyle1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         grdView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdView.Location = New Point(0, 106)
         grdView.MultiSelect = False
@@ -90,6 +91,7 @@ Partial Class frmCalculatedCalendar
         ' pnFilter
         ' 
         pnFilter.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        pnFilter.Controls.Add(btnApply)
         pnFilter.Controls.Add(lblFilterType2)
         pnFilter.Controls.Add(cboFilterList2)
         pnFilter.Controls.Add(lblFilterType1)
@@ -101,6 +103,39 @@ Partial Class frmCalculatedCalendar
         pnFilter.Name = "pnFilter"
         pnFilter.Size = New Size(798, 57)
         pnFilter.TabIndex = 35
+        ' 
+        ' btnApply
+        ' 
+        btnApply.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnApply.FlatStyle = FlatStyle.Flat
+        btnApply.Location = New Point(507, 24)
+        btnApply.Name = "btnApply"
+        btnApply.Size = New Size(73, 27)
+        btnApply.TabIndex = 44
+        btnApply.Text = "Apply"
+        btnApply.UseVisualStyleBackColor = False
+        btnApply.Visible = False
+        ' 
+        ' lblFilterType2
+        ' 
+        lblFilterType2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        lblFilterType2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        lblFilterType2.Location = New Point(254, 27)
+        lblFilterType2.Name = "lblFilterType2"
+        lblFilterType2.Size = New Size(56, 23)
+        lblFilterType2.TabIndex = 43
+        lblFilterType2.Text = "Recipient"
+        lblFilterType2.TextAlign = ContentAlignment.MiddleCenter
+        lblFilterType2.Visible = False
+        ' 
+        ' cboFilterList2
+        ' 
+        cboFilterList2.FormattingEnabled = True
+        cboFilterList2.Location = New Point(313, 27)
+        cboFilterList2.Name = "cboFilterList2"
+        cboFilterList2.Size = New Size(175, 23)
+        cboFilterList2.TabIndex = 42
+        cboFilterList2.Visible = False
         ' 
         ' lblFilterType1
         ' 
@@ -162,27 +197,6 @@ Partial Class frmCalculatedCalendar
         rdoByRecipient.Text = "By Recipient"
         rdoByRecipient.UseVisualStyleBackColor = False
         ' 
-        ' lblFilterType2
-        ' 
-        lblFilterType2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        lblFilterType2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        lblFilterType2.Location = New Point(254, 27)
-        lblFilterType2.Name = "lblFilterType2"
-        lblFilterType2.Size = New Size(56, 23)
-        lblFilterType2.TabIndex = 43
-        lblFilterType2.Text = "Recipient"
-        lblFilterType2.TextAlign = ContentAlignment.MiddleCenter
-        lblFilterType2.Visible = False
-        ' 
-        ' cboFilterList2
-        ' 
-        cboFilterList2.FormattingEnabled = True
-        cboFilterList2.Location = New Point(313, 27)
-        cboFilterList2.Name = "cboFilterList2"
-        cboFilterList2.Size = New Size(175, 23)
-        cboFilterList2.TabIndex = 42
-        cboFilterList2.Visible = False
-        ' 
         ' frmCalculatedCalendar
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -212,4 +226,5 @@ Partial Class frmCalculatedCalendar
     Friend WithEvents cboFilterList1 As ComboBox
     Friend WithEvents lblFilterType2 As Label
     Friend WithEvents cboFilterList2 As ComboBox
+    Friend WithEvents btnApply As Button
 End Class

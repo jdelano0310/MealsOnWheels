@@ -37,6 +37,7 @@
 
         lblFilterType2.Visible = False
         cboFilterList2.Visible = False
+        btnApply.Visible = False
 
         lblFilterType1.Visible = True
         cboFilterList1.Visible = True
@@ -59,6 +60,7 @@
 
                 lblFilterType2.Visible = True
                 cboFilterList2.Visible = True
+                btnApply.Visible = True
 
                 _ds = dbLayer.GetCalculatedDeliveryDates()
                 FillComboboxDates(cboFilterList1, _ds.Tables("Ascending"))
@@ -68,6 +70,24 @@
 
     End Sub
 
+    Private Sub FillDataGrid(secondCriteria As String)
+
+        Dim _tb As DataTable = Nothing
+        Dim dbLayer As New dbLayer
+
+        _tb = dbLayer.GetDeliveryCalendar(secondCriteria)
+
+        grdView.DataSource = _tb
+
+        ' hide the columns the user doesn't need to see in the grid
+        grdView.Columns(0).Visible = False   ' hide ID
+        grdView.Columns(1).Visible = False   ' parent delivery id 
+
+        Application.DoEvents()
+
+        grdView.EnableHeadersVisualStyles = False
+
+    End Sub
 
     Private Sub frmCalculatedCalendar_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
 
@@ -92,5 +112,14 @@
 
         ToggleRadioButtonColor(rdoByDeliveryDate)
 
+    End Sub
+
+    Private Sub cboFilterList1_Click(sender As Object, e As EventArgs) Handles cboFilterList1.Click
+
+        If rdoByRecipient.Checked Then
+            FillDataGrid($"(([tblMealRecipients].[ID])={cboFilterList1.SelectedValue}));")
+        ElseIf rdoByWorker.Checked Then
+            FillDataGrid($"(([tblWorkers].[ID])={cboFilterList1.SelectedValue}));")
+        End If
     End Sub
 End Class

@@ -166,7 +166,7 @@ Public Class dbLayer
     Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
         Get
             Dim SQL As String
-            SQL = "SELECT ID, DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
             SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
             SQL += "FROM (tblCalculatedDeliveryCalendar "
