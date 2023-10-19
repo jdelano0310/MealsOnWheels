@@ -51,6 +51,8 @@ Public Class frmMDI
 
     Private Sub btnNewDelivery_Click(sender As Object, e As EventArgs) Handles btnNewDelivery.Click
 
+        Dim frm As New frmDelivery
+        OpenChild(frm, "0")
 
     End Sub
 

@@ -23,12 +23,12 @@ Partial Class frmMDI
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         btnPanel = New Panel()
+        btnViewDeliveryCalendar = New Button()
         lblCurrentUser = New Label()
         btnRecipients = New Button()
         btnWorkers = New Button()
         btnNewRecipient = New Button()
         btnNewDelivery = New Button()
-        btnViewDeliveryCalendar = New Button()
         btnPanel.SuspendLayout()
         SuspendLayout()
         ' 
@@ -48,10 +48,24 @@ Partial Class frmMDI
         btnPanel.Size = New Size(960, 49)
         btnPanel.TabIndex = 1
         ' 
+        ' btnViewDeliveryCalendar
+        ' 
+        btnViewDeliveryCalendar.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnViewDeliveryCalendar.FlatAppearance.BorderSize = 0
+        btnViewDeliveryCalendar.FlatStyle = FlatStyle.Flat
+        btnViewDeliveryCalendar.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnViewDeliveryCalendar.Location = New Point(254, 0)
+        btnViewDeliveryCalendar.Name = "btnViewDeliveryCalendar"
+        btnViewDeliveryCalendar.Size = New Size(96, 45)
+        btnViewDeliveryCalendar.TabIndex = 6
+        btnViewDeliveryCalendar.Text = "View Delivery Calendar"
+        btnViewDeliveryCalendar.UseVisualStyleBackColor = False
+        ' 
         ' lblCurrentUser
         ' 
         lblCurrentUser.BackColor = Color.Transparent
         lblCurrentUser.Dock = DockStyle.Right
+        lblCurrentUser.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point)
         lblCurrentUser.ForeColor = SystemColors.ControlText
         lblCurrentUser.Location = New Point(812, 0)
         lblCurrentUser.Name = "lblCurrentUser"
@@ -111,19 +125,6 @@ Partial Class frmMDI
         btnNewDelivery.TabIndex = 0
         btnNewDelivery.Text = "New Delivery"
         btnNewDelivery.UseVisualStyleBackColor = False
-        ' 
-        ' btnViewDeliveryCalendar
-        ' 
-        btnViewDeliveryCalendar.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        btnViewDeliveryCalendar.FlatAppearance.BorderSize = 0
-        btnViewDeliveryCalendar.FlatStyle = FlatStyle.Flat
-        btnViewDeliveryCalendar.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnViewDeliveryCalendar.Location = New Point(254, 0)
-        btnViewDeliveryCalendar.Name = "btnViewDeliveryCalendar"
-        btnViewDeliveryCalendar.Size = New Size(96, 45)
-        btnViewDeliveryCalendar.TabIndex = 6
-        btnViewDeliveryCalendar.Text = "View Delivery Calendar"
-        btnViewDeliveryCalendar.UseVisualStyleBackColor = False
         ' 
         ' frmMDI
         ' 
