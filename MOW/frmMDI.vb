@@ -13,6 +13,20 @@ Public Class frmMDI
 
     End Sub
 
+    Public Function IsChildFormOpen(frmName As String) As Form
+
+        Dim foundForm As Form = Nothing
+
+        For Each frm As Form In Me.MdiChildren
+            If frm.Name = frmName And frm.Visible Then
+                foundForm = frm
+            End If
+        Next
+
+        Return foundForm
+
+    End Function
+
     Private Sub frmMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' set the background color of the main form

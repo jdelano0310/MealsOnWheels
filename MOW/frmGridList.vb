@@ -1,5 +1,10 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.ComponentModel
+Imports System.Data.OleDb
+
 Public Class frmGridList
+    Dim _tb As DataTable = Nothing
+    Dim _dbLayer As New dbLayer
+
     Private Sub frmGridList_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
 
         ' resize the grid to match the form
@@ -11,19 +16,15 @@ Public Class frmGridList
 
     End Sub
 
-    Private Sub frmGridList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub FillGrid()
 
         ' load the data list depending on the tag set from the MDI form
-
-        Dim _tb As DataTable = Nothing
-        Dim dbLayer As New dbLayer
-
         Select Case Me.Tag
             Case "Recipients"
-                _tb = dbLayer.GetRecipients()
+                _tb = _dbLayer.GetRecipients()
 
             Case "Workers"
-                _tb = dbLayer.Getworkers()
+                _tb = _dbLayer.Getworkers()
 
         End Select
 
@@ -39,6 +40,12 @@ Public Class frmGridList
         Application.DoEvents()
 
         grdView.EnableHeadersVisualStyles = False
+
+    End Sub
+
+    Private Sub frmGridList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        FillGrid()
 
     End Sub
 
@@ -77,5 +84,10 @@ Public Class frmGridList
 
         End Select
 
+    End Sub
+
+    Private Sub frmGridList_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        _dbLayer.Dispose()
+        _dbLayer = Nothing
     End Sub
 End Class

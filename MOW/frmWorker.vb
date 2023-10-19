@@ -1,4 +1,6 @@
-﻿Public Class frmWorker
+﻿Imports System.ComponentModel
+
+Public Class frmWorker
     Dim _tb As DataTable = Nothing
     Dim _dr As DataRow
     Dim _dbLayer As New dbLayer
@@ -136,6 +138,14 @@
 
         lblHeader.Text = "Viewing Worker"
         btnSaveWorker.Visible = False
+
+        Dim frm As frmGridList = frmMDI.IsChildFormOpen("frmGridList")
+
+        If frm IsNot Nothing Then
+            ' the gridlist form is displayed, update the grid
+            frm.FillGrid()
+        End If
+
         Application.DoEvents()
 
     End Sub
@@ -188,5 +198,10 @@
             e.Handled = True
         End If
 
+    End Sub
+
+    Private Sub frmWorker_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        _dbLayer.Dispose()
+        _dbLayer = Nothing
     End Sub
 End Class

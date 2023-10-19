@@ -1,4 +1,6 @@
-﻿Public Class frmRecipient
+﻿Imports System.ComponentModel
+
+Public Class frmRecipient
     Dim _tb As DataTable = Nothing
     Dim _dr As DataRow
     Dim _dbLayer As New dbLayer
@@ -136,6 +138,14 @@
 
         lblHeader.Text = "Viewing Recipient"
         btnSaveRecipient.Visible = False
+
+        Dim frm As frmGridList = frmMDI.IsChildFormOpen("frmGridList")
+
+        If frm IsNot Nothing Then
+            ' the gridlist form is displayed, update the grid
+            frm.FillGrid()
+        End If
+
         Application.DoEvents()
 
     End Sub
@@ -187,6 +197,19 @@
             SendKeys.Send("{TAB}")
             e.Handled = True
         End If
+
+    End Sub
+
+    Private Sub chkActive_Click(sender As Object, e As EventArgs) Handles chkActive.Click
+
+        ' deactivating the recipient - check for remaining scheduled deliveries
+
+    End Sub
+
+    Private Sub frmRecipient_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+
+        _dbLayer.Dispose()
+        _dbLayer = Nothing
 
     End Sub
 End Class
