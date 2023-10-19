@@ -24,6 +24,7 @@ Partial Class frmGridList
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         btnPanel = New Panel()
+        btnNew = New Button()
         lblViewing = New Label()
         grdView = New DataGridView()
         btnPanel.SuspendLayout()
@@ -34,11 +35,23 @@ Partial Class frmGridList
         ' 
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
+        btnPanel.Controls.Add(btnNew)
         btnPanel.Controls.Add(lblViewing)
         btnPanel.Location = New Point(0, 0)
         btnPanel.Name = "btnPanel"
         btnPanel.Size = New Size(800, 46)
         btnPanel.TabIndex = 31
+        ' 
+        ' btnNew
+        ' 
+        btnNew.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnNew.FlatStyle = FlatStyle.Flat
+        btnNew.Location = New Point(715, 12)
+        btnNew.Name = "btnNew"
+        btnNew.Size = New Size(73, 25)
+        btnNew.TabIndex = 45
+        btnNew.Text = "New"
+        btnNew.UseVisualStyleBackColor = False
         ' 
         ' lblViewing
         ' 
@@ -95,4 +108,5 @@ Partial Class frmGridList
     Friend WithEvents btnPanel As Panel
     Friend WithEvents grdView As DataGridView
     Friend WithEvents lblViewing As Label
+    Friend WithEvents btnNew As Button
 End Class

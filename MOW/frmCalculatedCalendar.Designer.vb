@@ -22,7 +22,8 @@ Partial Class frmCalculatedCalendar
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grdView = New DataGridView()
         btnPanel = New Panel()
         lblViewing = New Label()
@@ -44,16 +45,18 @@ Partial Class frmCalculatedCalendar
         ' 
         grdView.AllowUserToAddRows = False
         grdView.AllowUserToDeleteRows = False
+        DataGridViewCellStyle11.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        grdView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle11
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
-        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle12.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle12.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        DataGridViewCellStyle12.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        DataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle12.WrapMode = DataGridViewTriState.True
+        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
         grdView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdView.Location = New Point(0, 106)
         grdView.MultiSelect = False
@@ -64,7 +67,7 @@ Partial Class frmCalculatedCalendar
         grdView.RowTemplate.Height = 25
         grdView.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         grdView.ShowEditingIcon = False
-        grdView.Size = New Size(800, 344)
+        grdView.Size = New Size(593, 344)
         grdView.TabIndex = 34
         ' 
         ' btnPanel
@@ -101,7 +104,7 @@ Partial Class frmCalculatedCalendar
         pnFilter.Controls.Add(rdoByRecipient)
         pnFilter.Location = New Point(1, 47)
         pnFilter.Name = "pnFilter"
-        pnFilter.Size = New Size(798, 57)
+        pnFilter.Size = New Size(592, 57)
         pnFilter.TabIndex = 35
         ' 
         ' btnApply
@@ -160,25 +163,24 @@ Partial Class frmCalculatedCalendar
         ' 
         ' rdoByDeliveryDate
         ' 
-        rdoByDeliveryDate.AutoSize = True
         rdoByDeliveryDate.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         rdoByDeliveryDate.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        rdoByDeliveryDate.Location = New Point(200, 4)
+        rdoByDeliveryDate.Location = New Point(181, 2)
         rdoByDeliveryDate.Name = "rdoByDeliveryDate"
-        rdoByDeliveryDate.Size = New Size(110, 19)
+        rdoByDeliveryDate.Size = New Size(110, 21)
         rdoByDeliveryDate.TabIndex = 39
         rdoByDeliveryDate.TabStop = True
         rdoByDeliveryDate.Text = "By Delivery Date"
+        rdoByDeliveryDate.TextAlign = ContentAlignment.MiddleCenter
         rdoByDeliveryDate.UseVisualStyleBackColor = False
         ' 
         ' rdoByWorker
         ' 
-        rdoByWorker.AutoSize = True
         rdoByWorker.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         rdoByWorker.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        rdoByWorker.Location = New Point(97, 4)
+        rdoByWorker.Location = New Point(100, 2)
         rdoByWorker.Name = "rdoByWorker"
-        rdoByWorker.Size = New Size(79, 19)
+        rdoByWorker.Size = New Size(79, 21)
         rdoByWorker.TabIndex = 38
         rdoByWorker.TabStop = True
         rdoByWorker.Text = "By Worker"
@@ -186,12 +188,11 @@ Partial Class frmCalculatedCalendar
         ' 
         ' rdoByRecipient
         ' 
-        rdoByRecipient.AutoSize = True
         rdoByRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         rdoByRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        rdoByRecipient.Location = New Point(3, 4)
+        rdoByRecipient.Location = New Point(3, 2)
         rdoByRecipient.Name = "rdoByRecipient"
-        rdoByRecipient.Size = New Size(90, 19)
+        rdoByRecipient.Size = New Size(91, 21)
         rdoByRecipient.TabIndex = 37
         rdoByRecipient.TabStop = True
         rdoByRecipient.Text = "By Recipient"
@@ -211,7 +212,6 @@ Partial Class frmCalculatedCalendar
         CType(grdView, ComponentModel.ISupportInitialize).EndInit()
         btnPanel.ResumeLayout(False)
         pnFilter.ResumeLayout(False)
-        pnFilter.PerformLayout()
         ResumeLayout(False)
     End Sub
 

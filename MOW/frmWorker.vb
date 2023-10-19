@@ -1,6 +1,4 @@
-﻿Imports System.Net.NetworkInformation
-
-Public Class frmWorker
+﻿Public Class frmWorker
     Dim _tb As DataTable = Nothing
     Dim _dr As DataRow
     Dim _dbLayer As New dbLayer
@@ -139,10 +137,12 @@ Public Class frmWorker
         lblHeader.Text = "Viewing Worker"
         btnSaveWorker.Visible = False
         Application.DoEvents()
+
     End Sub
 
     Private Sub frmWorker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' set teh tag as an integer
+
+        ' set the tag as an integer
         Tag = Int(Me.Tag)
 
         If Tag > 0 Then
@@ -158,6 +158,7 @@ Public Class frmWorker
             SetFormEdit(True)
             chkActive.Checked = True  ' default the receipient to active status
         End If
+
     End Sub
 
     Private Sub btnToggleEdit_Click(sender As Object, e As EventArgs) Handles btnToggleEdit.Click
@@ -176,13 +177,16 @@ Public Class frmWorker
         End If
 
         Application.DoEvents()
+
     End Sub
 
     Private Sub frmWorker_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
+
         ' make enter act like tab
         If e.KeyChar = Chr(13) Then
             SendKeys.Send("{TAB}")
             e.Handled = True
         End If
+
     End Sub
 End Class

@@ -142,7 +142,7 @@
 
     Private Sub frmRecipient_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        ' set teh tag as an integer
+        ' set the tag as an integer
         Tag = Int(Me.Tag)
 
         If Tag > 0 Then

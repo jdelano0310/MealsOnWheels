@@ -6,6 +6,9 @@ Public Class frmGridList
         grdView.Height = (Me.Height - btnPanel.Height) - 39
         grdView.Width = Me.Width - 16
 
+        ' keep add button in its location
+        btnNew.Left = Me.Width - 101
+
     End Sub
 
     Private Sub frmGridList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -56,6 +59,21 @@ Public Class frmGridList
             Case "Workers"
                 Dim frm As New frmWorker
                 frmMDI.OpenChild(frm, recordID)
+
+        End Select
+
+    End Sub
+
+    Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+
+        Select Case Me.Tag
+            Case "Recipients"
+                Dim frm As New frmRecipient
+                frmMDI.OpenChild(frm, "0")
+
+            Case "Workers"
+                Dim frm As New frmWorker
+                frmMDI.OpenChild(frm, "0")
 
         End Select
 
