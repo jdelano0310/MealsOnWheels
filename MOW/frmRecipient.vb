@@ -30,6 +30,7 @@ Public Class frmRecipient
         txtState.Text = _dr("state")
         mskCellPhone.Text = _dr("cellphone")
         mskHomePhone.Text = _dr("homephone")
+        txtEmail.Text = _dr("emailaddress")
         chkActive.Checked = _dr("active")
         txtNotes.Text = "" & _dr("notes")
 
@@ -139,11 +140,17 @@ Public Class frmRecipient
         lblHeader.Text = "Viewing Recipient"
         btnSaveRecipient.Visible = False
 
-        Dim frm As frmGridList = frmMDI.IsChildFormOpen("frmGridList")
+        Dim frm As Form = frmMDI.IsChildFormOpen("frmGridList")
 
         If frm IsNot Nothing Then
             ' the gridlist form is displayed, update the grid
-            frm.FillGrid()
+            DirectCast(frm, frmGridList).FillGrid()
+        End If
+
+        frm = frmMDI.IsChildFormOpen("frmDelivery")
+        If frm IsNot Nothing Then
+            ' the delivery form is displayed, update the form
+            DirectCast(frm, frmDelivery).FillRecipientsCombo(Me.Tag)
         End If
 
         Application.DoEvents()
@@ -206,7 +213,7 @@ Public Class frmRecipient
 
     End Sub
 
-    Private Sub frmRecipient_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    Private Sub frmRecipient_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
 
         _dbLayer.Dispose()
         _dbLayer = Nothing

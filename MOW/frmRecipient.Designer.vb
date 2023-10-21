@@ -377,6 +377,7 @@ Partial Class frmRecipient
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        CancelButton = btnCancel
         ClientSize = New Size(308, 427)
         ControlBox = False
         Controls.Add(lblInfo)
