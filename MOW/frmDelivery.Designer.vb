@@ -57,6 +57,7 @@ Partial Class frmDelivery
         Label13 = New Label()
         cboWorker = New ComboBox()
         btnNewRecipient = New Button()
+        lblInfo = New Label()
         btnPanel.SuspendLayout()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -421,12 +422,22 @@ Partial Class frmDelivery
         btnNewRecipient.UseVisualStyleBackColor = False
         btnNewRecipient.Visible = False
         ' 
+        ' lblInfo
+        ' 
+        lblInfo.ForeColor = Color.White
+        lblInfo.Location = New Point(4, 348)
+        lblInfo.Name = "lblInfo"
+        lblInfo.Size = New Size(300, 33)
+        lblInfo.TabIndex = 63
+        lblInfo.Visible = False
+        ' 
         ' frmDelivery
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         ClientSize = New Size(309, 427)
+        Controls.Add(lblInfo)
         Controls.Add(btnNewRecipient)
         Controls.Add(Label13)
         Controls.Add(cboWorker)
@@ -501,4 +512,5 @@ Partial Class frmDelivery
     Friend WithEvents Label13 As Label
     Friend WithEvents cboWorker As ComboBox
     Friend WithEvents btnNewRecipient As Button
+    Friend WithEvents lblInfo As Label
 End Class

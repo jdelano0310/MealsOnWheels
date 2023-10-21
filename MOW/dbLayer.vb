@@ -134,6 +134,16 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public ReadOnly Property GetDelivery() As DataTable
+        Get
+            Dim SQL As String
+            SQL = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
+            SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
+
+            Return CreateNewTable(SQL)
+        End Get
+    End Property
+
     Public ReadOnly Property ErrorInfo As dbError
         Get
             Return _dbError

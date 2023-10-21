@@ -2,11 +2,22 @@
 
     Dim _tb As DataTable = Nothing
     Dim _dr As DataRow
-    Dim dbLayer As New dbLayer
+    Dim _dbLayer As New dbLayer
+    Dim _recordID As Long = 0
+
+    Private Sub GetDeliveryData()
+
+        ' the record id is in the tag property of the form
+        _recordID = Me.Tag
+
+        _dbLayer.RecordID = _recordID
+        _tb = _dbLayer.GetRecipient()
+
+    End Sub
 
     Public Sub FillRecipientsCombo(Optional RecipID As Long = 0)
 
-        _tb = dbLayer.GetRecipientsForDelivery
+        _tb = _dbLayer.GetRecipientsForDelivery
 
         cboRecipients.DataSource = _tb
         cboRecipients.DisplayMember = "fullname"
@@ -24,12 +35,32 @@
 
     End Sub
 
+    Private Sub WriteDataToForm()
+
+        ' fill in the form with the data in the table retrieved from the database
+        _dr = _tb.Rows(0)
+
+        dpStarting.Value = _dr("")
+        dpEnding.Value = _dr("")
+        dpDeliveryTime.Value = _dr("")
+
+        FillRecipientsCombo(_dr("recipientID"))
+
+        FillReceipientAddressInfo()
+
+        ' build info section
+        lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
+
+        lblInfo.Visible = True
+
+    End Sub
+
     Private Sub FillReceipientAddressInfo()
 
-        dbLayer.RecordID = cboRecipients.SelectedValue
+        _dbLayer.RecordID = cboRecipients.SelectedValue
 
         _tb = New DataTable
-        _tb = dbLayer.GetRecipient
+        _tb = _dbLayer.GetRecipient
         _dr = _tb.Rows(_tb.Rows.Count - 1)
 
         txtAddress.Text = _dr("address")
@@ -45,14 +76,47 @@
 
     End Sub
 
+    Private Sub SetFormEdit(AllowEditing As Boolean)
+
+        ' set the form to allow (or not) editing of the information 
+        For Each ctr As Control In Me.Controls
+            If ctr.Name.StartsWith("txt") Then
+                DirectCast(ctr, TextBox).ReadOnly = Not AllowEditing
+            ElseIf ctr.Name.StartsWith("msk") Then
+                DirectCast(ctr, MaskedTextBox).ReadOnly = Not AllowEditing
+            End If
+        Next
+
+    End Sub
+
     Private Sub frmDelivery_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        ' load recipients into combodox
-        FillRecipientsCombo()
 
-        ' from what date can deliveries start
-        dpStarting.MinDate = Now.AddDays(1)
-        dpStarting.MaxDate = Now.AddDays(365)
+        Tag = Int(Me.Tag)
+
+        If Tag > 0 Then
+            ' there is a recipient to view/edit in the tag
+
+            GetDeliveryData()
+
+            lblHeader.Text = "Viewing Delivery"
+            btnSaveRecipient.Visible = False
+            btnToggleEdit.Visible = True
+
+        Else
+
+            ' load recipients into combodox
+            FillRecipientsCombo()
+
+            _tb = _dbLayer.NewRecipientTable()
+            _dr = _tb.Rows.Add()
+            SetFormEdit(True)
+
+            ' from what date can deliveries start
+            dpStarting.MinDate = Now.AddDays(1)
+            dpStarting.MaxDate = Now.AddDays(365)
+
+        End If
 
     End Sub
 
