@@ -1,7 +1,5 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
-Imports System.Net.NetworkInformation
-Imports System.Runtime.InteropServices.JavaScript.JSType
 
 Public Class dbLayer
 
@@ -53,26 +51,16 @@ Public Class dbLayer
     Public ReadOnly Property GetActiveWorkersWithDeliveries() As DataTable
         Get
             ' returns those workers that have deliveries scheduled
-            _da = New OleDbDataAdapter("Select 0 as ID, 'Select Worker' as fullname from tblWorkers union Select * from qryActiveWorkersWithDeliveries", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
+            Return CreateNewTable("Select 0 as ID, 'Select Worker' as fullname from tblWorkers union Select * from qryActiveWorkersWithDeliveries")
 
-            _cn.Close()
-
-            Return _tb
         End Get
     End Property
 
     Public ReadOnly Property GetActiveRecipientsWithDeliveries() As DataTable
         Get
             ' returns those recipients that have deliveries scheduled
-            _da = New OleDbDataAdapter("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveries", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
+            Return CreateNewTable("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveries")
 
-            _cn.Close()
-
-            Return _tb
         End Get
     End Property
 
@@ -94,26 +82,16 @@ Public Class dbLayer
     Public ReadOnly Property NewRecipientTable() As DataTable
         Get
             ' just returns an empty table with the needed columns to create a new record
-            _da = New OleDbDataAdapter("Select * from tblMealRecipients where id=0", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
+            Return CreateNewTable("Select * from tblMealRecipients where id=0")
 
-            _cn.Close()
-
-            Return _tb
         End Get
     End Property
 
     Public ReadOnly Property NewWorkerTable() As DataTable
         Get
+
             ' just returns an empty table with the needed columns to create a new record
-            _da = New OleDbDataAdapter("Select * from tblWorkers where id=0", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
-
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable("Select * from tblWorkers where id=0")
         End Get
     End Property
 
@@ -127,37 +105,22 @@ Public Class dbLayer
     End Property
     Public ReadOnly Property GetRecipient() As DataTable
         Get
-            _da = New OleDbDataAdapter($"Select * from tblMealRecipients where id={_recordID}", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
 
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable($"Select * from tblMealRecipients where id={_recordID}")
         End Get
     End Property
 
     Public ReadOnly Property GetWorker() As DataTable
         Get
-            _da = New OleDbDataAdapter($"Select * from tblWorkers where id={_recordID}", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
 
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable($"Select * from tblWorkers where id={_recordID}")
         End Get
     End Property
 
     Public ReadOnly Property GetRecipients() As DataTable
         Get
-            _da = New OleDbDataAdapter("Select * from qryActiveRecipients", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
 
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable("Select * from qryActiveRecipients")
         End Get
     End Property
 
@@ -167,13 +130,7 @@ Public Class dbLayer
             SQL = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
             SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
 
-            _da = New OleDbDataAdapter(SQL, _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
-
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable(SQL)
         End Get
     End Property
 
@@ -185,13 +142,8 @@ Public Class dbLayer
 
     Public ReadOnly Property Getworkers() As DataTable
         Get
-            _da = New OleDbDataAdapter("Select * from qryActiveWorkers", _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
 
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable("Select * from qryActiveWorkers")
         End Get
     End Property
 
@@ -207,13 +159,7 @@ Public Class dbLayer
             SQL += "WHERE (((tblCalculatedDeliveryCalendar.DeliveryDate)>=Date()) AND "
             SQL += secondCriteria
 
-            _da = New OleDbDataAdapter(SQL, _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
-
-            _cn.Close()
-
-            Return _tb
+            Return CreateNewTable(SQL)
         End Get
     End Property
 
@@ -229,16 +175,26 @@ Public Class dbLayer
             SQL += "WHERE tblCalculatedDeliveryCalendar.DeliveryDate BETWEEN #" + fromDate + "# AND #" + toDate + "# "
             SQL += "ORDER By tblCalculatedDeliveryCalendar.DeliveryDate ASC"
 
-            _da = New OleDbDataAdapter(SQL, _cn)
-            _da.Fill(_ds, "tablename")
-            _tb = _ds.Tables(0)
+            Return CreateNewTable(SQL)
 
-            _cn.Close()
-
-            Return _tb
         End Get
     End Property
 
+    Private Function CreateNewTable(SQL As String) As DataTable
+
+        _da = New OleDbDataAdapter(SQL, _cn)
+
+        _ds = New DataSet
+        _da.Fill(_ds, "tablename")
+
+        _tb = New DataTable
+        _tb = _ds.Tables(0)
+
+        _cn.Close()
+
+        Return _tb
+
+    End Function
 
     Public Function SaveNewRecipient(tbl As DataTable) As Long
 

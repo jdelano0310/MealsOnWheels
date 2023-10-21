@@ -26,8 +26,11 @@
 
     Private Sub FillReceipientAddressInfo()
 
+        dbLayer.RecordID = cboRecipients.SelectedValue
+
+        _tb = New DataTable
         _tb = dbLayer.GetRecipient
-        _dr = _tb.Rows(0)
+        _dr = _tb.Rows(_tb.Rows.Count - 1)
 
         txtAddress.Text = _dr("address")
         txtCity.Text = _dr("city")
@@ -37,6 +40,8 @@
         mskCellPhone.Text = _dr("cellphone")
         mskHomePhone.Text = _dr("homephone")
         txtEmail.Text = _dr("emailaddress")
+
+        _dr = Nothing
 
     End Sub
 
@@ -68,6 +73,12 @@
         ' user needs to create a new recipient for this delivery
         Dim frm As New frmRecipient
         frmMDI.OpenChild(frm, "0")
+
+    End Sub
+
+    Private Sub cboRecipients_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboRecipients.SelectedIndexChanged
+
+        If cboRecipients.SelectedIndex > 0 Then FillReceipientAddressInfo()
 
     End Sub
 End Class
