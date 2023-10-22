@@ -26,7 +26,7 @@ Partial Class frmDelivery
         btnPanel = New Panel()
         btnToggleEdit = New Button()
         btnCancel = New Button()
-        btnSaveRecipient = New Button()
+        btnSaveDelivery = New Button()
         Panel1 = New Panel()
         txtEmail = New TextBox()
         Label10 = New Label()
@@ -58,6 +58,7 @@ Partial Class frmDelivery
         cboWorker = New ComboBox()
         btnNewRecipient = New Button()
         lblInfo = New Label()
+        btnStopDelivery = New Button()
         btnPanel.SuspendLayout()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -111,25 +112,25 @@ Partial Class frmDelivery
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = False
         ' 
-        ' btnSaveRecipient
+        ' btnSaveDelivery
         ' 
-        btnSaveRecipient.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
-        btnSaveRecipient.FlatAppearance.BorderSize = 0
-        btnSaveRecipient.FlatStyle = FlatStyle.Flat
-        btnSaveRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnSaveRecipient.Location = New Point(7, 6)
-        btnSaveRecipient.Name = "btnSaveRecipient"
-        btnSaveRecipient.Size = New Size(79, 33)
-        btnSaveRecipient.TabIndex = 24
-        btnSaveRecipient.Text = "Save"
-        btnSaveRecipient.UseVisualStyleBackColor = False
-        btnSaveRecipient.Visible = False
+        btnSaveDelivery.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnSaveDelivery.FlatAppearance.BorderSize = 0
+        btnSaveDelivery.FlatStyle = FlatStyle.Flat
+        btnSaveDelivery.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnSaveDelivery.Location = New Point(7, 6)
+        btnSaveDelivery.Name = "btnSaveDelivery"
+        btnSaveDelivery.Size = New Size(79, 33)
+        btnSaveDelivery.TabIndex = 24
+        btnSaveDelivery.Text = "Save"
+        btnSaveDelivery.UseVisualStyleBackColor = False
+        btnSaveDelivery.Visible = False
         ' 
         ' Panel1
         ' 
         Panel1.BackgroundImage = My.Resources.Resources.FooterBackground
         Panel1.Controls.Add(btnCancel)
-        Panel1.Controls.Add(btnSaveRecipient)
+        Panel1.Controls.Add(btnSaveDelivery)
         Panel1.Location = New Point(0, 384)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(308, 44)
@@ -142,6 +143,7 @@ Partial Class frmDelivery
         txtEmail.ReadOnly = True
         txtEmail.Size = New Size(233, 23)
         txtEmail.TabIndex = 44
+        txtEmail.Tag = "x"
         ' 
         ' Label10
         ' 
@@ -183,6 +185,7 @@ Partial Class frmDelivery
         txtZip.ReadOnly = True
         txtZip.Size = New Size(97, 23)
         txtZip.TabIndex = 39
+        txtZip.Tag = "x"
         ' 
         ' Label7
         ' 
@@ -202,6 +205,7 @@ Partial Class frmDelivery
         txtState.ReadOnly = True
         txtState.Size = New Size(66, 23)
         txtState.TabIndex = 38
+        txtState.Tag = "x"
         ' 
         ' Label5
         ' 
@@ -221,6 +225,7 @@ Partial Class frmDelivery
         txtCity.ReadOnly = True
         txtCity.Size = New Size(233, 23)
         txtCity.TabIndex = 36
+        txtCity.Tag = "x"
         ' 
         ' Label4
         ' 
@@ -240,6 +245,7 @@ Partial Class frmDelivery
         txtAddress.ReadOnly = True
         txtAddress.Size = New Size(233, 23)
         txtAddress.TabIndex = 33
+        txtAddress.Tag = "x"
         ' 
         ' Label3
         ' 
@@ -260,6 +266,7 @@ Partial Class frmDelivery
         mskCellPhone.ReadOnly = True
         mskCellPhone.Size = New Size(83, 23)
         mskCellPhone.TabIndex = 46
+        mskCellPhone.Tag = "x"
         ' 
         ' mskHomePhone
         ' 
@@ -269,6 +276,7 @@ Partial Class frmDelivery
         mskHomePhone.ReadOnly = True
         mskHomePhone.Size = New Size(82, 23)
         mskHomePhone.TabIndex = 45
+        mskHomePhone.Tag = "x"
         ' 
         ' txtCounty
         ' 
@@ -277,6 +285,7 @@ Partial Class frmDelivery
         txtCounty.ReadOnly = True
         txtCounty.Size = New Size(233, 23)
         txtCounty.TabIndex = 48
+        txtCounty.Tag = "x"
         ' 
         ' Label6
         ' 
@@ -431,12 +440,28 @@ Partial Class frmDelivery
         lblInfo.TabIndex = 63
         lblInfo.Visible = False
         ' 
+        ' btnStopDelivery
+        ' 
+        btnStopDelivery.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnStopDelivery.FlatAppearance.BorderSize = 0
+        btnStopDelivery.FlatStyle = FlatStyle.Flat
+        btnStopDelivery.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnStopDelivery.Location = New Point(116, 315)
+        btnStopDelivery.Name = "btnStopDelivery"
+        btnStopDelivery.Size = New Size(86, 24)
+        btnStopDelivery.TabIndex = 26
+        btnStopDelivery.Text = "Stop Delivery"
+        btnStopDelivery.TextAlign = ContentAlignment.TopCenter
+        btnStopDelivery.UseVisualStyleBackColor = False
+        btnStopDelivery.Visible = False
+        ' 
         ' frmDelivery
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         ClientSize = New Size(309, 427)
+        Controls.Add(btnStopDelivery)
         Controls.Add(lblInfo)
         Controls.Add(btnNewRecipient)
         Controls.Add(Label13)
@@ -469,6 +494,7 @@ Partial Class frmDelivery
         Controls.Add(Label3)
         Controls.Add(btnPanel)
         Controls.Add(Panel1)
+        KeyPreview = True
         Name = "frmDelivery"
         Text = "Delivery"
         btnPanel.ResumeLayout(False)
@@ -481,7 +507,7 @@ Partial Class frmDelivery
     Friend WithEvents btnPanel As Panel
     Friend WithEvents btnToggleEdit As Button
     Friend WithEvents btnCancel As Button
-    Friend WithEvents btnSaveRecipient As Button
+    Friend WithEvents btnSaveDelivery As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtEmail As TextBox
     Friend WithEvents Label10 As Label
@@ -513,4 +539,5 @@ Partial Class frmDelivery
     Friend WithEvents cboWorker As ComboBox
     Friend WithEvents btnNewRecipient As Button
     Friend WithEvents lblInfo As Label
+    Friend WithEvents btnStopDelivery As Button
 End Class

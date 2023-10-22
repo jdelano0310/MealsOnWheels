@@ -239,6 +239,27 @@ Public Class dbLayer
 
     End Function
 
+    Public Function SaveNewDelivery(tbl As DataTable) As Long
+
+        InsertRecordFromTable("tblDeliveryCalendar", tbl)
+        CreateCalculatedDeliveryCalendarRecords()
+
+        Return _recordID
+
+    End Function
+
+    Public Function UpdateDelivery(tbl As DataTable) As Long
+
+        UpdateRecordFromTable("tblDeliveryCalendar", tbl)
+
+        Return _recordID
+
+    End Function
+
+    Private Sub CreateCalculatedDeliveryCalendarRecords()
+
+    End Sub
+
     Private Sub InsertRecordFromTable(toTableName As String, fromTable As DataTable)
 
         ' a new record is being saved
@@ -276,8 +297,8 @@ Public Class dbLayer
                 End If
             Next
 
-            SQL = SQL.Substring(0, SQL.Length - 1) & ") values ("
-            SQL += sqlValues.Substring(0, sqlValues.Length - 1) & ")"
+            SQL = String.Concat(SQL.AsSpan(0, SQL.Length - 1), ") values (")
+            SQL += String.Concat(sqlValues.AsSpan(0, sqlValues.Length - 1), ")")
 
             _cmd = New OleDbCommand(SQL, _cn)
             _rdr = _cmd.ExecuteReader()
