@@ -35,6 +35,26 @@
 
     End Sub
 
+    Private Sub FillWorkersCombo(Optional WorkerID As Long = 0)
+
+        _tb = _dbLayer.GetWorkersForDelivery
+
+        cboWorkers.DataSource = _tb
+        cboWorkers.DisplayMember = "fullname"
+        cboWorkers.ValueMember = "ID"
+
+        If WorkerID > 0 Then
+            ' select the recipient from the combobox
+            For i As Int16 = 0 To cboWorkers.Items.Count - 1
+                If cboWorkers.Items(i) = WorkerID Then
+                    cboWorkers.SelectedIndex = i
+                    Exit For
+                End If
+            Next
+        End If
+
+    End Sub
+
     Private Sub WriteDataToForm()
 
         ' fill in the form with the data in the table retrieved from the database
@@ -146,17 +166,22 @@
 
         Else
 
-            ' load recipients into combodox
-            FillRecipientsCombo()
+            lblHeader.Text = "New Delivery"
 
-            _tb = _dbLayer.NewRecipientTable()
-            _dr = _tb.Rows.Add()
+            ' load recipients and workers into combodox
+            FillRecipientsCombo()
+            FillWorkersCombo()
+
             SetFormEdit(True)
 
             ' from what date can deliveries start
-            dpStarting.MinDate = Now.AddDays(1)
+            dpStarting.MinDate = Now
             dpStarting.MaxDate = Now.AddDays(365)
 
+            ' user can't select and end date until a start date is selected
+            dpEnding.Enabled = False
+
+            btnSaveDelivery.Enabled = True
         End If
 
     End Sub

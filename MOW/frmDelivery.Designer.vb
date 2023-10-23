@@ -55,7 +55,7 @@ Partial Class frmDelivery
         Label12 = New Label()
         cboFrequency = New ComboBox()
         Label13 = New Label()
-        cboWorker = New ComboBox()
+        cboWorkers = New ComboBox()
         btnNewRecipient = New Button()
         lblInfo = New Label()
         btnStopDelivery = New Button()
@@ -359,9 +359,11 @@ Partial Class frmDelivery
         ' 
         ' dpDeliveryTime
         ' 
+        dpDeliveryTime.CustomFormat = """HH:mm:ss"""
         dpDeliveryTime.Format = DateTimePickerFormat.Time
         dpDeliveryTime.Location = New Point(220, 50)
         dpDeliveryTime.Name = "dpDeliveryTime"
+        dpDeliveryTime.ShowUpDown = True
         dpDeliveryTime.Size = New Size(85, 23)
         dpDeliveryTime.TabIndex = 55
         ' 
@@ -408,14 +410,14 @@ Partial Class frmDelivery
         Label13.Text = "Worker"
         Label13.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' cboWorker
+        ' cboWorkers
         ' 
-        cboWorker.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cboWorker.FormattingEnabled = True
-        cboWorker.Location = New Point(70, 289)
-        cboWorker.Name = "cboWorker"
-        cboWorker.Size = New Size(235, 23)
-        cboWorker.TabIndex = 60
+        cboWorkers.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cboWorkers.FormattingEnabled = True
+        cboWorkers.Location = New Point(70, 289)
+        cboWorkers.Name = "cboWorkers"
+        cboWorkers.Size = New Size(235, 23)
+        cboWorkers.TabIndex = 60
         ' 
         ' btnNewRecipient
         ' 
@@ -465,7 +467,7 @@ Partial Class frmDelivery
         Controls.Add(lblInfo)
         Controls.Add(btnNewRecipient)
         Controls.Add(Label13)
-        Controls.Add(cboWorker)
+        Controls.Add(cboWorkers)
         Controls.Add(cboFrequency)
         Controls.Add(Label12)
         Controls.Add(Label11)
@@ -536,7 +538,7 @@ Partial Class frmDelivery
     Friend WithEvents Label12 As Label
     Friend WithEvents cboFrequency As ComboBox
     Friend WithEvents Label13 As Label
-    Friend WithEvents cboWorker As ComboBox
+    Friend WithEvents cboWorkers As ComboBox
     Friend WithEvents btnNewRecipient As Button
     Friend WithEvents lblInfo As Label
     Friend WithEvents btnStopDelivery As Button
