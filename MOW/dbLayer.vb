@@ -184,8 +184,7 @@ Public Class dbLayer
             SQL += "FROM (tblCalculatedDeliveryCalendar "
             SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += "WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND "
-            SQL += secondCriteria
+            SQL += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND {secondCriteria}"
 
             Return CreateNewTable(SQL)
         End Get
@@ -200,7 +199,7 @@ Public Class dbLayer
             SQL += "FROM (tblCalculatedDeliveryCalendar "
             SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += "WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #" + fromDate + "# AND #" + toDate + "# "
+            SQL += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate}# AND #{toDate}# "
             SQL += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(SQL)
@@ -324,8 +323,7 @@ Public Class dbLayer
 
         Catch ex As Exception
             _dbError.Message = ex.Message
-            _dbError.Num = ex.StackTrace
-            CreateDbLogFile("InsertRecordFromTable", (SQL & vbCrLf & ex.Message))
+            CreateDbLogFile("InsertRecordFromTable", (SQL & vbCrLf & ex.Message), ex.StackTrace)
         End Try
 
         CleanUp()
@@ -374,15 +372,14 @@ Public Class dbLayer
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected = 0 Then
                 ' record was not saved
-                CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & "No record affected"))
+                CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & "No record affected"), "Line: 375")
                 _recordID = 0
             End If
 
         Catch ex As Exception
             _dbError.Message = ex.Message
-            _dbError.Num = ex.StackTrace
             _recordID = 0
-            CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & ex.Message))
+            CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & ex.Message), ex.StackTrace)
         End Try
 
         CleanUp()
@@ -465,13 +462,14 @@ Public Class dbLayer
 
     End Sub
 
-    Private Sub CreateDbLogFile(errWhere As String, errMessage As String)
+    Private Sub CreateDbLogFile(errWhere As String, errMessage As String, errStackTrace As String)
 
         ' write any errors encountered to a log file to help in diagnostics
         Dim logFileName As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
         Dim fs As FileStream = Nothing
         Using sw As StreamWriter = New StreamWriter(File.Open(logFileName, FileMode.Append))
             sw.WriteLine($"{DateTime.Now:f}: Error in {errWhere} code")
+            sw.WriteLine(errStackTrace)
             sw.WriteLine(errMessage)
             sw.WriteLine("-------------------------------------------------------------------------------------")
         End Using
