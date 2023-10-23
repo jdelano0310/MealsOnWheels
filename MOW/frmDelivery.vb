@@ -17,9 +17,7 @@
 
     Public Sub FillRecipientsCombo(Optional RecipID As Long = 0)
 
-        _tb = _dbLayer.GetRecipientsForDelivery
-
-        cboRecipients.DataSource = _tb
+        cboRecipients.DataSource = _dbLayer.GetRecipientsForDelivery
         cboRecipients.DisplayMember = "fullname"
         cboRecipients.ValueMember = "ID"
 
@@ -37,9 +35,7 @@
 
     Private Sub FillWorkersCombo(Optional WorkerID As Long = 0)
 
-        _tb = _dbLayer.GetWorkersForDelivery
-
-        cboWorkers.DataSource = _tb
+        cboWorkers.DataSource = _dbLayer.GetWorkersForDelivery
         cboWorkers.DisplayMember = "fullname"
         cboWorkers.ValueMember = "ID"
 
@@ -64,7 +60,8 @@
         dpEnding.Value = _dr("EndDate")
         dpDeliveryTime.Value = Format(_dr("StartDateTime").ToString(), "t")
 
-        FillRecipientsCombo(_dr("recipientID"))
+        FillRecipientsCombo(_dr("RecipientID"))
+        FillWorkersCombo(_dr("WorkerID"))
 
         FillReceipientAddressInfo()
 
@@ -79,20 +76,21 @@
 
         _dbLayer.RecordID = cboRecipients.SelectedValue
 
-        _tb = New DataTable
-        _tb = _dbLayer.GetRecipient
-        _dr = _tb.Rows(_tb.Rows.Count - 1)
+        Dim tbRecipient As DataTable
+        tbRecipient = _dbLayer.GetRecipient
+        Dim drRecipient = tbRecipient.Rows(0)
 
-        txtAddress.Text = _dr("address")
-        txtCity.Text = _dr("city")
-        txtCounty.Text = _dr("county")
-        txtZip.Text = _dr("zipcode")
-        txtState.Text = _dr("state")
-        mskCellPhone.Text = _dr("cellphone")
-        mskHomePhone.Text = _dr("homephone")
-        txtEmail.Text = _dr("emailaddress")
+        txtAddress.Text = drRecipient("address")
+        txtCity.Text = drRecipient("city")
+        txtCounty.Text = drRecipient("county")
+        txtZip.Text = drRecipient("zipcode")
+        txtState.Text = drRecipient("state")
+        mskCellPhone.Text = drRecipient("cellphone")
+        mskHomePhone.Text = drRecipient("homephone")
+        txtEmail.Text = drRecipient("emailaddress")
 
-        _dr = Nothing
+        drRecipient = Nothing
+        tbRecipient.Dispose()
 
     End Sub
 
@@ -116,8 +114,10 @@
         _dr("EndDate") = dpEnding.Value
         _dr("StartDateTime") = dpDeliveryTime.Value
         _dr("Frequency") = cboFrequency.Text
+        _dr("RecipientID") = cboRecipients.SelectedValue
+        _dr("WorkerID") = cboWorkers.SelectedValue
 
-        '_dr("notes") = txtNotes.Text
+        _dr("notes") = ""
 
         If btnStopDelivery.Text = "Stopped" Then
             ' the delivery is deactivated
@@ -171,6 +171,10 @@
             ' load recipients and workers into combodox
             FillRecipientsCombo()
             FillWorkersCombo()
+
+            ' create a table to write this forms data to
+            _tb = _dbLayer.NewDelieryTable
+            _dr = _tb.Rows.Add()
 
             SetFormEdit(True)
 
@@ -255,12 +259,12 @@
                 btnToggleEdit.Text = "Edit"
             End If
             SetFormEdit(False)
+
+            lblHeader.Text = "Viewing Delivery"
+            btnSaveDelivery.Visible = False
         Else
 
         End If
-
-        lblHeader.Text = "Viewing Delivery"
-        btnSaveDelivery.Visible = False
 
         'Dim frm As Form = frmMDI.IsChildFormOpen("frmGridList")
 

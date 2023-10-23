@@ -79,6 +79,14 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public ReadOnly Property NewDelieryTable() As DataTable
+        Get
+            ' just returns an empty table with the needed columns to create a new record
+            Return CreateNewTable("Select * from tblDeliveryCalendar where id=0")
+
+        End Get
+    End Property
+
     Public ReadOnly Property NewRecipientTable() As DataTable
         Get
             ' just returns an empty table with the needed columns to create a new record
@@ -137,7 +145,7 @@ Public Class dbLayer
     Public ReadOnly Property GetWorkersForDelivery() As DataTable
         Get
             Dim SQL As String
-            SQL = "Select -1 as ID, 'Select Recipient' as fullname from tblWorkers union "
+            SQL = "Select -1 as ID, 'Select Worker' as fullname from tblWorkers union "
             SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveWorkers "
 
             Return CreateNewTable(SQL)
@@ -170,13 +178,13 @@ Public Class dbLayer
     Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
         Get
             Dim SQL As String
-            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
             SQL += "FROM (tblCalculatedDeliveryCalendar "
             SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += "WHERE (((tblCalculatedDeliveryCalendar.DeliveryDate)>=Date()) AND "
+            SQL += "WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND "
             SQL += secondCriteria
 
             Return CreateNewTable(SQL)
@@ -186,14 +194,14 @@ Public Class dbLayer
     Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String) As DataTable
         Get
             Dim SQL As String
-            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.DeliveryDate, "
+            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
             SQL += "FROM (tblCalculatedDeliveryCalendar "
             SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += "WHERE tblCalculatedDeliveryCalendar.DeliveryDate BETWEEN #" + fromDate + "# AND #" + toDate + "# "
-            SQL += "ORDER By tblCalculatedDeliveryCalendar.DeliveryDate ASC"
+            SQL += "WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #" + fromDate + "# AND #" + toDate + "# "
+            SQL += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(SQL)
 
@@ -403,8 +411,8 @@ Public Class dbLayer
         Dim endDate As Date = deliveryRow("EndDate")
         Dim deliveryCalendarID As Long = _recordID
         Dim recipientID As Long = deliveryRow("RecipientID")
-        Dim workerID As Long = deliveryRow("RecipientID")
-        Dim deliveryNotes As Long = deliveryRow("Notes")
+        Dim workerID As Long = deliveryRow("WorkerID")
+        Dim deliveryNotes As String = deliveryRow("Notes")
         Dim endDateTime As Date
         Dim insertSQL As String
         Dim SQL As String
@@ -419,7 +427,7 @@ Public Class dbLayer
                 frequencyDays = 30
         End Select
 
-        endDateTime = $"{endDate} {startDateTime.ToShortTimeString}"
+        endDateTime = $"{endDate.ToString("d")} {startDateTime.ToShortTimeString}"
 
         If _cn.State = ConnectionState.Closed Then
             _cn.Open()
@@ -460,13 +468,15 @@ Public Class dbLayer
     Private Sub CreateDbLogFile(errWhere As String, errMessage As String)
 
         ' write any errors encountered to a log file to help in diagnostics
-        Dim strFile As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
+        Dim logFileName As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
         Dim fs As FileStream = Nothing
-        Using sw As StreamWriter = New StreamWriter(File.Open(strFile, FileMode.Append))
+        Using sw As StreamWriter = New StreamWriter(File.Open(logFileName, FileMode.Append))
             sw.WriteLine($"{DateTime.Now:f}: Error in {errWhere} code")
             sw.WriteLine(errMessage)
             sw.WriteLine("-------------------------------------------------------------------------------------")
         End Using
+
+        MsgBox($"The log file {logFileName} has been created with the neccessary debugging information.", MsgBoxStyle.OkOnly, "Log File")
 
     End Sub
 

@@ -74,7 +74,7 @@
 
     Private Sub FillDataGrid(secondCriteria As String)
 
-        Dim _tb As DataTable = Nothing
+        Dim _tb As New DataTable
         Dim dbLayer As New dbLayer
 
         _tb = dbLayer.GetDeliveryCalendar(secondCriteria)
