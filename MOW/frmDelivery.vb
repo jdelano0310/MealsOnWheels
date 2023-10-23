@@ -170,6 +170,7 @@
         ' what can be selected as the end, once the start date is selected
         dpEnding.MinDate = dpStarting.Value.AddDays(7)
         dpEnding.MaxDate = dpStarting.Value.AddDays(365)
+        dpEnding.Enabled = True
 
     End Sub
 
@@ -258,4 +259,5 @@
             btnStopDelivery.Text = "Stop Delivery"
         End If
     End Sub
+
 End Class

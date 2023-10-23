@@ -387,8 +387,8 @@ Public Class dbLayer
         ' span of start and end dates
         Dim frequencyDays As Integer
         Dim calculatedDeliveryDate As Date
-        Dim delFrequency As String
         Dim deliveryRow As DataRow = deliveryTable.Rows(0)
+        Dim delFrequency As String = deliveryRow("Frequency")
         Dim startDateTime As Date = deliveryRow("StartDateTime")
         Dim endDate As Date = deliveryRow("EndDate")
         Dim deliveryCalendarID As Long = _recordID
@@ -398,9 +398,7 @@ Public Class dbLayer
         Dim endDateTime As Date
         Dim insertSQL As String
         Dim SQL As String
-        insertSQL = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes ) values "
-
-        delFrequency = deliveryRow("Frequency")
+        insertSQL = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes) values "
 
         Select Case delFrequency
             Case "Weekly"
