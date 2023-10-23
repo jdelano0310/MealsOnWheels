@@ -181,7 +181,7 @@
             ' user can't select and end date until a start date is selected
             dpEnding.Enabled = False
 
-            btnSaveDelivery.Enabled = True
+            btnSaveDelivery.Visible = True
         End If
 
     End Sub
