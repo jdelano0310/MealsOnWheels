@@ -242,7 +242,7 @@ Public Class dbLayer
     Public Function SaveNewDelivery(tbl As DataTable) As Long
 
         InsertRecordFromTable("tblDeliveryCalendar", tbl)
-        CreateCalculatedDeliveryCalendarRecords()
+        CreateCalculatedDeliveryCalendarRecords(tbl)
 
         Return _recordID
 
@@ -255,10 +255,6 @@ Public Class dbLayer
         Return _recordID
 
     End Function
-
-    Private Sub CreateCalculatedDeliveryCalendarRecords()
-
-    End Sub
 
     Private Sub InsertRecordFromTable(toTableName As String, fromTable As DataTable)
 
@@ -383,6 +379,58 @@ Public Class dbLayer
         _rdr.Read()
         _recordID = _rdr.GetInt32(0)
 
+    End Sub
+
+    Private Sub CreateCalculatedDeliveryCalendarRecords(deliveryTable As DataTable)
+
+        ' with the new delivery information, create the individual delivery records for each delivery in the
+        ' span of start and end dates
+        Dim frequencyDays As Integer
+        Dim calculatedDeliveryDate As Date
+        Dim delFrequency As String
+        Dim deliveryRow As DataRow = deliveryTable.Rows(0)
+        Dim startDateTime As Date = deliveryRow("StartDateTime")
+        Dim endDate As Date = deliveryRow("EndDate")
+        Dim deliveryCalendarID As Long = _recordID
+        Dim recipientID As Long = deliveryRow("RecipientID")
+        Dim workerID As Long = deliveryRow("RecipientID")
+        Dim deliveryNotes As Long = deliveryRow("Notes")
+        Dim endDateTime As Date
+        Dim insertSQL As String
+        Dim SQL As String
+        insertSQL = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes ) values "
+
+        delFrequency = deliveryRow("Frequency")
+
+        Select Case delFrequency
+            Case "Weekly"
+                frequencyDays = 7
+            Case "Bi-Weekly"
+                frequencyDays = 14
+            Case "Monthly"
+                frequencyDays = 30
+        End Select
+
+        endDateTime = $"{endDate} {startDateTime.ToShortTimeString}"
+
+        If _cn.State = ConnectionState.Closed Then
+            _cn.Open()
+        End If
+
+        calculatedDeliveryDate = startDateTime
+        Do Until calculatedDeliveryDate >= endDateTime
+            SQL = $"{insertSQL} ({deliveryCalendarID}, #{calculatedDeliveryDate}#, {recipientID}, {workerID}, '{deliveryNotes}')"
+
+            _cmd = New OleDbCommand(SQL, _cn)
+            _rdr = _cmd.ExecuteReader()
+
+            _rdr.Close()
+            _cmd.Dispose()
+
+            calculatedDeliveryDate = calculatedDeliveryDate.AddDays(frequencyDays)
+        Loop
+
+        _cn.Close()
     End Sub
 
     Private Sub CleanUp()

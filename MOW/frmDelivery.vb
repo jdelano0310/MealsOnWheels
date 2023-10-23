@@ -95,6 +95,7 @@
         _dr("StartDateTime") = dpStarting.Value
         _dr("EndDate") = dpEnding.Value
         _dr("StartDateTime") = dpDeliveryTime.Value
+        _dr("Frequency") = cboFrequency.Text
 
         '_dr("notes") = txtNotes.Text
 
