@@ -199,7 +199,7 @@ Public Class dbLayer
             SQL += "FROM (tblCalculatedDeliveryCalendar "
             SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate}# AND #{toDate}# "
+            SQL += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# "
             SQL += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(SQL)

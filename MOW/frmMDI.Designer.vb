@@ -35,7 +35,7 @@ Partial Class frmMDI
         ' btnPanel
         ' 
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
+        btnPanel.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(83))
         btnPanel.BorderStyle = BorderStyle.Fixed3D
         btnPanel.Controls.Add(btnViewDeliveryCalendar)
         btnPanel.Controls.Add(lblCurrentUser)
@@ -50,10 +50,10 @@ Partial Class frmMDI
         ' 
         ' btnViewDeliveryCalendar
         ' 
-        btnViewDeliveryCalendar.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnViewDeliveryCalendar.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         btnViewDeliveryCalendar.FlatAppearance.BorderSize = 0
         btnViewDeliveryCalendar.FlatStyle = FlatStyle.Flat
-        btnViewDeliveryCalendar.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnViewDeliveryCalendar.ForeColor = Color.White
         btnViewDeliveryCalendar.Location = New Point(254, 0)
         btnViewDeliveryCalendar.Name = "btnViewDeliveryCalendar"
         btnViewDeliveryCalendar.Size = New Size(96, 45)
@@ -76,10 +76,10 @@ Partial Class frmMDI
         ' 
         ' btnRecipients
         ' 
-        btnRecipients.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnRecipients.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         btnRecipients.FlatAppearance.BorderSize = 0
         btnRecipients.FlatStyle = FlatStyle.Flat
-        btnRecipients.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnRecipients.ForeColor = Color.White
         btnRecipients.Location = New Point(432, 0)
         btnRecipients.Name = "btnRecipients"
         btnRecipients.Size = New Size(96, 45)
@@ -89,10 +89,10 @@ Partial Class frmMDI
         ' 
         ' btnWorkers
         ' 
-        btnWorkers.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnWorkers.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         btnWorkers.FlatAppearance.BorderSize = 0
         btnWorkers.FlatStyle = FlatStyle.Flat
-        btnWorkers.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnWorkers.ForeColor = Color.White
         btnWorkers.Location = New Point(531, 0)
         btnWorkers.Name = "btnWorkers"
         btnWorkers.Size = New Size(96, 45)
@@ -102,10 +102,10 @@ Partial Class frmMDI
         ' 
         ' btnNewRecipient
         ' 
-        btnNewRecipient.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnNewRecipient.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         btnNewRecipient.FlatAppearance.BorderSize = 0
         btnNewRecipient.FlatStyle = FlatStyle.Flat
-        btnNewRecipient.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnNewRecipient.ForeColor = Color.White
         btnNewRecipient.Location = New Point(100, 0)
         btnNewRecipient.Name = "btnNewRecipient"
         btnNewRecipient.Size = New Size(96, 45)
@@ -115,10 +115,10 @@ Partial Class frmMDI
         ' 
         ' btnNewDelivery
         ' 
-        btnNewDelivery.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        btnNewDelivery.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         btnNewDelivery.FlatAppearance.BorderSize = 0
         btnNewDelivery.FlatStyle = FlatStyle.Flat
-        btnNewDelivery.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnNewDelivery.ForeColor = Color.White
         btnNewDelivery.Location = New Point(1, 0)
         btnNewDelivery.Name = "btnNewDelivery"
         btnNewDelivery.Size = New Size(96, 45)
