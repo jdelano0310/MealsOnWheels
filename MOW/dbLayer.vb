@@ -11,6 +11,7 @@ Public Class dbLayer
     Private _tb As DataTable
     Private _cmd As OleDbCommand
     Private _rdr As OleDbDataReader
+    Private _sql As String
 
     Structure dbError
         Public Message As String
@@ -60,6 +61,17 @@ Public Class dbLayer
         Get
             ' returns those recipients that have deliveries scheduled
             Return CreateNewTable("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveries")
+
+        End Get
+    End Property
+
+    Public ReadOnly Property GetRecipientsRemainingDeliveries(recipientID As String) As Integer
+        Get
+            ' returns those recipients that have deliveries scheduled
+            _cmd = New OleDbCommand($"Select count(fullname) from qryActiveRecipientsWithDeliveries where MealRecipientID={recipientID}", _cn)
+            _rdr = _cmd.ExecuteReader()
+
+            Return _rdr(0)
 
         End Get
     End Property
@@ -134,31 +146,30 @@ Public Class dbLayer
 
     Public ReadOnly Property GetRecipientsForDelivery() As DataTable
         Get
-            Dim SQL As String
-            SQL = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
-            SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
+            ' retrieves a list of recipients meant for creating a delivery
+            _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
+            _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
 
-            Return CreateNewTable(SQL)
+            Return CreateNewTable(_sql)
         End Get
     End Property
 
     Public ReadOnly Property GetWorkersForDelivery() As DataTable
         Get
-            Dim SQL As String
-            SQL = "Select -1 as ID, 'Select Worker' as fullname from tblWorkers union "
-            SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveWorkers "
+            ' retrieves a list of workers meant for creating a delivery
+            _sql = "Select -1 as ID, 'Select Worker' as fullname from tblWorkers union "
+            _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveWorkers "
 
-            Return CreateNewTable(SQL)
+            Return CreateNewTable(_sql)
         End Get
     End Property
 
     Public ReadOnly Property GetDelivery() As DataTable
         Get
-            Dim SQL As String
-            SQL = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
-            SQL += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
+            _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
+            _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
 
-            Return CreateNewTable(SQL)
+            Return CreateNewTable(_sql)
         End Get
     End Property
 
@@ -177,39 +188,39 @@ Public Class dbLayer
 
     Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
         Get
-            Dim SQL As String
-            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
-            SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
-            SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
-            SQL += "FROM (tblCalculatedDeliveryCalendar "
-            SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
-            SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND {secondCriteria}"
 
-            Return CreateNewTable(SQL)
+            _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
+            _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
+            _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            _sql += "FROM (tblCalculatedDeliveryCalendar "
+            _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
+            _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
+            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND {secondCriteria}"
+
+            Return CreateNewTable(_sql)
         End Get
     End Property
 
     Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String) As DataTable
         Get
-            Dim SQL As String
-            SQL = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
-            SQL += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
-            SQL += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
-            SQL += "FROM (tblCalculatedDeliveryCalendar "
-            SQL += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
-            SQL += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            SQL += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# "
-            SQL += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
-            Return CreateNewTable(SQL)
+            _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
+            _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
+            _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            _sql += "FROM (tblCalculatedDeliveryCalendar "
+            _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
+            _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
+            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# "
+            _sql += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
+
+            Return CreateNewTable(_sql)
 
         End Get
     End Property
 
-    Private Function CreateNewTable(SQL As String) As DataTable
+    Private Function CreateNewTable(_sql As String) As DataTable
 
-        _da = New OleDbDataAdapter(SQL, _cn)
+        _da = New OleDbDataAdapter(_sql, _cn)
 
         _ds = New DataSet
         _da.Fill(_ds, "tablename")
@@ -277,7 +288,7 @@ Public Class dbLayer
 
         ' a new record is being saved
         Dim frmDr As DataRow = fromTable.Rows(0)
-        Dim SQL As String = $"Insert Into {toTableName} ("
+        _sql = $"Insert Into {toTableName} ("
         Dim sqlValues As String = ""
 
         _cn.Open()
@@ -288,7 +299,7 @@ Public Class dbLayer
             For Each clm As DataColumn In fromTable.Columns
                 If clm.ColumnName <> "ID" Then
                     ' don't include the ID field
-                    SQL += $"{clm.ColumnName},"
+                    _sql += $"{clm.ColumnName},"
                     If clm.ColumnName = "Active" Then
                         sqlValues += $"{frmDr(clm.ColumnName)},"
                     ElseIf clm.ColumnName.IndexOf("Date") > -1 Then
@@ -310,10 +321,10 @@ Public Class dbLayer
                 End If
             Next
 
-            SQL = String.Concat(SQL.AsSpan(0, SQL.Length - 1), ") values (")
-            SQL += String.Concat(sqlValues.AsSpan(0, sqlValues.Length - 1), ")")
+            _sql = String.Concat(_sql.AsSpan(0, _sql.Length - 1), ") values (")
+            _sql += String.Concat(sqlValues.AsSpan(0, sqlValues.Length - 1), ")")
 
-            _cmd = New OleDbCommand(SQL, _cn)
+            _cmd = New OleDbCommand(_sql, _cn)
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected > 0 Then
                 ' record saved correctly - return the new id number
@@ -323,7 +334,7 @@ Public Class dbLayer
 
         Catch ex As Exception
             _dbError.Message = ex.Message
-            CreateDbLogFile("InsertRecordFromTable", (SQL & vbCrLf & ex.Message), ex.StackTrace)
+            CreateDbLogFile("InsertRecordFromTable", (_sql & vbCrLf & ex.Message), ex.StackTrace)
         End Try
 
         CleanUp()
@@ -333,7 +344,7 @@ Public Class dbLayer
 
         ' a new record is being saved
         Dim frmDr As DataRow = fromTable.Rows(0)
-        Dim SQL As String = $"Update {toTableName} Set "
+        _sql = $"Update {toTableName} Set "
         Dim successfullSave As Boolean = False
 
         _cn.Open()
@@ -343,22 +354,22 @@ Public Class dbLayer
             For Each clm As DataColumn In fromTable.Columns
                 If clm.ColumnName <> "ID" Then
                     ' don't include the ID field
-                    SQL += $"{clm.ColumnName} = "
+                    _sql += $"{clm.ColumnName} = "
                     If clm.ColumnName = "Active" Then
-                        SQL += $"{frmDr(clm.ColumnName)},"
+                        _sql += $"{frmDr(clm.ColumnName)},"
                     ElseIf clm.ColumnName.IndexOf("Date") > -1 Then
                         If frmDr(clm.ColumnName).ToString.Length > 0 Then
-                            SQL += $"#{frmDr(clm.ColumnName)}#,"
+                            _sql += $"#{frmDr(clm.ColumnName)}#,"
                         Else
-                            SQL += "Null,"
+                            _sql += "Null,"
                         End If
                     Else
                         If frmDr(clm.ColumnName).ToString().IndexOf("'") > -1 Then
                             ' the text value contains a single quote which needs to be replaced
                             ' to add this to the query string
-                            SQL += $"'{frmDr(clm.ColumnName).frmDr(clm.ColumnName).ToString().Replace("'", "''")}',"
+                            _sql += $"'{frmDr(clm.ColumnName).frmDr(clm.ColumnName).ToString().Replace("'", "''")}',"
                         Else
-                            SQL += $"'{frmDr(clm.ColumnName)}',"
+                            _sql += $"'{frmDr(clm.ColumnName)}',"
                         End If
 
                     End If
@@ -366,20 +377,20 @@ Public Class dbLayer
             Next
 
             ' remove the last coma and add the ID that is being updated
-            SQL = SQL.Substring(0, SQL.Length - 1) & $" Where ID = {_recordID}"
+            _sql = _sql.Substring(0, _sql.Length - 1) & $" Where ID = {_recordID}"
 
-            _cmd = New OleDbCommand(SQL, _cn)
+            _cmd = New OleDbCommand(_sql, _cn)
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected = 0 Then
                 ' record was not saved
-                CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & "No record affected"), "Line: 375")
+                CreateDbLogFile("UpdateRecordFromTable", (_sql & vbCrLf & "No record affected"), "Line: 375")
                 _recordID = 0
             End If
 
         Catch ex As Exception
             _dbError.Message = ex.Message
             _recordID = 0
-            CreateDbLogFile("UpdateRecordFromTable", (SQL & vbCrLf & ex.Message), ex.StackTrace)
+            CreateDbLogFile("UpdateRecordFromTable", (_sql & vbCrLf & ex.Message), ex.StackTrace)
         End Try
 
         CleanUp()
@@ -396,6 +407,26 @@ Public Class dbLayer
 
     End Sub
 
+    Public Sub CancelCalculatedDeliveriesForRecipient(cancelUser As String, cancelReason As String)
+
+        _sql = $"UPDATE tblCalculatedDeliveryCalendar Set 
+            DeliveryCancelled = True, CancelDate = Date(), UserCancelled = '{cancelUser}', CancelReason = '{cancelReason}' 
+            where RecipientID = {_recordID} and ScheduledDeliveryDate >= Date() and MealsDelivered = False"
+
+        _cmd = New OleDbCommand(_sql, _cn)
+        _rdr = _cmd.ExecuteReader()
+
+        If _rdr.RecordsAffected = 0 Then
+            ' record was not saved
+            CreateDbLogFile("CancelCalculatedDeliveriesForRecipient", (_sql & vbCrLf & "No record affected"), "Line: 416")
+            _recordID = 0
+        End If
+
+        CleanUp()
+
+    End Sub
+
+
     Private Sub CreateCalculatedDeliveryCalendarRecords(deliveryTable As DataTable)
 
         ' with the new delivery information, create the individual delivery records for each delivery in the
@@ -411,9 +442,9 @@ Public Class dbLayer
         Dim workerID As Long = deliveryRow("WorkerID")
         Dim deliveryNotes As String = deliveryRow("Notes")
         Dim endDateTime As Date
-        Dim insertSQL As String
-        Dim SQL As String
-        insertSQL = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes) values "
+        Dim insert_sql As String
+
+        insert_sql = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes) values "
 
         Select Case delFrequency
             Case "Weekly"
@@ -432,13 +463,12 @@ Public Class dbLayer
 
         calculatedDeliveryDate = startDateTime
         Do Until calculatedDeliveryDate >= endDateTime
-            SQL = $"{insertSQL} ({deliveryCalendarID}, #{calculatedDeliveryDate}#, {recipientID}, {workerID}, '{deliveryNotes}')"
+            _sql = $"{insert_sql } ({deliveryCalendarID}, #{calculatedDeliveryDate}#, {recipientID}, {workerID}, '{deliveryNotes}')"
 
-            _cmd = New OleDbCommand(SQL, _cn)
+            _cmd = New OleDbCommand(_sql, _cn)
             _rdr = _cmd.ExecuteReader()
 
-            _rdr.Close()
-            _cmd.Dispose()
+            CleanUp()
 
             calculatedDeliveryDate = calculatedDeliveryDate.AddDays(frequencyDays)
         Loop
@@ -466,7 +496,7 @@ Public Class dbLayer
 
         ' write any errors encountered to a log file to help in diagnostics
         Dim logFileName As String = $"{Application.StartupPath()}\DbLayerErrorLog_{DateTime.Today.ToString("dd-MMM-yyyy")}.txt"
-        Dim fs As FileStream = Nothing
+
         Using sw As StreamWriter = New StreamWriter(File.Open(logFileName, FileMode.Append))
             sw.WriteLine($"{DateTime.Now:f}: Error in {errWhere} code")
             sw.WriteLine(errStackTrace)

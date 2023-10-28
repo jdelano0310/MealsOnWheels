@@ -6,6 +6,9 @@ Public Class frmRecipient
     Dim _dbLayer As New dbLayer
     Dim _recordID As Long = 0
 
+    Public deactivateNote As String
+    Dim deliveriesLeft As Integer
+
     Private Sub GetRecipientData()
 
         ' the record id is in the tag property of the form
@@ -81,6 +84,7 @@ Public Class frmRecipient
             ' the recipient is deactivated
             _dr("DeactivatedUser") = frmMDI.currentUser
             _dr("DateDeactivated") = Now
+
         End If
 
         If Me.Tag = 0 Then
@@ -103,6 +107,19 @@ Public Class frmRecipient
             _recordID = _dbLayer.UpdateRecipient(_tb)
             If _recordID = 0 Then
                 MsgBox("There was an issue attempting to save the recipient")
+            Else
+                If Not chkActive.Checked And deliveriesLeft > 0 Then
+                    ' you can only cancel deliveries for a pre-existing receipient
+                    _dbLayer.CancelCalculatedDeliveriesForRecipient(frmMDI.currentUser, deactivateNote)
+
+                    If _dbLayer.RecordID = 0 Then
+                        MsgBox("There was a problem cancelling the upcoming deliveries for this recipient", MsgBoxStyle.Critical, "Deactivate Recipient")
+                    Else
+                        MsgBox("The recipient's upcoming deliveries have been cancelled.", MsgBoxStyle.Information, "Deactivate Recipient")
+                    End If
+
+                End If
+
             End If
         End If
 
@@ -126,7 +143,7 @@ Public Class frmRecipient
         If Me.Tag > 0 Then
             ' the save was successfull
             If btnToggleEdit.Visible = False Then
-                ' of a new receipient, change the view of the form
+                ' if a new receipient, change the view of the form
                 btnToggleEdit.Visible = True
             Else
                 ' of an edit to a previous recipient
@@ -209,7 +226,41 @@ Public Class frmRecipient
 
     Private Sub chkActive_Click(sender As Object, e As EventArgs) Handles chkActive.Click
 
-        ' deactivating the recipient - check for remaining scheduled deliveries
+        If Not chkActive.Checked And Me.Tag > 0 Then
+            ' deactivating the recipient
+            ' check for remaining scheduled deliveries
+            ' ask why
+
+            deliveriesLeft = _dbLayer.GetRecipientsRemainingDeliveries(Me.Tag)
+
+            If deliveriesLeft > 0 Then
+                If MsgBox($"Deactivating the recipient will cancel the {deliveriesLeft} remaining deliveries, are you sure?",
+                          MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
+
+                    ' if they decide against this, recheck the box and exit this code
+                    chkActive.Checked = True
+                    Exit Sub
+                End If
+            End If
+
+            deactivateNote = ""
+
+            Dim frm As New frmNotes
+            frm.lblHeader.Text = "Add Notes"
+            frm.lblWhyANoteIsNeeded.Text = "Please indicate why this recipient is being deactivated."
+            frm.Tag = Me.Tag
+            frm.Parent = Me
+
+            frm.ShowDialog(Me)
+
+            If deactivateNote = "Cancel" Then
+                ' they've canceled the process
+                'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Recipient")
+                chkActive.Checked = True
+                Exit Sub
+            End If
+
+        End If
 
     End Sub
 
