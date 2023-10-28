@@ -33,7 +33,7 @@ Public Class dbLayer
 
     Private Sub GetMOWDbLocation()
 
-        ' open the mow.config file and extract the location of the database
+        ' find the database file
         ' if there isn't one saved then ask teh user to point to it's location
         Dim dbPath As String = Path.Combine(Application.StartupPath, "\mow.accdb")
 
@@ -42,8 +42,15 @@ Public Class dbLayer
 
             If Not File.Exists(dbPath) Then
                 ' ask the user where the default database is located
+                With New OpenFileDialog
+                    .Title = "Select MOW.ACCDB file"
+                    .FileName = "mow.accdb"
+                    .Filter = "MS Access Databases (*.accdb)|*.accdb"
+                    .ShowDialog()
+                End With
+
             Else
-                My.Settings.DatabaseLocation = dbPath
+                    My.Settings.DatabaseLocation = dbPath
                 My.Settings.Save()
             End If
 
