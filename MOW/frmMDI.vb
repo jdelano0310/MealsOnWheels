@@ -1,4 +1,5 @@
-﻿Imports Microsoft
+﻿Imports System.IO
+Imports Microsoft
 
 Public Class frmMDI
 
@@ -27,6 +28,56 @@ Public Class frmMDI
 
     End Function
 
+    Private Function GetApplicationDatabase() As Boolean
+
+        ' find the database file
+        ' if there isn't one saved then ask teh user to point to it's location
+        Dim result As Boolean = False
+
+        If My.Settings.DatabaseLocation.Length = 0 Then
+            ' there hasn't been a database file pointed yet, is it in the exe path
+            MsgBox("Please select the MOW database to use", MsgBoxStyle.Information, "Required Database")
+
+            Dim dbPath As String = Path.Combine(Application.StartupPath, "mow.accdb")
+            Dim mowDBSelected As DialogResult
+
+            If Not File.Exists(dbPath) Then
+                ' ask the user where the default database is located
+                Dim mowDBDlg As New OpenFileDialog
+
+                mowDBDlg.Title = "Select MOW.ACCDB file"
+                mowDBDlg.FileName = "mow.accdb"
+                mowDBDlg.Filter = "MS Access Databases (*.accdb)|*.accdb"
+                mowDBDlg.InitialDirectory = Application.StartupPath
+
+                mowDBSelected = mowDBDlg.ShowDialog()
+                Do Until mowDBSelected = DialogResult.OK Or mowDBSelected = DialogResult.Cancel
+                    If mowDBDlg.FileName.ToUpper.IndexOf("MOW.ACCDB") > 0 Then
+                        My.Settings.DatabaseLocation = mowDBDlg.FileName
+                        Exit Do
+                    Else
+                        MsgBox("Please select the mow.accdb file.", MsgBoxStyle.Exclamation, "Select Database")
+                        mowDBSelected = mowDBDlg.ShowDialog()
+                    End If
+                Loop
+
+                mowDBDlg = Nothing
+
+                result = My.Settings.DatabaseLocation.Length > 0
+            Else
+                My.Settings.DatabaseLocation = dbPath
+            End If
+
+            My.Settings.Save()
+        Else
+            result = True
+        End If
+
+        Return result
+
+    End Function
+
+
     Private Sub frmMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' set the background color of the main form
@@ -41,6 +92,14 @@ Public Class frmMDI
 
         currentUser = Environ("username")
         lblCurrentUser.Text = currentUser
+
+        If Not GetApplicationDatabase() Then
+            If MsgBox("The mow database is required to run this application. Close the app?", MsgBoxStyle.YesNo, "Required Database Missing") = MsgBoxResult.Yes Then
+                End
+            Else
+                frmMDI_Load(sender, e)
+            End If
+        End If
 
     End Sub
 

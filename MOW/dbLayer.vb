@@ -5,7 +5,7 @@ Public Class dbLayer
 
     Private _dbFile As String
     Private _cn As New OleDbConnection
-    Private _cnStr As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & _dbFile
+    Private _cnStr As String
     Private _ds As New DataSet
     Private _da As OleDbDataAdapter
     Private _tb As DataTable
@@ -24,42 +24,11 @@ Public Class dbLayer
     Public Sub New()
 
         ' when this class is initialized, open a connection to the db
-
-
+        _cnStr = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source= {My.Settings.DatabaseLocation}"
         _cn.ConnectionString = _cnStr
         _cn.Open()
 
     End Sub
-
-    Private Sub GetMOWDbLocation()
-
-        ' find the database file
-        ' if there isn't one saved then ask teh user to point to it's location
-        Dim dbPath As String = Path.Combine(Application.StartupPath, "\mow.accdb")
-
-        If My.Settings.DatabaseLocation.Length = 0 Then
-            ' there hasn't been a database file pointed yet, is it in the exe path
-
-            If Not File.Exists(dbPath) Then
-                ' ask the user where the default database is located
-                With New OpenFileDialog
-                    .Title = "Select MOW.ACCDB file"
-                    .FileName = "mow.accdb"
-                    .Filter = "MS Access Databases (*.accdb)|*.accdb"
-                    .ShowDialog()
-                End With
-
-            Else
-                    My.Settings.DatabaseLocation = dbPath
-                My.Settings.Save()
-            End If
-
-        End If
-
-
-
-    End Sub
-
 
     Public Sub Dispose()
 
