@@ -3,7 +3,7 @@ Imports System.IO
 
 Public Class dbLayer
 
-    Private _dbFile As String = "C:\Users\jd310\Documents\MOW_Dev.accdb"
+    Private _dbFile As String
     Private _cn As New OleDbConnection
     Private _cnStr As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & _dbFile
     Private _ds As New DataSet
@@ -24,10 +24,35 @@ Public Class dbLayer
     Public Sub New()
 
         ' when this class is initialized, open a connection to the db
+
+
         _cn.ConnectionString = _cnStr
         _cn.Open()
 
     End Sub
+
+    Private Sub GetMOWDbLocation()
+
+        ' open the mow.config file and extract the location of the database
+        ' if there isn't one saved then ask teh user to point to it's location
+        Dim dbPath As String = Path.Combine(Application.StartupPath, "\mow.accdb")
+
+        If My.Settings.DatabaseLocation.Length = 0 Then
+            ' there hasn't been a database file pointed yet, is it in the exe path
+
+            If Not File.Exists(dbPath) Then
+                ' ask the user where the default database is located
+            Else
+                My.Settings.DatabaseLocation = dbPath
+                My.Settings.Save()
+            End If
+
+        End If
+
+
+
+    End Sub
+
 
     Public Sub Dispose()
 
