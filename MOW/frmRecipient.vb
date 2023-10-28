@@ -150,15 +150,12 @@ Public Class frmRecipient
                 btnToggleEdit.Text = "Edit"
             End If
             SetFormEdit(False)
-        Else
-
         End If
 
         lblHeader.Text = "Viewing Recipient"
         btnSaveRecipient.Visible = False
 
         Dim frm As Form = frmMDI.IsChildFormOpen("frmGridList")
-
         If frm IsNot Nothing Then
             ' the gridlist form is displayed, update the grid
             DirectCast(frm, frmGridList).FillGrid()
