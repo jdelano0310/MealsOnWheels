@@ -245,8 +245,7 @@ Public Class frmRecipient
             Dim frm As New frmNotes
             frm.lblHeader.Text = "Add Notes"
             frm.lblWhyANoteIsNeeded.Text = "Please indicate why this recipient is being deactivated."
-            frm.Tag = Me.Tag
-            frm.Parent = Me
+            frm.Tag = "recipient"
 
             frm.ShowDialog(Me)
 
@@ -255,6 +254,10 @@ Public Class frmRecipient
                 'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Recipient")
                 chkActive.Checked = True
                 Exit Sub
+            End If
+
+            If Not _dbLayer.CancelRecipientsUpcomingDeliveries(frmMDI.currentUser, deactivateNote) Then
+
             End If
 
         End If

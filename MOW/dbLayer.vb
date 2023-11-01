@@ -68,9 +68,13 @@ Public Class dbLayer
 
     Public ReadOnly Property GetRecipientsRemainingDeliveries(recipientID As String) As Integer
         Get
-            ' returns those recipients that have deliveries scheduled
-            _cmd = New OleDbCommand($"Select count(fullname) from qryActiveRecipientsWithDeliveries where MealRecipientID={recipientID}", _cn)
+
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
+            ' returns the count of deliveries scheduled
+            _cmd = New OleDbCommand($"Select count(ID) from tblCalculatedDeliveryCalendar where RecipientID={recipientID} and ScheduledDeliveryDate>=Date()", _cn)
             _rdr = _cmd.ExecuteReader()
+            _rdr.Read()
 
             Return _rdr(0)
 
@@ -79,6 +83,8 @@ Public Class dbLayer
 
     Public ReadOnly Property GetCalculatedDeliveryDates() As DataSet
         Get
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
             ' returns delivery dates that have scheduled deliveries
             _da = New OleDbDataAdapter("Select ' Select From Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesASC", _cn)
             _da.Fill(_ds, "Ascending")
@@ -147,6 +153,8 @@ Public Class dbLayer
 
     Public ReadOnly Property GetRecipientsForDelivery() As DataTable
         Get
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
             ' retrieves a list of recipients meant for creating a delivery
             _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
             _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
@@ -157,6 +165,8 @@ Public Class dbLayer
 
     Public ReadOnly Property GetWorkersForDelivery() As DataTable
         Get
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
             ' retrieves a list of workers meant for creating a delivery
             _sql = "Select -1 as ID, 'Select Worker' as fullname from tblWorkers union "
             _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveWorkers "
@@ -167,6 +177,8 @@ Public Class dbLayer
 
     Public ReadOnly Property GetDelivery() As DataTable
         Get
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
             _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
             _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
 
@@ -219,7 +231,33 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public Function CancelRecipientsUpcomingDeliveries(cancelUser As String, cancelReason As String) As Boolean
+
+        _sql = "Update tblCalculatedDeliveryCalendar Set "
+        _sql = _sql & "MealsDelivered = 0, "
+        _sql = _sql & "DeliveryCancelled = 1, "
+        _sql = _sql & "CancelDate = Date(), "
+        _sql = _sql & $"UserCancelled = '{cancelUser}', "
+        _sql = _sql & $"CancelReason = '{cancelReason}' "
+        _sql = _sql & $"Where DeliveryDate >= Date() AND RecipientID = {_recordID}"
+
+        _cmd = New OleDbCommand(_sql, _cn)
+        _rdr = _cmd.ExecuteReader()
+
+        If _rdr.RecordsAffected = 0 Then
+            ' record was not saved
+            CreateDbLogFile("CancelRecipientDeliveries", (_sql & vbCrLf & "No record affected"), "Line: 245")
+            _recordID = 0
+        End If
+
+        Return Not (_rdr.RecordsAffected = 0)
+
+    End Function
+
+
     Private Function CreateNewTable(_sql As String) As DataTable
+
+        If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         _da = New OleDbDataAdapter(_sql, _cn)
 
@@ -409,6 +447,8 @@ Public Class dbLayer
     End Sub
 
     Public Sub CancelCalculatedDeliveriesForRecipient(cancelUser As String, cancelReason As String)
+
+        If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         _sql = $"UPDATE tblCalculatedDeliveryCalendar Set 
             DeliveryCancelled = True, CancelDate = Date(), UserCancelled = '{cancelUser}', CancelReason = '{cancelReason}' 
