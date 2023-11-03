@@ -84,7 +84,7 @@ Public Class frmRecipient
             ' the recipient is deactivated
             _dr("DeactivatedUser") = frmMDI.currentUser
             _dr("DateDeactivated") = Now
-
+            _dr("notes") = txtNotes.Text & vbCrLf & deactivateNote
         End If
 
         If Me.Tag = 0 Then
@@ -110,7 +110,7 @@ Public Class frmRecipient
             Else
                 If Not chkActive.Checked And deliveriesLeft > 0 Then
                     ' you can only cancel deliveries for a pre-existing receipient
-                    _dbLayer.CancelCalculatedDeliveriesForRecipient(frmMDI.currentUser, deactivateNote)
+                    _dbLayer.CancelRecipientsUpcomingDeliveries(frmMDI.currentUser, deactivateNote)
 
                     If _dbLayer.RecordID = 0 Then
                         MsgBox("There was a problem cancelling the upcoming deliveries for this recipient", MsgBoxStyle.Critical, "Deactivate Recipient")
@@ -231,7 +231,7 @@ Public Class frmRecipient
             deliveriesLeft = _dbLayer.GetRecipientsRemainingDeliveries(Me.Tag)
 
             If deliveriesLeft > 0 Then
-                If MsgBox($"Deactivating the recipient will cancel the {deliveriesLeft} remaining deliveries, are you sure?",
+                If MsgBox($"Deactivating the recipient will cancel their {deliveriesLeft} remaining deliveries, are you sure?",
                           MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
 
                     ' if they decide against this, recheck the box and exit this code
@@ -254,10 +254,6 @@ Public Class frmRecipient
                 'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Recipient")
                 chkActive.Checked = True
                 Exit Sub
-            End If
-
-            If Not _dbLayer.CancelRecipientsUpcomingDeliveries(frmMDI.currentUser, deactivateNote) Then
-
             End If
 
         End If

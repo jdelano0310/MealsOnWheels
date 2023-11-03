@@ -1,4 +1,6 @@
-﻿Public Class frmNotes
+﻿Imports System.Runtime.Intrinsics
+
+Public Class frmNotes
     Private callingForm
 
     Private Sub btnSaveNote_Click(sender As Object, e As EventArgs) Handles btnSaveNote.Click
@@ -25,9 +27,9 @@
         ' set the parent form that called this notes popup
         Select Case Me.Tag
             Case "recipient"
-                callingForm = DirectCast(Me.Parent, frmRecipient)
+                callingForm = DirectCast(frmMDI.IsChildFormOpen("frmRecipient"), frmRecipient)
             Case "worker"
-                callingForm = DirectCast(Me.Parent, frmWorker)
+                callingForm = DirectCast(frmMDI.IsChildFormOpen("frmWorker"), frmWorker)
             Case Else
                 MsgBox("Unknown calling form")
         End Select

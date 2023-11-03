@@ -115,7 +115,6 @@ Partial Class frmNotes
         btnSaveNote.TabIndex = 24
         btnSaveNote.Text = "Save"
         btnSaveNote.UseVisualStyleBackColor = False
-        btnSaveNote.Visible = False
         ' 
         ' lblWhyANoteIsNeeded
         ' 
