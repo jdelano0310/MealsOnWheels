@@ -200,7 +200,7 @@ Public Class frmWorker
 
     End Sub
 
-    Private Sub frmWorker_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    Private Sub frmWorker_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         _dbLayer.Dispose()
         _dbLayer = Nothing
     End Sub
