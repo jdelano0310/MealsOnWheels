@@ -33,12 +33,17 @@ Public Class frmRecipient
         txtState.Text = _dr("state")
         mskCellPhone.Text = _dr("cellphone")
         mskHomePhone.Text = _dr("homephone")
-        txtEmail.Text = _dr("emailaddress")
+        txtEmail.Text = "" & _dr("emailaddress")
         chkActive.Checked = _dr("active")
         txtNotes.Text = "" & _dr("notes")
 
         ' build info section
         lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
+
+        If Not IsDBNull(_dr("LastModifiedUser")) Then
+            ' the recipient is deactivated
+            lblInfo.Text += vbCrLf & $"Last Modified by: {_dr("LastModifiedUser")} on {_dr("DateLastModified")}"
+        End If
 
         If Not chkActive.Checked Then
             ' the recipient is deactivated
@@ -187,6 +192,7 @@ Public Class frmRecipient
             _tb = _dbLayer.NewRecipientTable()
             _dr = _tb.Rows.Add()
             SetFormEdit(True)
+            btnSaveRecipient.Visible = True
             chkActive.Checked = True  ' default the receipient to active status
         End If
 

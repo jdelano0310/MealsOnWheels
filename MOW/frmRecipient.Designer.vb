@@ -61,7 +61,7 @@ Partial Class frmRecipient
         ' 
         Label1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label1.Location = New Point(4, 53)
+        Label1.Location = New Point(4, 50)
         Label1.Name = "Label1"
         Label1.Size = New Size(64, 22)
         Label1.TabIndex = 0
@@ -70,7 +70,7 @@ Partial Class frmRecipient
         ' 
         ' txtFirstName
         ' 
-        txtFirstName.Location = New Point(71, 53)
+        txtFirstName.Location = New Point(71, 50)
         txtFirstName.Name = "txtFirstName"
         txtFirstName.ReadOnly = True
         txtFirstName.Size = New Size(233, 23)
@@ -78,7 +78,7 @@ Partial Class frmRecipient
         ' 
         ' txtLastName
         ' 
-        txtLastName.Location = New Point(71, 79)
+        txtLastName.Location = New Point(71, 74)
         txtLastName.Name = "txtLastName"
         txtLastName.ReadOnly = True
         txtLastName.Size = New Size(233, 23)
@@ -88,7 +88,7 @@ Partial Class frmRecipient
         ' 
         Label2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label2.Location = New Point(4, 79)
+        Label2.Location = New Point(4, 74)
         Label2.Name = "Label2"
         Label2.Size = New Size(64, 22)
         Label2.TabIndex = 2
@@ -97,7 +97,7 @@ Partial Class frmRecipient
         ' 
         ' txtAddress
         ' 
-        txtAddress.Location = New Point(71, 105)
+        txtAddress.Location = New Point(71, 98)
         txtAddress.Name = "txtAddress"
         txtAddress.ReadOnly = True
         txtAddress.Size = New Size(233, 23)
@@ -107,7 +107,7 @@ Partial Class frmRecipient
         ' 
         Label3.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label3.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label3.Location = New Point(4, 105)
+        Label3.Location = New Point(4, 98)
         Label3.Name = "Label3"
         Label3.Size = New Size(64, 22)
         Label3.TabIndex = 4
@@ -116,7 +116,7 @@ Partial Class frmRecipient
         ' 
         ' txtCity
         ' 
-        txtCity.Location = New Point(71, 131)
+        txtCity.Location = New Point(71, 122)
         txtCity.Name = "txtCity"
         txtCity.ReadOnly = True
         txtCity.Size = New Size(233, 23)
@@ -126,7 +126,7 @@ Partial Class frmRecipient
         ' 
         Label4.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label4.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label4.Location = New Point(4, 131)
+        Label4.Location = New Point(4, 122)
         Label4.Name = "Label4"
         Label4.Size = New Size(64, 22)
         Label4.TabIndex = 6
@@ -135,7 +135,7 @@ Partial Class frmRecipient
         ' 
         ' txtState
         ' 
-        txtState.Location = New Point(71, 157)
+        txtState.Location = New Point(71, 146)
         txtState.Name = "txtState"
         txtState.ReadOnly = True
         txtState.Size = New Size(66, 23)
@@ -145,7 +145,7 @@ Partial Class frmRecipient
         ' 
         Label5.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label5.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label5.Location = New Point(4, 157)
+        Label5.Location = New Point(4, 146)
         Label5.Name = "Label5"
         Label5.Size = New Size(64, 22)
         Label5.TabIndex = 8
@@ -154,7 +154,7 @@ Partial Class frmRecipient
         ' 
         ' txtCounty
         ' 
-        txtCounty.Location = New Point(71, 183)
+        txtCounty.Location = New Point(71, 170)
         txtCounty.Name = "txtCounty"
         txtCounty.ReadOnly = True
         txtCounty.Size = New Size(233, 23)
@@ -164,7 +164,7 @@ Partial Class frmRecipient
         ' 
         Label6.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label6.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label6.Location = New Point(4, 183)
+        Label6.Location = New Point(4, 170)
         Label6.Name = "Label6"
         Label6.Size = New Size(64, 22)
         Label6.TabIndex = 10
@@ -173,7 +173,7 @@ Partial Class frmRecipient
         ' 
         ' txtZip
         ' 
-        txtZip.Location = New Point(207, 157)
+        txtZip.Location = New Point(207, 146)
         txtZip.Name = "txtZip"
         txtZip.ReadOnly = True
         txtZip.Size = New Size(97, 23)
@@ -183,7 +183,7 @@ Partial Class frmRecipient
         ' 
         Label7.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label7.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label7.Location = New Point(140, 157)
+        Label7.Location = New Point(140, 146)
         Label7.Name = "Label7"
         Label7.Size = New Size(64, 22)
         Label7.TabIndex = 12
@@ -194,7 +194,7 @@ Partial Class frmRecipient
         ' 
         Label8.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label8.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label8.Location = New Point(4, 208)
+        Label8.Location = New Point(4, 194)
         Label8.Name = "Label8"
         Label8.Size = New Size(64, 22)
         Label8.TabIndex = 14
@@ -203,7 +203,7 @@ Partial Class frmRecipient
         ' 
         ' mskHomePhone
         ' 
-        mskHomePhone.Location = New Point(71, 208)
+        mskHomePhone.Location = New Point(71, 194)
         mskHomePhone.Mask = "(999) 000-0000"
         mskHomePhone.Name = "mskHomePhone"
         mskHomePhone.ReadOnly = True
@@ -212,7 +212,7 @@ Partial Class frmRecipient
         ' 
         ' mskCellPhone
         ' 
-        mskCellPhone.Location = New Point(221, 208)
+        mskCellPhone.Location = New Point(221, 194)
         mskCellPhone.Mask = "(999) 000-0000"
         mskCellPhone.Name = "mskCellPhone"
         mskCellPhone.ReadOnly = True
@@ -223,7 +223,7 @@ Partial Class frmRecipient
         ' 
         Label9.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label9.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label9.Location = New Point(155, 208)
+        Label9.Location = New Point(155, 194)
         Label9.Name = "Label9"
         Label9.Size = New Size(64, 22)
         Label9.TabIndex = 17
@@ -232,7 +232,7 @@ Partial Class frmRecipient
         ' 
         ' txtEmail
         ' 
-        txtEmail.Location = New Point(71, 233)
+        txtEmail.Location = New Point(71, 218)
         txtEmail.Name = "txtEmail"
         txtEmail.ReadOnly = True
         txtEmail.Size = New Size(233, 23)
@@ -242,7 +242,7 @@ Partial Class frmRecipient
         ' 
         Label10.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label10.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label10.Location = New Point(4, 233)
+        Label10.Location = New Point(4, 218)
         Label10.Name = "Label10"
         Label10.Size = New Size(64, 22)
         Label10.TabIndex = 19
@@ -251,20 +251,20 @@ Partial Class frmRecipient
         ' 
         ' txtNotes
         ' 
-        txtNotes.Location = New Point(71, 283)
+        txtNotes.Location = New Point(71, 266)
         txtNotes.Multiline = True
         txtNotes.Name = "txtNotes"
         txtNotes.ReadOnly = True
-        txtNotes.Size = New Size(233, 48)
+        txtNotes.Size = New Size(233, 60)
         txtNotes.TabIndex = 23
         ' 
         ' Label11
         ' 
         Label11.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label11.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label11.Location = New Point(4, 283)
+        Label11.Location = New Point(4, 266)
         Label11.Name = "Label11"
-        Label11.Size = New Size(64, 48)
+        Label11.Size = New Size(64, 60)
         Label11.TabIndex = 21
         Label11.Text = "Notes"
         Label11.TextAlign = ContentAlignment.MiddleLeft
@@ -273,7 +273,7 @@ Partial Class frmRecipient
         ' 
         chkActive.AutoSize = True
         chkActive.Enabled = False
-        chkActive.Location = New Point(71, 263)
+        chkActive.Location = New Point(71, 247)
         chkActive.Name = "chkActive"
         chkActive.Size = New Size(15, 14)
         chkActive.TabIndex = 24
@@ -283,7 +283,7 @@ Partial Class frmRecipient
         ' 
         Label12.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label12.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label12.Location = New Point(4, 258)
+        Label12.Location = New Point(4, 242)
         Label12.Name = "Label12"
         Label12.Size = New Size(64, 22)
         Label12.TabIndex = 23
@@ -295,7 +295,7 @@ Partial Class frmRecipient
         Panel1.BackgroundImage = My.Resources.Resources.FooterBackground
         Panel1.Controls.Add(btnCancel)
         Panel1.Controls.Add(btnSaveRecipient)
-        Panel1.Location = New Point(0, 383)
+        Panel1.Location = New Point(0, 373)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(308, 44)
         Panel1.TabIndex = 29
@@ -366,9 +366,9 @@ Partial Class frmRecipient
         ' lblInfo
         ' 
         lblInfo.ForeColor = Color.White
-        lblInfo.Location = New Point(4, 342)
+        lblInfo.Location = New Point(4, 330)
         lblInfo.Name = "lblInfo"
-        lblInfo.Size = New Size(300, 33)
+        lblInfo.Size = New Size(300, 40)
         lblInfo.TabIndex = 32
         lblInfo.Visible = False
         ' 
@@ -378,7 +378,7 @@ Partial Class frmRecipient
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         CancelButton = btnCancel
-        ClientSize = New Size(308, 427)
+        ClientSize = New Size(308, 417)
         ControlBox = False
         Controls.Add(lblInfo)
         Controls.Add(btnPanel)
