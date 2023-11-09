@@ -6,6 +6,8 @@ Public Class frmWorker
     Dim _dbLayer As New dbLayer
     Dim _recordID As Long = 0
 
+    Public deactivateNote As String
+    Dim deliveriesLeft As Integer
     Private Sub GetWorkerData()
 
         ' the record id is in the tag property of the form
@@ -80,6 +82,8 @@ Public Class frmWorker
             ' the worker is deactivated
             _dr("DeactivatedUser") = frmMDI.currentUser
             _dr("DateDeactivated") = Now
+            _dr("notes") = txtNotes.Text & vbCrLf & deactivateNote
+
         End If
 
         If Me.Tag = 0 Then
@@ -99,9 +103,22 @@ Public Class frmWorker
             _dr("LastModifiedUser") = frmMDI.currentUser
             _dr("DateLastModified") = Now
 
-            _recordID = _dbLayer.UpdateRecipient(_tb)
+            _recordID = _dbLayer.UpdateWorker(_tb)
             If _recordID = 0 Then
                 MsgBox("There was an issue attempting to save the worker")
+            Else
+                If Not chkActive.Checked And deliveriesLeft > 0 Then
+                    ' you can only cancel deliveries for a pre-existing receipient
+                    _dbLayer.CancelWorkersUpcomingDeliveries(frmMDI.currentUser, deactivateNote)
+
+                    If _dbLayer.RecordID = 0 Then
+                        MsgBox("There was a problem cancelling the upcoming deliveries for this worker", MsgBoxStyle.Critical, "Deactivate Worker")
+                    Else
+                        MsgBox("The worker's upcoming deliveries have been cancelled.", MsgBoxStyle.Information, "Deactivate Worker")
+                    End If
+
+                End If
+
             End If
         End If
 
@@ -128,7 +145,7 @@ Public Class frmWorker
                 ' of a new receipient, change the view of the form
                 btnToggleEdit.Visible = True
             Else
-                ' of an edit to a previous recipient
+                ' of an edit to a previous worker
                 btnToggleEdit.Text = "Edit"
             End If
             SetFormEdit(False)
@@ -156,7 +173,7 @@ Public Class frmWorker
         Tag = Int(Me.Tag)
 
         If Tag > 0 Then
-            ' there is a recipient to view/edit in the tag
+            ' there is a worker to view/edit in the tag
             GetWorkerData()
             WriteDataToForm()
             lblHeader.Text = "Viewing Worker"
@@ -166,7 +183,7 @@ Public Class frmWorker
             _tb = _dbLayer.NewWorkerTable()
             _dr = _tb.Rows.Add()
             SetFormEdit(True)
-            chkActive.Checked = True  ' default the receipient to active status
+            chkActive.Checked = True  ' default the worker to active status
         End If
 
     End Sub
@@ -203,5 +220,43 @@ Public Class frmWorker
     Private Sub frmWorker_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         _dbLayer.Dispose()
         _dbLayer = Nothing
+    End Sub
+
+    Private Sub chkActive_Click(sender As Object, e As EventArgs) Handles chkActive.Click
+
+        If Not chkActive.Checked And Me.Tag > 0 Then
+            ' deactivating the worker
+            ' check for remaining scheduled deliveries
+            ' ask why
+
+            deliveriesLeft = _dbLayer.GetWorkersRemainingDeliveries(Me.Tag)
+
+            If deliveriesLeft > 0 Then
+                If MsgBox($"Deactivating the worker will cancel their {deliveriesLeft} remaining deliveries, a new delivery person will need to be selected, are you sure?",
+                          MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
+
+                    ' if they decide against this, recheck the box and exit this code
+                    chkActive.Checked = True
+                    Exit Sub
+                End If
+            End If
+
+            deactivateNote = ""
+
+            Dim frm As New frmNotes
+            frm.lblHeader.Text = "Add Notes"
+            frm.lblWhyANoteIsNeeded.Text = "Please indicate why this worker is being deactivated."
+            frm.Tag = "worker"
+
+            frm.ShowDialog(Me)
+
+            If deactivateNote = "Cancel" Then
+                ' they've canceled the process
+                'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Worker")
+                chkActive.Checked = True
+                Exit Sub
+            End If
+
+        End If
     End Sub
 End Class

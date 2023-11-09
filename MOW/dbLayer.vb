@@ -71,7 +71,7 @@ Public Class dbLayer
 
             If _cn.State = ConnectionState.Closed Then _cn.Open()
 
-            ' returns the count of deliveries scheduled
+            ' returns the count of the remaining deliveries scheduled
             _cmd = New OleDbCommand($"Select count(ID) from tblCalculatedDeliveryCalendar where RecipientID={recipientID} and ScheduledDeliveryDate>=Date()", _cn)
             _rdr = _cmd.ExecuteReader()
             _rdr.Read()
@@ -81,6 +81,20 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public ReadOnly Property GetWorkersRemainingDeliveries(WorkerID As String) As Integer
+        Get
+
+            If _cn.State = ConnectionState.Closed Then _cn.Open()
+
+            ' returns the count of the remaining deliveries scheduled
+            _cmd = New OleDbCommand($"Select count(ID) from tblCalculatedDeliveryCalendar where WorkerID={WorkerID} and ScheduledDeliveryDate>=Date()", _cn)
+            _rdr = _cmd.ExecuteReader()
+            _rdr.Read()
+
+            Return _rdr(0)
+
+        End Get
+    End Property
     Public ReadOnly Property GetCalculatedDeliveryDates() As DataSet
         Get
             If _cn.State = ConnectionState.Closed Then _cn.Open()
@@ -123,6 +137,7 @@ Public Class dbLayer
     End Property
 
     Public Property RecordID As Long
+        ' the record id is equal to the table being used ID field
         Get
             Return _recordID
         End Get
@@ -132,21 +147,21 @@ Public Class dbLayer
     End Property
     Public ReadOnly Property GetRecipient() As DataTable
         Get
-
+            ' returns the recipient associated to the current recordid
             Return CreateNewTable($"Select * from tblMealRecipients where id={_recordID}")
         End Get
     End Property
 
     Public ReadOnly Property GetWorker() As DataTable
         Get
-
+            ' returns the worker associated to the current recordid
             Return CreateNewTable($"Select * from tblWorkers where id={_recordID}")
         End Get
     End Property
 
     Public ReadOnly Property GetRecipients() As DataTable
         Get
-
+            ' returns the all the active recipients 
             Return CreateNewTable("Select * from qryActiveRecipients")
         End Get
     End Property
@@ -155,7 +170,7 @@ Public Class dbLayer
         Get
             If _cn.State = ConnectionState.Closed Then _cn.Open()
 
-            ' retrieves a list of recipients meant for creating a delivery
+            ' retrieves a list of recipients meant for creating a delivery (they have to be active)
             _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
             _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
 
@@ -167,7 +182,10 @@ Public Class dbLayer
         Get
             If _cn.State = ConnectionState.Closed Then _cn.Open()
 
-            ' retrieves a list of workers meant for creating a delivery
+            ' retrieves a list of workers meant for creating a delivery (they have to be active)
+            ' TO DO: ???  here is where extra processing could be added to check the workers schedule 
+            ' against that of the proposed delivery schedule, in attempt to not create 
+            ' conflicting delivery + worker issues
             _sql = "Select -1 as ID, 'Select Worker' as fullname from tblWorkers union "
             _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveWorkers "
 
@@ -175,33 +193,24 @@ Public Class dbLayer
         End Get
     End Property
 
-    Public ReadOnly Property GetDelivery() As DataTable
-        Get
-            If _cn.State = ConnectionState.Closed Then _cn.Open()
-
-            _sql = "Select -1 as ID, 'Select Recipient' as fullname from tblMealRecipients union "
-            _sql += "Select id, LastName + ',' + FirstName as fullname from qryActiveRecipients "
-
-            Return CreateNewTable(_sql)
-        End Get
-    End Property
-
     Public ReadOnly Property ErrorInfo As dbError
         Get
+            ' in progress / unknown if this will stay
             Return _dbError
         End Get
     End Property
 
-    Public ReadOnly Property Getworkers() As DataTable
+    Public ReadOnly Property GetWorkers() As DataTable
         Get
-
+            ' when creating a Worker a temp memory table is created to be passed back when
+            ' sabing the worker
             Return CreateNewTable("Select * from qryActiveWorkers")
         End Get
     End Property
 
     Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
         Get
-
+            ' retrieve the upcoming scheduled deliveries for the criteria passed
             _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
@@ -217,6 +226,7 @@ Public Class dbLayer
     Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String) As DataTable
         Get
 
+            ' retrieve the upcoming scheduled deliveries for the criteria passed, sorted by ascending scheduled delivery date
             _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
             _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
@@ -233,6 +243,7 @@ Public Class dbLayer
 
     Public Function CancelRecipientsUpcomingDeliveries(cancelUser As String, cancelReason As String) As Boolean
 
+        ' query that cancels all upcoming scheduled deliveries for the recipient id
         If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         _sql = "Update tblCalculatedDeliveryCalendar Set "
@@ -246,7 +257,7 @@ Public Class dbLayer
         _rdr = _cmd.ExecuteReader()
 
         If _rdr.RecordsAffected = 0 Then
-            ' record was not saved
+            ' record(s) were not saved
             CreateDbLogFile("CancelRecipientDeliveries", (_sql & vbCrLf & "No record affected"), "Line: 245")
             _recordID = 0
         End If
@@ -255,8 +266,9 @@ Public Class dbLayer
 
     End Function
 
-    Public Function CancelWorkersUpcomingDeliveries(cancelUser As String, cancelReason As String, workerID As Long) As Boolean
+    Public Function CancelWorkersUpcomingDeliveries(cancelUser As String, cancelReason As String) As Boolean
 
+        ' query that cancels all upcoming scheduled deliveries for the worker id
         If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         _sql = "Update tblCalculatedDeliveryCalendar Set "
@@ -264,7 +276,7 @@ Public Class dbLayer
         _sql = _sql & "CancelDate = Date(), "
         _sql = _sql & $"UserCancelled = '{cancelUser}', "
         _sql = _sql & $"CancelReason = '{cancelReason}' "
-        _sql = _sql & $"Where ScheduledDeliveryDate >= Date() AND WorkerID = {workerID}"
+        _sql = _sql & $"Where ScheduledDeliveryDate >= Date() AND WorkerID = {_recordID}"
 
         _cmd = New OleDbCommand(_sql, _cn)
         _rdr = _cmd.ExecuteReader()
