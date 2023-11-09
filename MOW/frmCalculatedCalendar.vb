@@ -157,7 +157,7 @@
             Exit Sub
         End If
 
-        ' find each of the IDs for the selected records
+        ' find each of the IDs for the selected records and build the IN CLAUSE value
         Dim selectedDeliveryIDs As String = ""
         For Each r As DataGridViewRow In grdView.SelectedRows
             selectedDeliveryIDs += r.Cells(0).Value & ","
