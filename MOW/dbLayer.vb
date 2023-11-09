@@ -100,10 +100,12 @@ Public Class dbLayer
             If _cn.State = ConnectionState.Closed Then _cn.Open()
 
             ' returns delivery dates that have scheduled deliveries
-            _da = New OleDbDataAdapter("Select ' Select From Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesASC", _cn)
+            '_da = New OleDbDataAdapter("Select ' Select From Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesASC", _cn)
+            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesASC", _cn)
             _da.Fill(_ds, "Ascending")
 
-            _da = New OleDbDataAdapter("Select ' Select To Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesDESC", _cn)
+            '_da = New OleDbDataAdapter("Select ' Select To Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesDESC", _cn)
+            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesDESC", _cn)
             _da.Fill(_ds, "Descending")
 
             _cn.Close()
