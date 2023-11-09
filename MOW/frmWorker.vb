@@ -6,7 +6,7 @@ Public Class frmWorker
     Dim _dbLayer As New dbLayer
     Dim _recordID As Long = 0
 
-    Public deactivateNote As String
+    Public Note As String
     Dim deliveriesLeft As Integer
     Private Sub GetWorkerData()
 
@@ -82,7 +82,7 @@ Public Class frmWorker
             ' the worker is deactivated
             _dr("DeactivatedUser") = frmMDI.currentUser
             _dr("DateDeactivated") = Now
-            _dr("notes") = txtNotes.Text & vbCrLf & deactivateNote
+            _dr("notes") = txtNotes.Text & vbCrLf & Note
 
         End If
 
@@ -109,7 +109,7 @@ Public Class frmWorker
             Else
                 If Not chkActive.Checked And deliveriesLeft > 0 Then
                     ' you can only cancel deliveries for a pre-existing receipient
-                    _dbLayer.CancelWorkersUpcomingDeliveries(frmMDI.currentUser, deactivateNote)
+                    _dbLayer.CancelWorkersUpcomingDeliveries(frmMDI.currentUser, Note)
 
                     If _dbLayer.RecordID = 0 Then
                         MsgBox("There was a problem cancelling the upcoming deliveries for this worker", MsgBoxStyle.Critical, "Deactivate Worker")
@@ -241,7 +241,7 @@ Public Class frmWorker
                 End If
             End If
 
-            deactivateNote = ""
+            Note = ""
 
             Dim frm As New frmNotes
             frm.lblHeader.Text = "Add Notes"
@@ -250,7 +250,7 @@ Public Class frmWorker
 
             frm.ShowDialog(Me)
 
-            If deactivateNote = "Cancel" Then
+            If Note = "Cancel" Then
                 ' they've canceled the process
                 'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Worker")
                 chkActive.Checked = True

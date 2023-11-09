@@ -293,6 +293,34 @@ Public Class dbLayer
 
     End Function
 
+    Public Function AddNoteToUpcomingDeliveries(notesUser As String, noteText As String, deliveryIDs As String) As Boolean
+
+        ' query that adds notes to scheduled deliveries for the recipient id
+        If _cn.State = ConnectionState.Closed Then _cn.Open()
+
+        If noteText.IndexOf("'") > -1 Then
+            ' the text value contains a single quote which needs to be replaced, to add this to the query string
+            noteText = noteText.Replace("'", "''")
+        End If
+
+        _sql = "Update tblCalculatedDeliveryCalendar Set "
+        _sql = _sql & $"NotesUser = '{notesUser}', "
+        _sql = _sql & $"Notes = '{noteText}' "
+        _sql = _sql & $"Where ID in ({deliveryIDs})"
+
+        _cmd = New OleDbCommand(_sql, _cn)
+        _rdr = _cmd.ExecuteReader()
+
+        If _rdr.RecordsAffected = 0 Then
+            ' record(s) were not saved
+            CreateDbLogFile("AddNoteToUpcomingDeliveries", (_sql & vbCrLf & "No record affected"), "Line: 311")
+            _recordID = 0
+        End If
+
+        Return Not (_rdr.RecordsAffected = 0)
+
+    End Function
+
     Private Function CreateNewTable(_sql As String) As DataTable
 
         ' return a datatable from the query passed in

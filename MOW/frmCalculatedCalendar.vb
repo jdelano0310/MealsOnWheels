@@ -1,4 +1,5 @@
 ﻿Public Class frmCalculatedCalendar
+    Public Note As String
 
     Private Sub FillCombobox(cbo As ComboBox, withTable As DataTable)
 
@@ -146,5 +147,42 @@
         Application.DoEvents()
 
         grdView.EnableHeadersVisualStyles = False
+    End Sub
+
+    Private Sub cmAddNote_Click(sender As Object, e As EventArgs) Handles cmAddNote.Click
+
+        ' add a note to any selected delivery records
+        If grdView.SelectedRows.Count = 0 Then
+            MsgBox("Please select at least 1 row.", MsgBoxStyle.Information, "Add Notes")
+            Exit Sub
+        End If
+
+        ' find each of the IDs for the selected records
+        Dim selectedDeliveryIDs As String = ""
+        For Each r As DataGridViewRow In grdView.SelectedRows
+            selectedDeliveryIDs += r.Cells(0).Value & ","
+        Next
+        ' remove the trailing comma
+        selectedDeliveryIDs = selectedDeliveryIDs.Substring(0, selectedDeliveryIDs.Length - 1)
+
+        Note = ""
+
+        Dim frm As New frmNotes
+        frm.lblHeader.Text = $"Add Notes"
+        frm.lblWhyANoteIsNeeded.Text = $"Enter the note for the {grdView.SelectedRows.Count} " & IIf(grdView.SelectedRows.Count = 1, "delivery", "deliveries") & " below."
+        frm.Tag = "deliverynote"
+
+        frm.ShowDialog(Me)
+
+        If Not Note = "Cancel" Then
+
+            Dim dbLayer As New dbLayer
+            If dbLayer.AddNoteToUpcomingDeliveries(frmMDI.currentUser, Note, selectedDeliveryIDs) Then
+                MsgBox("Delivery note added.", MsgBoxStyle.Information, "Success")
+            Else
+                MsgBox("Delivery note could not be saved.", MsgBoxStyle.Exclamation, "PROBLEM")
+            End If
+        End If
+
     End Sub
 End Class

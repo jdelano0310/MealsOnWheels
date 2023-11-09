@@ -10,14 +10,14 @@ Public Class frmNotes
             Exit Sub
         End If
 
-        callingForm.deactivateNote = txtNotes.Text
+        callingForm.Note = txtNotes.Text
 
         Me.Close()
 
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        callingForm.deactivateNote = "Cancel"
+        callingForm.Note = "Cancel"
         Me.Close()
 
     End Sub
@@ -30,6 +30,8 @@ Public Class frmNotes
                 callingForm = DirectCast(frmMDI.IsChildFormOpen("frmRecipient"), frmRecipient)
             Case "worker"
                 callingForm = DirectCast(frmMDI.IsChildFormOpen("frmWorker"), frmWorker)
+            Case "deliverynote"
+                callingForm = DirectCast(frmMDI.IsChildFormOpen("frmCalculatedCalendar"), frmCalculatedCalendar)
             Case Else
                 MsgBox("Unknown calling form")
         End Select

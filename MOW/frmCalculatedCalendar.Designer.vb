@@ -22,9 +22,13 @@ Partial Class frmCalculatedCalendar
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle11 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        components = New ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         grdView = New DataGridView()
+        cMenu = New ContextMenuStrip(components)
+        cmAddNote = New ToolStripMenuItem()
+        cmCancel = New ToolStripMenuItem()
         btnPanel = New Panel()
         lblViewing = New Label()
         pnFilter = New Panel()
@@ -37,6 +41,7 @@ Partial Class frmCalculatedCalendar
         rdoByWorker = New RadioButton()
         rdoByRecipient = New RadioButton()
         CType(grdView, ComponentModel.ISupportInitialize).BeginInit()
+        cMenu.SuspendLayout()
         btnPanel.SuspendLayout()
         pnFilter.SuspendLayout()
         SuspendLayout()
@@ -45,21 +50,21 @@ Partial Class frmCalculatedCalendar
         ' 
         grdView.AllowUserToAddRows = False
         grdView.AllowUserToDeleteRows = False
-        DataGridViewCellStyle11.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        grdView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        grdView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-        DataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle12.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
-        DataGridViewCellStyle12.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
-        DataGridViewCellStyle12.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        DataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle12.WrapMode = DataGridViewTriState.True
-        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        DataGridViewCellStyle2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        grdView.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         grdView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        grdView.ContextMenuStrip = cMenu
         grdView.Location = New Point(0, 106)
-        grdView.MultiSelect = False
         grdView.Name = "grdView"
         grdView.ReadOnly = True
         grdView.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
@@ -69,6 +74,26 @@ Partial Class frmCalculatedCalendar
         grdView.ShowEditingIcon = False
         grdView.Size = New Size(593, 344)
         grdView.TabIndex = 34
+        ' 
+        ' cMenu
+        ' 
+        cMenu.Items.AddRange(New ToolStripItem() {cmAddNote, cmCancel})
+        cMenu.Name = "cMenu"
+        cMenu.Size = New Size(181, 70)
+        ' 
+        ' cmAddNote
+        ' 
+        cmAddNote.Name = "cmAddNote"
+        cmAddNote.Size = New Size(180, 22)
+        cmAddNote.Text = "Add Note"
+        cmAddNote.ToolTipText = "Add a note to any selected deliveries"
+        ' 
+        ' cmCancel
+        ' 
+        cmCancel.Name = "cmCancel"
+        cmCancel.Size = New Size(180, 22)
+        cmCancel.Text = "Cancel Delivery"
+        cmCancel.ToolTipText = "Cancel any selected deliveries"
         ' 
         ' btnPanel
         ' 
@@ -111,9 +136,9 @@ Partial Class frmCalculatedCalendar
         ' 
         btnApply.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         btnApply.FlatStyle = FlatStyle.Flat
-        btnApply.Location = New Point(507, 24)
+        btnApply.Location = New Point(477, 26)
         btnApply.Name = "btnApply"
-        btnApply.Size = New Size(73, 27)
+        btnApply.Size = New Size(48, 25)
         btnApply.TabIndex = 44
         btnApply.Text = "Apply"
         btnApply.UseVisualStyleBackColor = False
@@ -123,7 +148,7 @@ Partial Class frmCalculatedCalendar
         ' 
         lblFilterType2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         lblFilterType2.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        lblFilterType2.Location = New Point(254, 27)
+        lblFilterType2.Location = New Point(243, 27)
         lblFilterType2.Name = "lblFilterType2"
         lblFilterType2.Size = New Size(56, 23)
         lblFilterType2.TabIndex = 43
@@ -134,7 +159,7 @@ Partial Class frmCalculatedCalendar
         ' cboFilterList2
         ' 
         cboFilterList2.FormattingEnabled = True
-        cboFilterList2.Location = New Point(313, 27)
+        cboFilterList2.Location = New Point(300, 27)
         cboFilterList2.Name = "cboFilterList2"
         cboFilterList2.Size = New Size(175, 23)
         cboFilterList2.TabIndex = 42
@@ -144,7 +169,7 @@ Partial Class frmCalculatedCalendar
         ' 
         lblFilterType1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         lblFilterType1.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        lblFilterType1.Location = New Point(10, 27)
+        lblFilterType1.Location = New Point(6, 27)
         lblFilterType1.Name = "lblFilterType1"
         lblFilterType1.Size = New Size(56, 23)
         lblFilterType1.TabIndex = 41
@@ -155,7 +180,7 @@ Partial Class frmCalculatedCalendar
         ' cboFilterList1
         ' 
         cboFilterList1.FormattingEnabled = True
-        cboFilterList1.Location = New Point(69, 27)
+        cboFilterList1.Location = New Point(63, 27)
         cboFilterList1.Name = "cboFilterList1"
         cboFilterList1.Size = New Size(175, 23)
         cboFilterList1.TabIndex = 40
@@ -210,6 +235,7 @@ Partial Class frmCalculatedCalendar
         Name = "frmCalculatedCalendar"
         Text = "Delivery Calendar"
         CType(grdView, ComponentModel.ISupportInitialize).EndInit()
+        cMenu.ResumeLayout(False)
         btnPanel.ResumeLayout(False)
         pnFilter.ResumeLayout(False)
         ResumeLayout(False)
@@ -227,4 +253,7 @@ Partial Class frmCalculatedCalendar
     Friend WithEvents lblFilterType2 As Label
     Friend WithEvents cboFilterList2 As ComboBox
     Friend WithEvents btnApply As Button
+    Friend WithEvents cMenu As ContextMenuStrip
+    Friend WithEvents cmAddNote As ToolStripMenuItem
+    Friend WithEvents cmCancel As ToolStripMenuItem
 End Class
