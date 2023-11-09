@@ -293,6 +293,7 @@ Public Class dbLayer
 
     Private Function CreateNewTable(_sql As String) As DataTable
 
+        ' return a datatable from the query passed in
         If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         _da = New OleDbDataAdapter(_sql, _cn)
@@ -361,7 +362,7 @@ Public Class dbLayer
 
     Private Sub InsertRecordFromTable(toTableName As String, fromTable As DataTable)
 
-        ' a new record is being saved
+        ' insert into the table name passed, with the data contained in the datatable
         Dim frmDr As DataRow = fromTable.Rows(0)
         _sql = $"Insert Into {toTableName} ("
         Dim sqlValues As String = ""
@@ -396,9 +397,11 @@ Public Class dbLayer
                 End If
             Next
 
+            ' piece the SQL strings together
             _sql = String.Concat(_sql.AsSpan(0, _sql.Length - 1), ") values (")
             _sql += String.Concat(sqlValues.AsSpan(0, sqlValues.Length - 1), ")")
 
+            ' run the insert statement to add the record
             _cmd = New OleDbCommand(_sql, _cn)
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected > 0 Then
@@ -417,7 +420,7 @@ Public Class dbLayer
 
     Private Sub UpdateRecordFromTable(toTableName As String, fromTable As DataTable)
 
-        ' a new record is being saved
+        ' update the table name passed, with the data contained in the datatable
         Dim frmDr As DataRow = fromTable.Rows(0)
         _sql = $"Update {toTableName} Set "
         Dim successfullSave As Boolean = False
@@ -451,9 +454,10 @@ Public Class dbLayer
                 End If
             Next
 
-            ' remove the last coma and add the ID that is being updated
+            ' add the where clause to the update statement
             _sql = _sql.Substring(0, _sql.Length - 1) & $" Where ID = {_recordID}"
 
+            ' run it
             _cmd = New OleDbCommand(_sql, _cn)
             _rdr = _cmd.ExecuteReader()
             If _rdr.RecordsAffected = 0 Then
@@ -501,6 +505,7 @@ Public Class dbLayer
 
         insert_sql = "Insert into tblCalculatedDeliveryCalendar (DeliveryCalendarID, ScheduledDeliveryDate, RecipientID, WorkerID, Notes) values "
 
+        ' set how frequent in days the deliveries are
         Select Case delFrequency
             Case "Weekly"
                 frequencyDays = 7
@@ -510,12 +515,14 @@ Public Class dbLayer
                 frequencyDays = 30
         End Select
 
+        ' create the end date value to compare to
         endDateTime = $"{endDate.ToString("d")} {startDateTime.ToShortTimeString}"
 
         If _cn.State = ConnectionState.Closed Then
             _cn.Open()
         End If
 
+        ' loop adding the frequency to the startdate, writing a record until the end date is reached or passed
         calculatedDeliveryDate = startDateTime
         Do Until calculatedDeliveryDate >= endDateTime
             _sql = $"{insert_sql } ({deliveryCalendarID}, #{calculatedDeliveryDate}#, {recipientID}, {workerID}, '{deliveryNotes}')"
