@@ -185,4 +185,35 @@
         End If
 
     End Sub
+
+    Private Sub cmCancel_Click(sender As Object, e As EventArgs) Handles cmCancel.Click
+
+        Dim dbLayer As New dbLayer
+        Dim deliveriesLeft As Int16 = dbLayer.GetRecipientsRemainingDeliveries(Me.Tag)
+
+        If deliveriesLeft > 0 Then
+            If MsgBox($"Deactivating the recipient will cancel their {deliveriesLeft} remaining deliveries, are you sure?",
+                          MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
+                ' if they decide against this, recheck the box and exit this code
+                Exit Sub
+            End If
+        End If
+
+        Note = ""
+
+        Dim frm As New frmNotes
+        frm.lblHeader.Text = "Add Notes"
+        frm.lblWhyANoteIsNeeded.Text = "Please indicate why this recipient is being deactivated."
+        frm.Tag = "recipient"
+
+        frm.ShowDialog(Me)
+
+        If Note = "Cancel" Then
+            ' they've canceled the process
+            'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Recipient")
+
+            Exit Sub
+        End If
+
+    End Sub
 End Class
