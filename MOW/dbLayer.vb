@@ -219,7 +219,7 @@ Public Class dbLayer
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date()) AND {secondCriteria}"
+            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date() AND DeliveryCancelled = False) AND {secondCriteria}"
 
             Return CreateNewTable(_sql)
         End Get
@@ -235,7 +235,7 @@ Public Class dbLayer
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# "
+            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# AND DeliveryCancelled = False "
             _sql += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(_sql)
@@ -295,7 +295,7 @@ Public Class dbLayer
 
     Public Function AddNoteToUpcomingDeliveries(notesUser As String, noteText As String, deliveryIDs As String) As Boolean
 
-        ' query that adds notes to scheduled deliveries for the recipient id
+        ' query that adds notes to scheduled deliveries 
         If _cn.State = ConnectionState.Closed Then _cn.Open()
 
         If noteText.IndexOf("'") > -1 Then
@@ -321,6 +321,35 @@ Public Class dbLayer
 
     End Function
 
+    Public Function CancelUpcomingDeliveriesFromCalendarForm(cancelUser As String, cancelReason As String, deliveryIDs As String) As Boolean
+
+        ' query that cancells selected scheduled deliveries 
+        If _cn.State = ConnectionState.Closed Then _cn.Open()
+
+        If cancelReason.IndexOf("'") > -1 Then
+            ' the text value contains a single quote which needs to be replaced, to add this to the query string
+            cancelReason = cancelReason.Replace("'", "''")
+        End If
+
+        _sql = "Update tblCalculatedDeliveryCalendar Set "
+        _sql = _sql & $"CancelUser = '{cancelUser}', "
+        _sql = _sql & $"CancelReason = '{cancelReason}',"
+        _sql = _sql & $"CancelDate = Date(), "
+        _sql = _sql & $"DeliveryCancelled = True "
+        _sql = _sql & $"Where ID in ({deliveryIDs})"
+
+        _cmd = New OleDbCommand(_sql, _cn)
+        _rdr = _cmd.ExecuteReader()
+
+        If _rdr.RecordsAffected = 0 Then
+            ' record(s) were not saved
+            CreateDbLogFile("CancelUpcomingDeliveriesFromCalendarForm", (_sql & vbCrLf & "No record affected"), "Line: 341")
+            _recordID = 0
+        End If
+
+        Return Not (_rdr.RecordsAffected = 0)
+
+    End Function
     Private Function CreateNewTable(_sql As String) As DataTable
 
         ' return a datatable from the query passed in

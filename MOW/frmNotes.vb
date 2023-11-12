@@ -30,8 +30,9 @@ Public Class frmNotes
                 callingForm = DirectCast(frmMDI.IsChildFormOpen("frmRecipient"), frmRecipient)
             Case "worker"
                 callingForm = DirectCast(frmMDI.IsChildFormOpen("frmWorker"), frmWorker)
-            Case "deliverynote"
+            Case "calcdelivery"
                 callingForm = DirectCast(frmMDI.IsChildFormOpen("frmCalculatedCalendar"), frmCalculatedCalendar)
+
             Case Else
                 MsgBox("Unknown calling form")
         End Select

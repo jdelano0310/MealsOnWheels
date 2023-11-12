@@ -170,12 +170,12 @@
         Dim frm As New frmNotes
         frm.lblHeader.Text = $"Add Notes"
         frm.lblWhyANoteIsNeeded.Text = $"Enter the note for the {grdView.SelectedRows.Count} " & IIf(grdView.SelectedRows.Count = 1, "delivery", "deliveries") & " below."
-        frm.Tag = "deliverynote"
+        frm.Tag = "calcdelivery"
 
         frm.ShowDialog(Me)
 
         If Not Note = "Cancel" Then
-
+            ' the user hasn't selected to cancel this process
             Dim dbLayer As New dbLayer
             If dbLayer.AddNoteToUpcomingDeliveries(frmMDI.currentUser, Note, selectedDeliveryIDs) Then
                 MsgBox("Delivery note added.", MsgBoxStyle.Information, "Success")
@@ -188,31 +188,68 @@
 
     Private Sub cmCancel_Click(sender As Object, e As EventArgs) Handles cmCancel.Click
 
-        Dim dbLayer As New dbLayer
-        Dim deliveriesLeft As Int16 = dbLayer.GetRecipientsRemainingDeliveries(Me.Tag)
-
-        If deliveriesLeft > 0 Then
-            If MsgBox($"Deactivating the recipient will cancel their {deliveriesLeft} remaining deliveries, are you sure?",
-                          MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
-                ' if they decide against this, recheck the box and exit this code
-                Exit Sub
-            End If
+        ' add a note to any selected delivery records
+        If grdView.SelectedRows.Count = 0 Then
+            MsgBox("Please select at least 1 row.", MsgBoxStyle.Information, "Cancel Delivery")
+            Exit Sub
         End If
 
+        ' find each of the IDs for the selected records and build the IN CLAUSE value
+        Dim selectedDeliveryIDs As String = ""
+        For Each r As DataGridViewRow In grdView.SelectedRows
+            selectedDeliveryIDs += r.Cells(0).Value & ","
+        Next
+        ' remove the trailing comma
+        selectedDeliveryIDs = selectedDeliveryIDs.Substring(0, selectedDeliveryIDs.Length - 1)
+
         Note = ""
+        Dim deliveryOrDeliveries As String = IIf(grdView.SelectedRows.Count = 1, "delivery", "deliveries")
 
         Dim frm As New frmNotes
-        frm.lblHeader.Text = "Add Notes"
-        frm.lblWhyANoteIsNeeded.Text = "Please indicate why this recipient is being deactivated."
-        frm.Tag = "recipient"
+        frm.lblHeader.Text = $"Cancel {deliveryOrDeliveries}"
+        frm.lblWhyANoteIsNeeded.Text = $"Enter the reason for the cancellation of {grdView.SelectedRows.Count} {deliveryOrDeliveries} below."
+        frm.Tag = "calcdelivery"
 
         frm.ShowDialog(Me)
 
-        If Note = "Cancel" Then
-            ' they've canceled the process
-            'MsgBox("You've canceled the deactivation process", MsgBoxStyle.Information, "Deactivate Recipient")
+        If Not Note = "Cancel" Then
+            ' the user hasn't decided to cancel this process 
+            Dim dbLayer As New dbLayer
+            If dbLayer.CancelUpcomingDeliveriesFromCalendarForm(frmMDI.currentUser, Note, selectedDeliveryIDs) Then
 
-            Exit Sub
+                ' the data has been updated, let the user know
+                MsgBox($"The selected {deliveryOrDeliveries} have been cancelled.", MsgBoxStyle.Information, "Success")
+
+                ' refresh the grid by forcing selected index changed event to run or reapply the date query
+                If rdoByRecipient.Checked Or rdoByWorker.Checked Then
+                    cboFilterList1_SelectedIndexChanged(sender, e)
+                Else
+                    btnApply_Click(sender, e)
+                End If
+
+                If grdView.RowCount = 0 Then
+
+                    ' there aren't any deliveries to display for the selected view
+                    ' force it to refresh
+                    Dim viewType As String = ""
+
+                    If rdoByRecipient.Checked Then
+                        viewType = "recipient"
+                        rdoByRecipient_CheckedChanged(sender, e)
+                    ElseIf rdoByWorker.Checked Then
+                        viewType = "worker"
+                        rdoByWorker_CheckedChanged(sender, e)
+                    Else
+                        viewType = "date range"
+                        rdoByDeliveryDate_CheckedChanged(sender, e)
+                    End If
+
+                    MsgBox($"There are no more deliveries to display for the {viewType}, the form has been reset", MsgBoxStyle.Information, "Scheduled Deliveries")
+                End If
+            Else
+                MsgBox($"The selected {deliveryOrDeliveries} could not be cancelled.", MsgBoxStyle.Exclamation, "PROBLEM")
+            End If
+
         End If
 
     End Sub
