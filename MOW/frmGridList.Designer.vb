@@ -68,6 +68,7 @@ Partial Class frmGridList
         ' 
         grdView.AllowUserToAddRows = False
         grdView.AllowUserToDeleteRows = False
+        grdView.AllowUserToResizeRows = False
         grdView.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft

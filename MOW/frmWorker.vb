@@ -38,6 +38,10 @@ Public Class frmWorker
         ' build info section
         lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
 
+        If _dr("LastModifiedUser").ToString().Length > 0 Then
+            lblInfo.Text += vbCrLf & $"Modified by: {_dr("LastModifiedUser")} on {_dr("DateLastModified")}"
+        End If
+
         If Not chkActive.Checked Then
             ' the worker is deactivated
             lblInfo.Text += vbCrLf & $"Deactivated by: {_dr("DeactivatedUser")} on {_dr("DateDeactivated")}"
@@ -57,6 +61,8 @@ Public Class frmWorker
                 DirectCast(ctr, MaskedTextBox).ReadOnly = Not AllowEditing
             ElseIf ctr.Name.StartsWith("chk") Then
                 DirectCast(ctr, CheckBox).Enabled = AllowEditing
+            ElseIf ctr.Name.StartsWith("grd") Then
+                DirectCast(ctr, DataGridView).ReadOnly = Not AllowEditing
             End If
         Next
 
@@ -211,6 +217,7 @@ Public Class frmWorker
         dtAvail.Rows.Add("End", "", "", "", "", "", "", "")
 
         grdAvailable.DataSource = dtAvail
+        grdAvailable.EnableHeadersVisualStyles = False
 
     End Sub
 
@@ -300,8 +307,8 @@ Public Class frmWorker
             grdAvailable.Controls.Add(dateTimePicker)
 
             With dateTimePicker
-                .Format = DateTimePickerFormat.Time
-                .CustomFormat = "HH:mm"
+                .Format = DateTimePickerFormat.Custom
+                .CustomFormat = "hh:mm tt"
                 .ShowUpDown = True
                 .Size = New Size(rectangle.Width, rectangle.Height)
                 .Location = New Point(rectangle.X, rectangle.Y)

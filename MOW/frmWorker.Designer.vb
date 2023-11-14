@@ -22,6 +22,9 @@ Partial Class frmWorker
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label1 = New Label()
         txtFirstName = New TextBox()
         txtLastName = New TextBox()
@@ -205,7 +208,7 @@ Partial Class frmWorker
         ' 
         Label8.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label8.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label8.Location = New Point(4, 194)
+        Label8.Location = New Point(309, 51)
         Label8.Name = "Label8"
         Label8.Size = New Size(64, 22)
         Label8.TabIndex = 14
@@ -214,7 +217,7 @@ Partial Class frmWorker
         ' 
         ' mskHomePhone
         ' 
-        mskHomePhone.Location = New Point(71, 194)
+        mskHomePhone.Location = New Point(376, 51)
         mskHomePhone.Mask = "(999) 000-0000"
         mskHomePhone.Name = "mskHomePhone"
         mskHomePhone.ReadOnly = True
@@ -223,7 +226,7 @@ Partial Class frmWorker
         ' 
         ' mskCellPhone
         ' 
-        mskCellPhone.Location = New Point(221, 194)
+        mskCellPhone.Location = New Point(526, 51)
         mskCellPhone.Mask = "(999) 000-0000"
         mskCellPhone.Name = "mskCellPhone"
         mskCellPhone.ReadOnly = True
@@ -234,7 +237,7 @@ Partial Class frmWorker
         ' 
         Label9.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label9.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label9.Location = New Point(155, 194)
+        Label9.Location = New Point(460, 51)
         Label9.Name = "Label9"
         Label9.Size = New Size(64, 22)
         Label9.TabIndex = 17
@@ -243,7 +246,7 @@ Partial Class frmWorker
         ' 
         ' txtEmail
         ' 
-        txtEmail.Location = New Point(71, 218)
+        txtEmail.Location = New Point(376, 75)
         txtEmail.Name = "txtEmail"
         txtEmail.ReadOnly = True
         txtEmail.Size = New Size(233, 23)
@@ -253,7 +256,7 @@ Partial Class frmWorker
         ' 
         Label10.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label10.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label10.Location = New Point(4, 218)
+        Label10.Location = New Point(309, 75)
         Label10.Name = "Label10"
         Label10.Size = New Size(64, 22)
         Label10.TabIndex = 19
@@ -262,20 +265,20 @@ Partial Class frmWorker
         ' 
         ' txtNotes
         ' 
-        txtNotes.Location = New Point(71, 266)
+        txtNotes.Location = New Point(376, 123)
         txtNotes.Multiline = True
         txtNotes.Name = "txtNotes"
         txtNotes.ReadOnly = True
-        txtNotes.Size = New Size(233, 48)
+        txtNotes.Size = New Size(233, 69)
         txtNotes.TabIndex = 25
         ' 
         ' Label11
         ' 
         Label11.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label11.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label11.Location = New Point(4, 266)
+        Label11.Location = New Point(309, 123)
         Label11.Name = "Label11"
-        Label11.Size = New Size(64, 48)
+        Label11.Size = New Size(64, 69)
         Label11.TabIndex = 21
         Label11.Text = "Notes"
         Label11.TextAlign = ContentAlignment.MiddleLeft
@@ -284,7 +287,7 @@ Partial Class frmWorker
         ' 
         chkActive.AutoSize = True
         chkActive.Enabled = False
-        chkActive.Location = New Point(71, 247)
+        chkActive.Location = New Point(376, 104)
         chkActive.Name = "chkActive"
         chkActive.Size = New Size(15, 14)
         chkActive.TabIndex = 24
@@ -294,7 +297,7 @@ Partial Class frmWorker
         ' 
         Label12.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label12.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label12.Location = New Point(4, 242)
+        Label12.Location = New Point(309, 99)
         Label12.Name = "Label12"
         Label12.Size = New Size(64, 22)
         Label12.TabIndex = 23
@@ -306,9 +309,9 @@ Partial Class frmWorker
         Panel1.BackgroundImage = My.Resources.Resources.FooterBackground
         Panel1.Controls.Add(btnCancel)
         Panel1.Controls.Add(btnSaveWorker)
-        Panel1.Location = New Point(0, 529)
+        Panel1.Location = New Point(0, 368)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(308, 44)
+        Panel1.Size = New Size(616, 44)
         Panel1.TabIndex = 29
         ' 
         ' btnCancel
@@ -317,7 +320,7 @@ Partial Class frmWorker
         btnCancel.FlatAppearance.BorderSize = 0
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        btnCancel.Location = New Point(221, 6)
+        btnCancel.Location = New Point(522, 6)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(79, 33)
         btnCancel.TabIndex = 3
@@ -343,9 +346,9 @@ Partial Class frmWorker
         btnPanel.BackgroundImage = My.Resources.Resources.HeaderBackground
         btnPanel.Controls.Add(btnToggleEdit)
         btnPanel.Controls.Add(lblHeader)
-        btnPanel.Location = New Point(0, 0)
+        btnPanel.Location = New Point(0, -1)
         btnPanel.Name = "btnPanel"
-        btnPanel.Size = New Size(308, 46)
+        btnPanel.Size = New Size(616, 46)
         btnPanel.TabIndex = 30
         ' 
         ' btnToggleEdit
@@ -354,7 +357,7 @@ Partial Class frmWorker
         btnToggleEdit.FlatAppearance.BorderSize = 0
         btnToggleEdit.FlatStyle = FlatStyle.Flat
         btnToggleEdit.ForeColor = Color.White
-        btnToggleEdit.Location = New Point(236, 12)
+        btnToggleEdit.Location = New Point(537, 12)
         btnToggleEdit.Name = "btnToggleEdit"
         btnToggleEdit.Size = New Size(64, 25)
         btnToggleEdit.TabIndex = 29
@@ -376,9 +379,9 @@ Partial Class frmWorker
         ' lblInfo
         ' 
         lblInfo.ForeColor = Color.White
-        lblInfo.Location = New Point(4, 494)
+        lblInfo.Location = New Point(3, 307)
         lblInfo.Name = "lblInfo"
-        lblInfo.Size = New Size(300, 33)
+        lblInfo.Size = New Size(606, 57)
         lblInfo.TabIndex = 33
         lblInfo.Visible = False
         ' 
@@ -386,9 +389,9 @@ Partial Class frmWorker
         ' 
         Label13.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
         Label13.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label13.Location = New Point(4, 319)
+        Label13.Location = New Point(4, 195)
         Label13.Name = "Label13"
-        Label13.Size = New Size(300, 22)
+        Label13.Size = New Size(605, 22)
         Label13.TabIndex = 34
         Label13.Text = "Availability"
         Label13.TextAlign = ContentAlignment.MiddleCenter
@@ -401,81 +404,109 @@ Partial Class frmWorker
         grdAvailable.AllowUserToResizeRows = False
         grdAvailable.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         grdAvailable.BorderStyle = BorderStyle.None
+        grdAvailable.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        grdAvailable.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         grdAvailable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdAvailable.Columns.AddRange(New DataGridViewColumn() {header, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday})
-        grdAvailable.Location = New Point(2, 343)
+        grdAvailable.Location = New Point(3, 220)
         grdAvailable.MultiSelect = False
         grdAvailable.Name = "grdAvailable"
+        grdAvailable.ReadOnly = True
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        DataGridViewCellStyle3.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        grdAvailable.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         grdAvailable.RowHeadersVisible = False
         grdAvailable.RowTemplate.Height = 25
-        grdAvailable.Size = New Size(302, 84)
+        grdAvailable.ScrollBars = ScrollBars.None
+        grdAvailable.Size = New Size(605, 84)
         grdAvailable.TabIndex = 35
         ' 
         ' header
         ' 
         header.DataPropertyName = "TimeHeader"
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
+        header.DefaultCellStyle = DataGridViewCellStyle2
         header.Frozen = True
         header.HeaderText = ""
         header.Name = "header"
         header.ReadOnly = True
         header.Resizable = DataGridViewTriState.False
-        header.Width = 35
+        header.Width = 45
         ' 
         ' Sunday
         ' 
         Sunday.DataPropertyName = "Sunday"
-        Sunday.HeaderText = "Sun"
+        Sunday.HeaderText = "Sunday"
         Sunday.Name = "Sunday"
-        Sunday.Width = 38
+        Sunday.ReadOnly = True
+        Sunday.Width = 80
         ' 
         ' Monday
         ' 
         Monday.DataPropertyName = "Monday"
-        Monday.HeaderText = "Mon"
+        Monday.HeaderText = "Monday"
         Monday.Name = "Monday"
-        Monday.Width = 38
+        Monday.ReadOnly = True
+        Monday.Width = 80
         ' 
         ' Tuesday
         ' 
         Tuesday.DataPropertyName = "Tuesday"
-        Tuesday.HeaderText = "Tue"
+        Tuesday.HeaderText = "Tuesday"
         Tuesday.Name = "Tuesday"
-        Tuesday.Width = 38
+        Tuesday.ReadOnly = True
+        Tuesday.Width = 80
         ' 
         ' Wednesday
         ' 
         Wednesday.DataPropertyName = "Wednesday"
-        Wednesday.HeaderText = "Wed"
+        Wednesday.HeaderText = "Wednesday"
         Wednesday.Name = "Wednesday"
-        Wednesday.Width = 38
+        Wednesday.ReadOnly = True
+        Wednesday.Width = 80
         ' 
         ' Thursday
         ' 
         Thursday.DataPropertyName = "Thursday"
-        Thursday.HeaderText = "Thu"
+        Thursday.HeaderText = "Thursday"
         Thursday.Name = "Thursday"
-        Thursday.Width = 38
+        Thursday.ReadOnly = True
+        Thursday.Width = 80
         ' 
         ' Friday
         ' 
         Friday.DataPropertyName = "Friday"
-        Friday.HeaderText = "Fri"
+        Friday.HeaderText = "Friday"
         Friday.Name = "Friday"
-        Friday.Width = 38
+        Friday.ReadOnly = True
+        Friday.Width = 80
         ' 
         ' Saturday
         ' 
         Saturday.DataPropertyName = "Saturday"
-        Saturday.HeaderText = "Sat"
+        Saturday.HeaderText = "Saturday"
         Saturday.Name = "Saturday"
-        Saturday.Width = 38
+        Saturday.ReadOnly = True
+        Saturday.Width = 80
         ' 
         ' frmWorker
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        ClientSize = New Size(308, 573)
+        ClientSize = New Size(613, 412)
         ControlBox = False
         Controls.Add(grdAvailable)
         Controls.Add(Label13)

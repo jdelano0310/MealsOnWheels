@@ -86,7 +86,7 @@ Public Class frmGridList
 
     End Sub
 
-    Private Sub frmGridList_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    Private Sub frmGridList_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
         _dbLayer.Dispose()
         _dbLayer = Nothing
     End Sub
