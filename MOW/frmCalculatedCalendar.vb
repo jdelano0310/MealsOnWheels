@@ -1,4 +1,6 @@
-﻿Public Class frmCalculatedCalendar
+﻿Imports System.ComponentModel
+
+Public Class frmCalculatedCalendar
     Public Note As String
 
     Private Sub FillCombobox(cbo As ComboBox, withTable As DataTable)
@@ -71,6 +73,8 @@
 
         End Select
 
+        dbLayer.Dispose()
+
     End Sub
 
     Private Sub FillDataGrid(secondCriteria As String)
@@ -90,6 +94,7 @@
         Application.DoEvents()
 
         grdView.EnableHeadersVisualStyles = False
+        dbLayer.Dispose()
 
     End Sub
 
@@ -147,6 +152,8 @@
         Application.DoEvents()
 
         grdView.EnableHeadersVisualStyles = False
+        dbLayer.Dispose()
+
     End Sub
 
     Private Sub cmAddNote_Click(sender As Object, e As EventArgs) Handles cmAddNote.Click
@@ -167,6 +174,7 @@
 
         Note = ""
 
+        ' display the notes form to get the note to add to the delivery(s)
         Dim frm As New frmNotes
         frm.lblHeader.Text = $"Add Notes"
         frm.lblWhyANoteIsNeeded.Text = $"Enter the note for the {grdView.SelectedRows.Count} " & IIf(grdView.SelectedRows.Count = 1, "delivery", "deliveries") & " below."
@@ -182,6 +190,7 @@
             Else
                 MsgBox("Delivery note could not be saved.", MsgBoxStyle.Exclamation, "PROBLEM")
             End If
+            dbLayer.Dispose()
         End If
 
     End Sub
@@ -205,6 +214,7 @@
         Note = ""
         Dim deliveryOrDeliveries As String = IIf(grdView.SelectedRows.Count = 1, "delivery", "deliveries")
 
+        ' display the notes form to get the reason the delivery(s) are being cancelled
         Dim frm As New frmNotes
         frm.lblHeader.Text = $"Cancel {deliveryOrDeliveries}"
         frm.lblWhyANoteIsNeeded.Text = $"Enter the reason for the cancellation of {grdView.SelectedRows.Count} {deliveryOrDeliveries} below."
@@ -249,8 +259,10 @@
             Else
                 MsgBox($"The selected {deliveryOrDeliveries} could not be cancelled.", MsgBoxStyle.Exclamation, "PROBLEM")
             End If
+            dbLayer.Dispose()
 
         End If
 
     End Sub
+
 End Class

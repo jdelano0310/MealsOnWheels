@@ -33,13 +33,13 @@ Public Class dbLayer
     Public Sub Dispose()
 
         ' try to close all possible objects - don't care if anything complains
-        'On Error Resume Next
-        '_tb.Dispose()
-        '_ds.Dispose()
-        '_da.Dispose()
-        '_rdr.Close()
-        '_cmd.Dispose()
-        '_cn.Close()
+
+        If Not _tb Is Nothing Then _tb.Dispose()
+        If Not _ds Is Nothing Then _ds.Dispose()
+        If Not _da Is Nothing Then _da.Dispose()
+        If Not _rdr Is Nothing Then _rdr.Close()
+        If Not _cmd Is Nothing Then _cmd.Dispose()
+        If Not _cn Is Nothing Then _cn.Close()
 
         '_tb = Nothing
         '_ds = Nothing
