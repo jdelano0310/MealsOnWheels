@@ -295,9 +295,32 @@ Public Class frmWorker
 
             ' create the selection control to place in the grid
             Dim dateTimePicker As New DateTimePicker
+            Dim rectangle As Rectangle = grdAvailable.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, True)
+
             grdAvailable.Controls.Add(dateTimePicker)
 
+            With dateTimePicker
+                .Format = DateTimePickerFormat.Time
+                .Size = New Size(rectangle.Width, rectangle.Height)
+                .Location = New Point(rectangle.X, rectangle.Y)
+                .Visible = True
+            End With
 
+            AddHandler dateTimePicker.CloseUp, AddressOf dateTimePicker_CloseUp
+            AddHandler dateTimePicker.TextChanged, AddressOf dateTimePicker_TextChanged
+
+            If currentValue.Length > 0 Then
+                ' the current cell has a value, display it in the picker
+                dateTimePicker.Value = currentValue
+            End If
         End If
+    End Sub
+
+    Private Sub dateTimePicker_TextChanged(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub dateTimePicker_CloseUp(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
     End Sub
 End Class
