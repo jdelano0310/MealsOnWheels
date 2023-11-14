@@ -301,6 +301,8 @@ Public Class frmWorker
 
             With dateTimePicker
                 .Format = DateTimePickerFormat.Time
+                .CustomFormat = "HH:mm"
+                .ShowUpDown = True
                 .Size = New Size(rectangle.Width, rectangle.Height)
                 .Location = New Point(rectangle.X, rectangle.Y)
                 .Visible = True
@@ -317,10 +319,10 @@ Public Class frmWorker
     End Sub
 
     Private Sub dateTimePicker_TextChanged(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+
     End Sub
 
     Private Sub dateTimePicker_CloseUp(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+
     End Sub
 End Class
