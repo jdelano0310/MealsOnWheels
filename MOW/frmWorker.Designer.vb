@@ -54,8 +54,18 @@ Partial Class frmWorker
         lblHeader = New Label()
         lblInfo = New Label()
         Label13 = New Label()
+        grdAvailable = New DataGridView()
+        header = New DataGridViewTextBoxColumn()
+        Sunday = New DataGridViewTextBoxColumn()
+        Monday = New DataGridViewTextBoxColumn()
+        Tuesday = New DataGridViewTextBoxColumn()
+        Wednesday = New DataGridViewTextBoxColumn()
+        Thursday = New DataGridViewTextBoxColumn()
+        Friday = New DataGridViewTextBoxColumn()
+        Saturday = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
         btnPanel.SuspendLayout()
+        CType(grdAvailable, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -184,9 +194,9 @@ Partial Class frmWorker
         ' 
         Label7.BackColor = Color.FromArgb(CByte(0), CByte(183), CByte(196))
         Label7.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
-        Label7.Location = New Point(140, 146)
+        Label7.Location = New Point(139, 146)
         Label7.Name = "Label7"
-        Label7.Size = New Size(64, 22)
+        Label7.Size = New Size(66, 22)
         Label7.TabIndex = 12
         Label7.Text = "Zip"
         Label7.TextAlign = ContentAlignment.MiddleCenter
@@ -383,6 +393,83 @@ Partial Class frmWorker
         Label13.Text = "Availability"
         Label13.TextAlign = ContentAlignment.MiddleCenter
         ' 
+        ' grdAvailable
+        ' 
+        grdAvailable.AllowUserToAddRows = False
+        grdAvailable.AllowUserToDeleteRows = False
+        grdAvailable.AllowUserToResizeColumns = False
+        grdAvailable.AllowUserToResizeRows = False
+        grdAvailable.BackgroundColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        grdAvailable.BorderStyle = BorderStyle.None
+        grdAvailable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        grdAvailable.Columns.AddRange(New DataGridViewColumn() {header, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday})
+        grdAvailable.Location = New Point(2, 343)
+        grdAvailable.MultiSelect = False
+        grdAvailable.Name = "grdAvailable"
+        grdAvailable.RowHeadersVisible = False
+        grdAvailable.RowTemplate.Height = 25
+        grdAvailable.Size = New Size(302, 84)
+        grdAvailable.TabIndex = 35
+        ' 
+        ' header
+        ' 
+        header.DataPropertyName = "TimeHeader"
+        header.Frozen = True
+        header.HeaderText = ""
+        header.Name = "header"
+        header.ReadOnly = True
+        header.Resizable = DataGridViewTriState.False
+        header.Width = 35
+        ' 
+        ' Sunday
+        ' 
+        Sunday.DataPropertyName = "Sunday"
+        Sunday.HeaderText = "Sun"
+        Sunday.Name = "Sunday"
+        Sunday.Width = 38
+        ' 
+        ' Monday
+        ' 
+        Monday.DataPropertyName = "Monday"
+        Monday.HeaderText = "Mon"
+        Monday.Name = "Monday"
+        Monday.Width = 38
+        ' 
+        ' Tuesday
+        ' 
+        Tuesday.DataPropertyName = "Tuesday"
+        Tuesday.HeaderText = "Tue"
+        Tuesday.Name = "Tuesday"
+        Tuesday.Width = 38
+        ' 
+        ' Wednesday
+        ' 
+        Wednesday.DataPropertyName = "Wednesday"
+        Wednesday.HeaderText = "Wed"
+        Wednesday.Name = "Wednesday"
+        Wednesday.Width = 38
+        ' 
+        ' Thursday
+        ' 
+        Thursday.DataPropertyName = "Thursday"
+        Thursday.HeaderText = "Thu"
+        Thursday.Name = "Thursday"
+        Thursday.Width = 38
+        ' 
+        ' Friday
+        ' 
+        Friday.DataPropertyName = "Friday"
+        Friday.HeaderText = "Fri"
+        Friday.Name = "Friday"
+        Friday.Width = 38
+        ' 
+        ' Saturday
+        ' 
+        Saturday.DataPropertyName = "Saturday"
+        Saturday.HeaderText = "Sat"
+        Saturday.Name = "Saturday"
+        Saturday.Width = 38
+        ' 
         ' frmWorker
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -390,6 +477,7 @@ Partial Class frmWorker
         BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
         ClientSize = New Size(308, 573)
         ControlBox = False
+        Controls.Add(grdAvailable)
         Controls.Add(Label13)
         Controls.Add(lblInfo)
         Controls.Add(btnPanel)
@@ -425,6 +513,7 @@ Partial Class frmWorker
         Text = "Worker"
         Panel1.ResumeLayout(False)
         btnPanel.ResumeLayout(False)
+        CType(grdAvailable, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -461,4 +550,13 @@ Partial Class frmWorker
     Friend WithEvents lblInfo As Label
     Friend WithEvents btnToggleEdit As Button
     Friend WithEvents Label13 As Label
+    Friend WithEvents grdAvailable As DataGridView
+    Friend WithEvents header As DataGridViewTextBoxColumn
+    Friend WithEvents Sunday As DataGridViewTextBoxColumn
+    Friend WithEvents Monday As DataGridViewTextBoxColumn
+    Friend WithEvents Tuesday As DataGridViewTextBoxColumn
+    Friend WithEvents Wednesday As DataGridViewTextBoxColumn
+    Friend WithEvents Thursday As DataGridViewTextBoxColumn
+    Friend WithEvents Friday As DataGridViewTextBoxColumn
+    Friend WithEvents Saturday As DataGridViewTextBoxColumn
 End Class

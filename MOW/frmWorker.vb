@@ -172,6 +172,8 @@ Public Class frmWorker
         ' set the tag as an integer
         Tag = Int(Me.Tag)
 
+        BuildAvailabilityGrid()
+
         If Tag > 0 Then
             ' there is a worker to view/edit in the tag
             GetWorkerData()
@@ -185,6 +187,30 @@ Public Class frmWorker
             SetFormEdit(True)
             chkActive.Checked = True  ' default the worker to active status
         End If
+
+    End Sub
+
+    Private Sub BuildAvailabilityGrid()
+
+        ' create the table that will be used to hold and display the workers
+        ' available delivery schedule
+        Dim dtAvail As New DataTable
+
+        With dtAvail
+            .Columns.Add("TimeHeader", GetType(String))
+            .Columns.Add("Sunday", GetType(String))
+            .Columns.Add("Monday", GetType(String))
+            .Columns.Add("Tuesday", GetType(String))
+            .Columns.Add("Wednesday", GetType(String))
+            .Columns.Add("Thursday", GetType(String))
+            .Columns.Add("Friday", GetType(String))
+            .Columns.Add("Saturday", GetType(String))
+        End With
+
+        dtAvail.Rows.Add("Start", "", "", "", "", "", "", "")
+        dtAvail.Rows.Add("End", "", "", "", "", "", "", "")
+
+        grdAvailable.DataSource = dtAvail
 
     End Sub
 
@@ -256,6 +282,21 @@ Public Class frmWorker
                 chkActive.Checked = True
                 Exit Sub
             End If
+
+        End If
+    End Sub
+
+    Private Sub grdAvailable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdAvailable.CellClick
+
+        If e.ColumnIndex > 0 Then
+            ' the user has clicked in a day column
+
+            Dim currentValue As String = grdAvailable.Rows(e.RowIndex).Cells(e.ColumnIndex).Value
+
+            ' create the selection control to place in the grid
+            Dim dateTimePicker As New DateTimePicker
+            grdAvailable.Controls.Add(dateTimePicker)
+
 
         End If
     End Sub
