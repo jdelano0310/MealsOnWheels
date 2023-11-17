@@ -7,7 +7,10 @@ Public Class frmWorker
     Dim _recordID As Long = 0
 
     Public Note As String
-    Dim deliveriesLeft As Integer
+    Dim _deliveriesLeft As Integer
+
+    Dim _dtAvail As New DataTable
+
     Private Sub GetWorkerData()
 
         ' the record id is in the tag property of the form
@@ -15,6 +18,7 @@ Public Class frmWorker
 
         _dbLayer.RecordID = _recordID
         _tb = _dbLayer.GetWorker()
+        _dtAvail = _dbLayer.GetWorkersAvailability(_recordID)
 
     End Sub
 
@@ -46,6 +50,9 @@ Public Class frmWorker
             ' the worker is deactivated
             lblInfo.Text += vbCrLf & $"Deactivated by: {_dr("DeactivatedUser")} on {_dr("DateDeactivated")}"
         End If
+
+        grdAvailable.DataSource = _dtAvail
+        grdAvailable.EnableHeadersVisualStyles = False
 
         lblInfo.Visible = True
 
@@ -98,10 +105,15 @@ Public Class frmWorker
             _dr("DateCreated") = Now
 
             _recordID = _dbLayer.SaveNewWorker(_tb)
+
             If _recordID = 0 Then
                 ' if the record id sent back it zero then there was a problem saving the record
                 MsgBox("There was an issue attempting to save the worker")
                 Exit Sub
+            End If
+
+            If Not _dbLayer.SaveWorkerAvailability(_dtAvail, "Insert") Then
+                MsgBox("There was an issue attempting to save the worker availability")
             End If
 
             Me.Tag = _recordID
@@ -113,7 +125,11 @@ Public Class frmWorker
             If _recordID = 0 Then
                 MsgBox("There was an issue attempting to save the worker")
             Else
-                If Not chkActive.Checked And deliveriesLeft > 0 Then
+                If Not _dbLayer.SaveWorkerAvailability(_dtAvail, "Update") Then
+                    MsgBox("There was an issue attempting to save the worker availability")
+                End If
+
+                If Not chkActive.Checked And _deliveriesLeft > 0 Then
                     ' you can only cancel deliveries for a pre-existing receipient
                     _dbLayer.CancelWorkersUpcomingDeliveries(frmMDI.currentUser, Note)
 
@@ -190,6 +206,7 @@ Public Class frmWorker
         Else
             _tb = _dbLayer.NewWorkerTable()
             _dr = _tb.Rows.Add()
+
             SetFormEdit(True)
             chkActive.Checked = True  ' default the worker to active status
         End If
@@ -200,10 +217,9 @@ Public Class frmWorker
 
         ' create the table that will be used to hold and display the workers
         ' available delivery schedule
-        Dim dtAvail As New DataTable
 
-        With dtAvail
-            .Columns.Add("TimeHeader", GetType(String))
+        With _dtAvail
+            .Columns.Add("Type", GetType(String))
             .Columns.Add("Sunday", GetType(String))
             .Columns.Add("Monday", GetType(String))
             .Columns.Add("Tuesday", GetType(String))
@@ -211,13 +227,16 @@ Public Class frmWorker
             .Columns.Add("Thursday", GetType(String))
             .Columns.Add("Friday", GetType(String))
             .Columns.Add("Saturday", GetType(String))
+            .Columns.Add("WorkerID", GetType(Long))
+            .Columns.Add("ID", GetType(Long))
         End With
 
-        dtAvail.Rows.Add("Start", "", "", "", "", "", "", "")
-        dtAvail.Rows.Add("End", "", "", "", "", "", "", "")
+        _dtAvail.Rows.Add("Start", "", "", "", "", "", "", "")
+        _dtAvail.Rows.Add("End", "", "", "", "", "", "", "")
 
-        grdAvailable.DataSource = dtAvail
+        grdAvailable.DataSource = _dtAvail
         grdAvailable.EnableHeadersVisualStyles = False
+
 
     End Sub
 
@@ -262,10 +281,10 @@ Public Class frmWorker
             ' check for remaining scheduled deliveries
             ' ask why
 
-            deliveriesLeft = _dbLayer.GetWorkersRemainingDeliveries(Me.Tag)
+            _deliveriesLeft = _dbLayer.GetWorkersRemainingDeliveries(Me.Tag)
 
-            If deliveriesLeft > 0 Then
-                If MsgBox($"Deactivating the worker will cancel their {deliveriesLeft} remaining deliveries, a new delivery person will need to be selected, are you sure?",
+            If _deliveriesLeft > 0 Then
+                If MsgBox($"Deactivating the worker will cancel their {_deliveriesLeft} remaining deliveries, a new delivery person will need to be selected, are you sure?",
                           MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
 
                     ' if they decide against this, recheck the box and exit this code

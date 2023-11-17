@@ -32,21 +32,13 @@ Public Class dbLayer
 
     Public Sub Dispose()
 
-        ' try to close all possible objects - don't care if anything complains
-
+        ' check for any object left open
         If Not _tb Is Nothing Then _tb.Dispose()
         If Not _ds Is Nothing Then _ds.Dispose()
         If Not _da Is Nothing Then _da.Dispose()
         If Not _rdr Is Nothing Then _rdr.Close()
         If Not _cmd Is Nothing Then _cmd.Dispose()
         If Not _cn Is Nothing Then _cn.Close()
-
-        '_tb = Nothing
-        '_ds = Nothing
-        '_da = Nothing
-        '_rdr = Nothing
-        '_cmd = Nothing
-        '_cn = Nothing
 
     End Sub
 
@@ -77,6 +69,13 @@ Public Class dbLayer
             _rdr.Read()
 
             Return _rdr(0)
+
+        End Get
+    End Property
+    Public ReadOnly Property GetWorkersAvailability(WorkerID As String) As DataTable
+        Get
+
+            Return CreateNewTable($"Select * from tblWorkerAvailability where WorkerID={WorkerID}")
 
         End Get
     End Property
@@ -391,6 +390,81 @@ Public Class dbLayer
         InsertRecordFromTable("tblWorkers", tbl)
 
         Return _recordID
+
+    End Function
+
+    Public Function SaveWorkerAvailability(fromTable As DataTable, mode As String) As Boolean
+
+        ' either insert new worker availability records or update current ones
+        Dim frmDr As DataRow
+        Dim sqlValues As String = ""
+        Dim saveSuccessfull As Boolean = False
+
+        Select Case mode
+            Case "Insert"
+                Try
+                    For Each frmDr In fromTable.Rows
+                        _sql = "Insert Into tblWorkerAvailability ("
+
+                        For Each clm As DataColumn In fromTable.Columns
+                            If clm.ColumnName <> "ID" Then
+                                _sql += $"{clm.ColumnName},"
+                            End If
+                            sqlValues += $"'{frmDr(clm.ColumnName)}',"
+                        Next
+
+                        ' piece the SQL strings together
+                        _sql = String.Concat(_sql.AsSpan(0, _sql.Length - 1), ") values (")
+                        _sql += String.Concat(sqlValues.AsSpan(0, sqlValues.Length - 1), ")")
+
+                        ' run the insert statement to add the record
+                        _cmd = New OleDbCommand(_sql, _cn)
+                        _rdr = _cmd.ExecuteReader()
+
+                        sqlValues = ""
+
+                        CleanUp()
+                    Next
+
+                    saveSuccessfull = True
+                Catch ex As Exception
+                    CreateDbLogFile("SaveWorkerAvailability-Insert", (_sql & vbCrLf & ex.Message), ex.StackTrace)
+                End Try
+            Case "Update"
+                Try
+                    Dim workerAvailabilityRecordID As Long = 0
+
+                    For Each frmDr In fromTable.Rows
+                        _sql = "Update tblWorkerAvailability Set "
+
+                        For Each clm As DataColumn In fromTable.Columns
+                            If clm.ColumnName <> "ID" Then
+                                _sql += $"{clm.ColumnName} = "
+                            Else
+                                workerAvailabilityRecordID = frmDr(clm.ColumnName)
+                            End If
+                            _sql += $"'{frmDr(clm.ColumnName)}',"
+                        Next
+
+                        _sql = _sql.Substring(0, _sql.Length - 1) & $" Where ID = {workerAvailabilityRecordID}"
+
+                        ' run the update statement
+                        _cmd = New OleDbCommand(_sql, _cn)
+                        _rdr = _cmd.ExecuteReader()
+
+                        sqlValues = ""
+
+                        CleanUp()
+                    Next
+
+                    saveSuccessfull = True
+                Catch ex As Exception
+                    CreateDbLogFile("SaveWorkerAvailability-Update", (_sql & vbCrLf & ex.Message), ex.StackTrace)
+                End Try
+
+        End Select
+
+        Return saveSuccessfull
 
     End Function
 

@@ -66,6 +66,8 @@ Partial Class frmWorker
         Thursday = New DataGridViewTextBoxColumn()
         Friday = New DataGridViewTextBoxColumn()
         Saturday = New DataGridViewTextBoxColumn()
+        WorkerID = New DataGridViewTextBoxColumn()
+        ID = New DataGridViewTextBoxColumn()
         Panel1.SuspendLayout()
         btnPanel.SuspendLayout()
         CType(grdAvailable, ComponentModel.ISupportInitialize).BeginInit()
@@ -414,7 +416,7 @@ Partial Class frmWorker
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         grdAvailable.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         grdAvailable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        grdAvailable.Columns.AddRange(New DataGridViewColumn() {header, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday})
+        grdAvailable.Columns.AddRange(New DataGridViewColumn() {header, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, WorkerID, ID})
         grdAvailable.Location = New Point(3, 220)
         grdAvailable.MultiSelect = False
         grdAvailable.Name = "grdAvailable"
@@ -500,6 +502,20 @@ Partial Class frmWorker
         Saturday.Name = "Saturday"
         Saturday.ReadOnly = True
         Saturday.Width = 80
+        ' 
+        ' WorkerID
+        ' 
+        WorkerID.HeaderText = "WorkerID"
+        WorkerID.Name = "WorkerID"
+        WorkerID.ReadOnly = True
+        WorkerID.Visible = False
+        ' 
+        ' ID
+        ' 
+        ID.HeaderText = "RecordID"
+        ID.Name = "ID"
+        ID.ReadOnly = True
+        ID.Visible = False
         ' 
         ' frmWorker
         ' 
@@ -590,4 +606,6 @@ Partial Class frmWorker
     Friend WithEvents Thursday As DataGridViewTextBoxColumn
     Friend WithEvents Friday As DataGridViewTextBoxColumn
     Friend WithEvents Saturday As DataGridViewTextBoxColumn
+    Friend WithEvents WorkerID As DataGridViewTextBoxColumn
+    Friend WithEvents ID As DataGridViewTextBoxColumn
 End Class
