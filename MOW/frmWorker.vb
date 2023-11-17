@@ -51,8 +51,8 @@ Public Class frmWorker
             lblInfo.Text += vbCrLf & $"Deactivated by: {_dr("DeactivatedUser")} on {_dr("DateDeactivated")}"
         End If
 
+        ' must refresh the datasource with the updated table data
         grdAvailable.DataSource = _dtAvail
-        grdAvailable.EnableHeadersVisualStyles = False
 
         lblInfo.Visible = True
 
@@ -219,7 +219,7 @@ Public Class frmWorker
         ' available delivery schedule
 
         With _dtAvail
-            .Columns.Add("Type", GetType(String))
+            .Columns.Add("TimeHeader", GetType(String))
             .Columns.Add("Sunday", GetType(String))
             .Columns.Add("Monday", GetType(String))
             .Columns.Add("Tuesday", GetType(String))
@@ -314,7 +314,7 @@ Public Class frmWorker
 
     Private Sub grdAvailable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdAvailable.CellClick
 
-        If e.ColumnIndex > 0 Then
+        If e.ColumnIndex > 0 And grdAvailable.ReadOnly = False Then
             ' the user has clicked in a day column
 
             Dim currentValue As String = grdAvailable.Rows(e.RowIndex).Cells(e.ColumnIndex).Value
@@ -339,7 +339,7 @@ Public Class frmWorker
 
             If currentValue.Length > 0 Then
                 ' the current cell has a value, display it in the picker
-                dateTimePicker.Value = currentValue
+                dateTimePicker.Value = Convert.ToDateTime(currentValue)
             End If
         End If
     End Sub
