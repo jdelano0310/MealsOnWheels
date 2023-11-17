@@ -10,6 +10,10 @@ Public Class frmWorker
     Dim _deliveriesLeft As Integer
 
     Dim _dtAvail As New DataTable
+    Dim _currentGridRow As Int16
+    Dim _currentGridCol As Int16
+    Dim _currentDTPicker As DateTimePicker
+
 
     Private Sub GetWorkerData()
 
@@ -316,16 +320,20 @@ Public Class frmWorker
 
         If e.ColumnIndex > 0 And grdAvailable.ReadOnly = False Then
             ' the user has clicked in a day column
+            _currentGridRow = e.RowIndex
+            _currentGridCol = e.ColumnIndex
 
-            Dim currentValue As String = grdAvailable.Rows(e.RowIndex).Cells(e.ColumnIndex).Value
+            Dim currentValue As String = grdAvailable.Rows(_currentGridRow).Cells(_currentGridCol).Value
 
             ' create the selection control to place in the grid
             Dim dateTimePicker As New DateTimePicker
-            Dim rectangle As Rectangle = grdAvailable.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, True)
+            Dim dtPickerName As String = grdAvailable.Columns(_currentGridCol).HeaderText & "-" & grdAvailable.Rows(_currentGridRow).Cells(0).Value
+            Dim rectangle As Rectangle = grdAvailable.GetCellDisplayRectangle(_currentGridCol, _currentGridRow, True)
 
             grdAvailable.Controls.Add(dateTimePicker)
 
             With dateTimePicker
+                .Name = dtPickerName
                 .Format = DateTimePickerFormat.Custom
                 .CustomFormat = "hh:mm tt"
                 .ShowUpDown = True
@@ -334,8 +342,10 @@ Public Class frmWorker
                 .Visible = True
             End With
 
-            AddHandler dateTimePicker.CloseUp, AddressOf dateTimePicker_CloseUp
-            AddHandler dateTimePicker.TextChanged, AddressOf dateTimePicker_TextChanged
+            AddHandler dateTimePicker.KeyPress, AddressOf dateTimePicker_KeyPress
+            AddHandler dateTimePicker.LostFocus, AddressOf dateTimePicker_LostFocus
+
+            _currentDTPicker = dateTimePicker
 
             If currentValue.Length > 0 Then
                 ' the current cell has a value, display it in the picker
@@ -344,11 +354,31 @@ Public Class frmWorker
         End If
     End Sub
 
-    Private Sub dateTimePicker_TextChanged(sender As Object, e As EventArgs)
+    Private Sub dateTimePicker_LostFocus(sender As Object, e As EventArgs)
+
+        'grdAvailable.Rows(_currentGridRow).Cells(_currentGridCol).Value = _currentDTPicker.Value
+
+        'grdAvailable.Controls.Remove(_currentDTPicker)
+
+        '_currentDTPicker = Nothing
+        '_currentGridRow = -1
+        '_currentGridCol = -1
 
     End Sub
 
-    Private Sub dateTimePicker_CloseUp(sender As Object, e As EventArgs)
+    Private Sub dateTimePicker_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
 
+        If e.KeyChar = Chr(13) Then
+            ' the user is done editing the value
+
+            grdAvailable.Rows(_currentGridRow).Cells(_currentGridCol).Value = _currentDTPicker.Value
+
+            grdAvailable.Controls.Remove(_currentDTPicker)
+
+            _currentDTPicker = Nothing
+            _currentGridRow = -1
+            _currentGridCol = -1
+
+        End If
     End Sub
 End Class
