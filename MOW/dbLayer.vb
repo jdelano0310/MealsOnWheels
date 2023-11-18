@@ -409,8 +409,8 @@ Public Class dbLayer
                         For Each clm As DataColumn In fromTable.Columns
                             If clm.ColumnName <> "ID" Then
                                 _sql += $"{clm.ColumnName},"
+                                sqlValues += $"'{frmDr(clm.ColumnName)}',"
                             End If
-                            sqlValues += $"'{frmDr(clm.ColumnName)}',"
                         Next
 
                         ' piece the SQL strings together
@@ -439,11 +439,10 @@ Public Class dbLayer
 
                         For Each clm As DataColumn In fromTable.Columns
                             If clm.ColumnName <> "ID" Then
-                                _sql += $"{clm.ColumnName} = "
+                                _sql += $"{clm.ColumnName} = '{frmDr(clm.ColumnName)}',"
                             Else
                                 workerAvailabilityRecordID = frmDr(clm.ColumnName)
                             End If
-                            _sql += $"'{frmDr(clm.ColumnName)}',"
                         Next
 
                         _sql = _sql.Substring(0, _sql.Length - 1) & $" Where ID = {workerAvailabilityRecordID}"

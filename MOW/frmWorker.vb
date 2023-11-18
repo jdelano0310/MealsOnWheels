@@ -168,28 +168,43 @@ Public Class frmWorker
         If Me.Tag > 0 Then
             ' the save was successfull
             If btnToggleEdit.Visible = False Then
-                ' of a new receipient, change the view of the form
+                ' if a new receipient, change the view of the form
                 btnToggleEdit.Visible = True
+
             Else
                 ' of an edit to a previous worker
                 btnToggleEdit.Text = "Edit"
+
             End If
             SetFormEdit(False)
+
+            ' build info section
+            lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
+
+            If _dr("LastModifiedUser").ToString().Length > 0 Then
+                lblInfo.Text += vbCrLf & $"Modified by: {_dr("LastModifiedUser")} on {_dr("DateLastModified")}"
+            End If
+
+            If Not chkActive.Checked Then
+                ' the worker is deactivated
+                lblInfo.Text += vbCrLf & $"Deactivated by: {_dr("DeactivatedUser")} on {_dr("DateDeactivated")}"
+            End If
+
+            Dim frm As frmGridList = frmMDI.IsChildFormOpen("frmGridList")
+
+            If frm IsNot Nothing Then
+                ' the gridlist form is displayed, update the grid
+                frm.FillGrid()
+            End If
+
+            Application.DoEvents()
+
         Else
 
         End If
 
         lblHeader.Text = "Viewing Worker"
         btnSaveWorker.Visible = False
-
-        Dim frm As frmGridList = frmMDI.IsChildFormOpen("frmGridList")
-
-        If frm IsNot Nothing Then
-            ' the gridlist form is displayed, update the grid
-            frm.FillGrid()
-        End If
-
-        Application.DoEvents()
 
     End Sub
 
@@ -235,8 +250,8 @@ Public Class frmWorker
             .Columns.Add("ID", GetType(Long))
         End With
 
-        _dtAvail.Rows.Add("Start", "", "", "", "", "", "", "")
-        _dtAvail.Rows.Add("End", "", "", "", "", "", "", "")
+        _dtAvail.Rows.Add("From", "", "", "", "", "", "", "")
+        _dtAvail.Rows.Add("To", "", "", "", "", "", "", "")
 
         grdAvailable.DataSource = _dtAvail
         grdAvailable.EnableHeadersVisualStyles = False
@@ -316,7 +331,22 @@ Public Class frmWorker
         End If
     End Sub
 
-    Private Sub grdAvailable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdAvailable.CellClick
+    Private Sub grdAvailable_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdAvailable.CellEndEdit
+
+        ' the user is done editing the value, put it in the table used as the record source
+        Dim dr As DataRow = _dtAvail.Rows.Item(_currentGridRow)
+        dr(_currentGridCol - 2) = _currentDTPicker.Value.ToString("hh:mm tt")
+
+        ' remove the datepicker from the grid 
+        grdAvailable.Controls.Remove(_currentDTPicker)
+
+        _currentDTPicker = Nothing
+        _currentGridRow = -1
+        _currentGridCol = -1
+
+    End Sub
+
+    Private Sub grdAvailable_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdAvailable.CellBeginEdit
 
         If e.ColumnIndex > 0 And grdAvailable.ReadOnly = False Then
             ' the user has clicked in a day column
@@ -327,7 +357,7 @@ Public Class frmWorker
 
             ' create the selection control to place in the grid
             Dim dateTimePicker As New DateTimePicker
-            Dim dtPickerName As String = grdAvailable.Columns(_currentGridCol).HeaderText & "-" & grdAvailable.Rows(_currentGridRow).Cells(0).Value
+            Dim dtPickerName As String = grdAvailable.Columns(_currentGridCol).HeaderText & "-" & grdAvailable.Rows(_currentGridRow).Cells(4).Value
             Dim rectangle As Rectangle = grdAvailable.GetCellDisplayRectangle(_currentGridCol, _currentGridRow, True)
 
             grdAvailable.Controls.Add(dateTimePicker)
@@ -342,9 +372,6 @@ Public Class frmWorker
                 .Visible = True
             End With
 
-            AddHandler dateTimePicker.KeyPress, AddressOf dateTimePicker_KeyPress
-            AddHandler dateTimePicker.LostFocus, AddressOf dateTimePicker_LostFocus
-
             _currentDTPicker = dateTimePicker
 
             If currentValue.Length > 0 Then
@@ -354,31 +381,4 @@ Public Class frmWorker
         End If
     End Sub
 
-    Private Sub dateTimePicker_LostFocus(sender As Object, e As EventArgs)
-
-        'grdAvailable.Rows(_currentGridRow).Cells(_currentGridCol).Value = _currentDTPicker.Value
-
-        'grdAvailable.Controls.Remove(_currentDTPicker)
-
-        '_currentDTPicker = Nothing
-        '_currentGridRow = -1
-        '_currentGridCol = -1
-
-    End Sub
-
-    Private Sub dateTimePicker_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
-
-        If e.KeyChar = Chr(13) Then
-            ' the user is done editing the value
-
-            grdAvailable.Rows(_currentGridRow).Cells(_currentGridCol).Value = _currentDTPicker.Value
-
-            grdAvailable.Controls.Remove(_currentDTPicker)
-
-            _currentDTPicker = Nothing
-            _currentGridRow = -1
-            _currentGridCol = -1
-
-        End If
-    End Sub
 End Class

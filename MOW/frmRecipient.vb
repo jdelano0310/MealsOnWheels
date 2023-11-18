@@ -40,7 +40,7 @@ Public Class frmRecipient
         ' build info section
         lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
 
-        If Not IsDBNull(_dr("LastModifiedUser")) Then
+        If _dr("LastModifiedUser").ToString().Length > 0 Then
             ' the recipient is deactivated
             lblInfo.Text += vbCrLf & $"Last Modified by: {_dr("LastModifiedUser")} on {_dr("DateLastModified")}"
         End If
@@ -155,24 +155,36 @@ Public Class frmRecipient
                 btnToggleEdit.Text = "Edit"
             End If
             SetFormEdit(False)
+
+            ' build info section
+            lblInfo.Text = $"Created by: {_dr("CreatedUser")} on {_dr("DateCreated")}"
+
+            If _dr("LastModifiedUser").ToString().Length > 0 Then
+                lblInfo.Text += vbCrLf & $"Modified by: {_dr("LastModifiedUser")} on {_dr("DateLastModified")}"
+            End If
+
+            If Not chkActive.Checked Then
+                ' the worker is deactivated
+                lblInfo.Text += vbCrLf & $"Deactivated by: {_dr("DeactivatedUser")} on {_dr("DateDeactivated")}"
+            End If
+
+            Dim frm As Form = frmMDI.IsChildFormOpen("frmGridList")
+            If frm IsNot Nothing Then
+                ' the gridlist form is displayed, update the grid
+                DirectCast(frm, frmGridList).FillGrid()
+            End If
+
+            frm = frmMDI.IsChildFormOpen("frmDelivery")
+            If frm IsNot Nothing Then
+                ' the delivery form is displayed, update the form
+                DirectCast(frm, frmDelivery).FillRecipientsCombo(Me.Tag)
+            End If
+
+            Application.DoEvents()
         End If
 
         lblHeader.Text = "Viewing Recipient"
         btnSaveRecipient.Visible = False
-
-        Dim frm As Form = frmMDI.IsChildFormOpen("frmGridList")
-        If frm IsNot Nothing Then
-            ' the gridlist form is displayed, update the grid
-            DirectCast(frm, frmGridList).FillGrid()
-        End If
-
-        frm = frmMDI.IsChildFormOpen("frmDelivery")
-        If frm IsNot Nothing Then
-            ' the delivery form is displayed, update the form
-            DirectCast(frm, frmDelivery).FillRecipientsCombo(Me.Tag)
-        End If
-
-        Application.DoEvents()
 
     End Sub
 
