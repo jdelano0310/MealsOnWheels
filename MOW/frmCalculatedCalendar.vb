@@ -74,7 +74,7 @@ Public Class frmCalculatedCalendar
 
         End Select
 
-        dbLayer.Dispose()
+        'dbLayer.Dispose()  **** this caused the combo to lose it's data
 
     End Sub
 
