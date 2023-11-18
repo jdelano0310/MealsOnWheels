@@ -209,7 +209,7 @@ Public Class dbLayer
         End Get
     End Property
 
-    Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String) As DataTable
+    Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String, CancelledDeliveries As String) As DataTable
         Get
             ' retrieve the upcoming scheduled deliveries for the criteria passed
             _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
@@ -218,13 +218,13 @@ Public Class dbLayer
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date() AND DeliveryCancelled = False) AND {secondCriteria}"
+            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date() AND DeliveryCancelled = {CancelledDeliveries}) AND {secondCriteria}"
 
             Return CreateNewTable(_sql)
         End Get
     End Property
 
-    Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String) As DataTable
+    Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String, CancelledDeliveries As String) As DataTable
         Get
 
             ' retrieve the upcoming scheduled deliveries for the criteria passed, sorted by ascending scheduled delivery date
@@ -234,7 +234,7 @@ Public Class dbLayer
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# AND DeliveryCancelled = False "
+            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# AND DeliveryCancelled = {CancelledDeliveries} "
             _sql += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(_sql)

@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Runtime.Intrinsics.Arm
 
 Public Class frmCalculatedCalendar
     Public Note As String
@@ -82,7 +83,7 @@ Public Class frmCalculatedCalendar
         Dim _tb As New DataTable
         Dim dbLayer As New dbLayer
 
-        _tb = dbLayer.GetDeliveryCalendar(secondCriteria)
+        _tb = dbLayer.GetDeliveryCalendar(secondCriteria, chkDisplayHidden.Checked.ToString())
 
         grdView.DataSource = _tb
 
@@ -140,7 +141,7 @@ Public Class frmCalculatedCalendar
         Dim _tb As DataTable = Nothing
         Dim dbLayer As New dbLayer
 
-        _tb = dbLayer.GetDeliveryCalendarByDate(cboFilterList1.Text, cboFilterList2.Text)
+        _tb = dbLayer.GetDeliveryCalendarByDate(cboFilterList1.Text, cboFilterList2.Text, chkDisplayHidden.Checked.ToString())
 
         grdView.DataSource = _tb
 
@@ -265,4 +266,16 @@ Public Class frmCalculatedCalendar
 
     End Sub
 
+    Private Sub chkDisplayHidden_Click(sender As Object, e As EventArgs) Handles chkDisplayHidden.Click
+
+        If grdView.Rows.Count > 0 Then
+            ' the grid has data, refresh it
+            If rdoByRecipient.Checked Or rdoByWorker.Checked Then
+                cboFilterList1_SelectedIndexChanged(sender, e)
+            Else
+                btnApply_Click(sender, e)
+            End If
+        End If
+
+    End Sub
 End Class

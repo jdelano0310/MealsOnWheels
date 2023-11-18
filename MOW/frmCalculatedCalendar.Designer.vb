@@ -32,6 +32,7 @@ Partial Class frmCalculatedCalendar
         btnPanel = New Panel()
         lblViewing = New Label()
         pnFilter = New Panel()
+        chkDisplayHidden = New CheckBox()
         btnApply = New Button()
         lblFilterType2 = New Label()
         cboFilterList2 = New ComboBox()
@@ -79,19 +80,19 @@ Partial Class frmCalculatedCalendar
         ' 
         cMenu.Items.AddRange(New ToolStripItem() {cmAddNote, cmCancel})
         cMenu.Name = "cMenu"
-        cMenu.Size = New Size(181, 70)
+        cMenu.Size = New Size(156, 48)
         ' 
         ' cmAddNote
         ' 
         cmAddNote.Name = "cmAddNote"
-        cmAddNote.Size = New Size(180, 22)
+        cmAddNote.Size = New Size(155, 22)
         cmAddNote.Text = "Add Note"
         cmAddNote.ToolTipText = "Add a note to any selected deliveries"
         ' 
         ' cmCancel
         ' 
         cmCancel.Name = "cmCancel"
-        cmCancel.Size = New Size(180, 22)
+        cmCancel.Size = New Size(155, 22)
         cmCancel.Text = "Cancel Delivery"
         cmCancel.ToolTipText = "Cancel any selected deliveries"
         ' 
@@ -119,6 +120,7 @@ Partial Class frmCalculatedCalendar
         ' pnFilter
         ' 
         pnFilter.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        pnFilter.Controls.Add(chkDisplayHidden)
         pnFilter.Controls.Add(btnApply)
         pnFilter.Controls.Add(lblFilterType2)
         pnFilter.Controls.Add(cboFilterList2)
@@ -131,6 +133,16 @@ Partial Class frmCalculatedCalendar
         pnFilter.Name = "pnFilter"
         pnFilter.Size = New Size(592, 57)
         pnFilter.TabIndex = 35
+        ' 
+        ' chkDisplayHidden
+        ' 
+        chkDisplayHidden.AutoSize = True
+        chkDisplayHidden.Location = New Point(300, 4)
+        chkDisplayHidden.Name = "chkDisplayHidden"
+        chkDisplayHidden.Size = New Size(169, 19)
+        chkDisplayHidden.TabIndex = 45
+        chkDisplayHidden.Text = "Display cancelled deliveries"
+        chkDisplayHidden.UseVisualStyleBackColor = True
         ' 
         ' btnApply
         ' 
@@ -238,6 +250,7 @@ Partial Class frmCalculatedCalendar
         cMenu.ResumeLayout(False)
         btnPanel.ResumeLayout(False)
         pnFilter.ResumeLayout(False)
+        pnFilter.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -256,4 +269,5 @@ Partial Class frmCalculatedCalendar
     Friend WithEvents cMenu As ContextMenuStrip
     Friend WithEvents cmAddNote As ToolStripMenuItem
     Friend WithEvents cmCancel As ToolStripMenuItem
+    Friend WithEvents chkDisplayHidden As CheckBox
 End Class
