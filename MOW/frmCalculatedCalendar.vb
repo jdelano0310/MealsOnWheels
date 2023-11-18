@@ -68,7 +68,8 @@ Public Class frmCalculatedCalendar
                 cboFilterList2.Visible = True
                 btnApply.Visible = True
 
-                _ds = dbLayer.GetCalculatedDeliveryDates()
+                ' if the checkbox is false 
+                _ds = dbLayer.GetCalculatedDeliveryDates(chkDisplayHidden.Checked)
                 FillComboboxDates(cboFilterList1, _ds.Tables("Ascending"))
                 FillComboboxDates(cboFilterList2, _ds.Tables("Descending"))
 
@@ -83,7 +84,7 @@ Public Class frmCalculatedCalendar
         Dim _tb As New DataTable
         Dim dbLayer As New dbLayer
 
-        _tb = dbLayer.GetDeliveryCalendar(secondCriteria, chkDisplayHidden.Checked.ToString())
+        _tb = dbLayer.GetDeliveryCalendar(secondCriteria, chkDisplayHidden.Checked)
 
         grdView.DataSource = _tb
 

@@ -94,17 +94,27 @@ Public Class dbLayer
 
         End Get
     End Property
-    Public ReadOnly Property GetCalculatedDeliveryDates() As DataSet
+    Public ReadOnly Property GetCalculatedDeliveryDates(IncludeCancelledDeliveryDates As Boolean) As DataSet
         Get
             If _cn.State = ConnectionState.Closed Then _cn.Open()
 
             ' returns delivery dates that have scheduled deliveries
+            Dim whereClause As String
+
+            ' if the user wants to include the cancelled delivery data then the query 
+            ' should not use it as a criteria
+            If IncludeCancelledDeliveryDates Then
+                whereClause = ""
+            Else
+                whereClause = " Where DeliveryCancelled = False"
+            End If
+
             '_da = New OleDbDataAdapter("Select ' Select From Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesASC", _cn)
-            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesASC", _cn)
+            _da = New OleDbDataAdapter($"Select * from qryCalculatedDeliveryDatesASC{whereClause}", _cn)
             _da.Fill(_ds, "Ascending")
 
             '_da = New OleDbDataAdapter("Select ' Select To Date' as DeliveryDateOnly from tblMealRecipients union Select * from qryCalculatedDeliveryDatesDESC", _cn)
-            _da = New OleDbDataAdapter("Select * from qryCalculatedDeliveryDatesDESC", _cn)
+            _da = New OleDbDataAdapter($"Select * from qryCalculatedDeliveryDatesDESC{whereClause}", _cn)
             _da.Fill(_ds, "Descending")
 
             _cn.Close()
@@ -209,32 +219,57 @@ Public Class dbLayer
         End Get
     End Property
 
-    Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String, CancelledDeliveries As String) As DataTable
+    Public ReadOnly Property GetDeliveryCalendar(secondCriteria As String, IncludeCancelledDeliveryDates As Boolean) As DataTable
         Get
             ' retrieve the upcoming scheduled deliveries for the criteria passed
+
+            Dim whereClause As String
+            Dim cancelledFields As String = ""
+
+            ' if the user wants to include the cancelled delivery data then the query 
+            ' should not use it as a criteria
+            If IncludeCancelledDeliveryDates Then
+                whereClause = ""
+                cancelledFields = ",CancelDate, CancelUser, CancelReason "
+            Else
+                whereClause = " AND DeliveryCancelled = False"
+            End If
+
             _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
-            _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            _sql += $"[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer{cancelledFields} "
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date() AND DeliveryCancelled = {CancelledDeliveries}) AND {secondCriteria}"
+            _sql += $"WHERE (((tblCalculatedDeliveryCalendar.ScheduledDeliveryDate)>=Date(){whereClause}) AND {secondCriteria}"
 
             Return CreateNewTable(_sql)
         End Get
     End Property
 
-    Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String, CancelledDeliveries As String) As DataTable
+    Public ReadOnly Property GetDeliveryCalendarByDate(fromDate As String, toDate As String, IncludeCancelledDeliveryDates As String) As DataTable
         Get
 
             ' retrieve the upcoming scheduled deliveries for the criteria passed, sorted by ascending scheduled delivery date
+            Dim whereClause As String
+            Dim cancelledFields As String = ""
+
+            ' if the user wants to include the cancelled delivery data then the query 
+            ' should not use it as a criteria
+            If IncludeCancelledDeliveryDates Then
+                whereClause = ""
+                cancelledFields = ",CancelDate, CancelUser, CancelReason "
+            Else
+                whereClause = " AND DeliveryCancelled = False"
+            End If
+
             _sql = "SELECT [tblCalculatedDeliveryCalendar].[ID], DeliveryCalendarID, tblCalculatedDeliveryCalendar.ScheduledDeliveryDate, "
             _sql += "[tblMealRecipients].[LastName]+', '+[tblMealRecipients].[FirstName] AS Recipient, "
-            _sql += "[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer "
+            _sql += $"[tblWorkers].[LastName]+', '+[tblWorkers].[FirstName] AS Deliverer{cancelledFields} "
             _sql += "FROM (tblCalculatedDeliveryCalendar "
             _sql += "INNER JOIN tblWorkers ON tblCalculatedDeliveryCalendar.WorkerID = tblWorkers.ID) "
             _sql += "INNER JOIN tblMealRecipients ON tblCalculatedDeliveryCalendar.RecipientID = tblMealRecipients.ID "
-            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59# AND DeliveryCancelled = {CancelledDeliveries} "
+            _sql += $"WHERE tblCalculatedDeliveryCalendar.ScheduledDeliveryDate BETWEEN #{fromDate} 00:00:00# AND #{toDate} 23:59:59#{whereClause} "
             _sql += "ORDER By tblCalculatedDeliveryCalendar.ScheduledDeliveryDate ASC"
 
             Return CreateNewTable(_sql)
