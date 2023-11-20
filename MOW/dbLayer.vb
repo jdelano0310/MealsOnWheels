@@ -51,11 +51,29 @@ Public Class dbLayer
         End Get
     End Property
 
+    Public ReadOnly Property GetActiveWorkersWithDeliveriesNoCancelledCheck() As DataTable
+        Get
+            ' returns those workers that have deliveries scheduled
+            ' TODO: this should show workers if they have uncancelled deliveries remaining
+            Return CreateNewTable("Select 0 as ID, 'Select Worker' as fullname from tblWorkers union Select * from qryActiveWorkersWithDeliveriesNoCancelCheck")
+
+        End Get
+    End Property
+
     Public ReadOnly Property GetActiveRecipientsWithDeliveries() As DataTable
         Get
             ' returns those recipients that have deliveries scheduled
             ' TODO: this should show recipients if they have uncancelled deliveries remaining
             Return CreateNewTable("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveries")
+
+        End Get
+    End Property
+
+    Public ReadOnly Property GetActiveRecipientsWithDeliveriesNoCancelledCheck() As DataTable
+        Get
+            ' returns those recipients that have deliveries scheduled
+            ' TODO: this should show recipients if they have uncancelled deliveries remaining
+            Return CreateNewTable("Select 0 as ID, 'Select Recipient' as fullname, '' from tblMealRecipients union Select * from qryActiveRecipientsWithDeliveriesNoCancelCheck")
 
         End Get
     End Property

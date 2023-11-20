@@ -51,12 +51,24 @@ Public Class frmCalculatedCalendar
         Select Case rdo.Name
             Case "rdoByRecipient"
                 lblFilterType1.Text = "Recipient"
-                _tb = dbLayer.GetActiveRecipientsWithDeliveries
+
+                If chkDisplayHidden.Checked Then
+                    _tb = dbLayer.GetActiveRecipientsWithDeliveriesNoCancelledCheck
+                Else
+                    _tb = dbLayer.GetActiveRecipientsWithDeliveries
+                End If
+
                 FillCombobox(cboFilterList1, _tb)
 
             Case "rdoByWorker"
                 lblFilterType1.Text = "Worker"
-                _tb = dbLayer.GetActiveWorkersWithDeliveries
+
+                If chkDisplayHidden.Checked Then
+                    _tb = dbLayer.GetActiveWorkersWithDeliveriesNoCancelledCheck
+                Else
+                    _tb = dbLayer.GetActiveWorkersWithDeliveries
+                End If
+
                 FillCombobox(cboFilterList1, _tb)
 
             Case "rdoByDeliveryDate"
@@ -271,6 +283,15 @@ Public Class frmCalculatedCalendar
 
         If grdView.Rows.Count > 0 Then
             ' the grid has data, refresh it
+
+            If rdoByRecipient.Checked Then
+                ToggleDisplayedControls(rdoByRecipient)
+            ElseIf rdoByWorker.Checked Then
+                ToggleDisplayedControls(rdoByWorker)
+            Else
+                ToggleDisplayedControls(rdoByDeliveryDate)
+            End If
+
             If rdoByRecipient.Checked Or rdoByWorker.Checked Then
                 cboFilterList1_SelectedIndexChanged(sender, e)
             Else
