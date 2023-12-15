@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Microsoft
+Imports Microsoft.Office.Interop
 
 Public Class frmMDI
 
@@ -138,6 +139,16 @@ Public Class frmMDI
     Private Sub btnViewDeliveryCalendar_Click(sender As Object, e As EventArgs) Handles btnViewDeliveryCalendar.Click
         Dim frm As New frmCalculatedCalendar
         OpenChild(frm, "0")
+
+    End Sub
+
+    Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
+
+        Dim MSAccess As New Microsoft.Office.Interop.Access.Application
+        MSAccess.OpenCurrentDatabase(My.Settings.DatabaseLocation, False)
+
+        MSAccess.DoCmd.OpenReport("rptDeliveriesForWorkerByDate", Access.AcView.acViewPreview, , "")
+        MSAccess.Visible = True
 
     End Sub
 End Class

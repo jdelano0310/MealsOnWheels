@@ -29,6 +29,7 @@ Partial Class frmMDI
         btnWorkers = New Button()
         btnNewRecipient = New Button()
         btnNewDelivery = New Button()
+        btnReports = New Button()
         btnPanel.SuspendLayout()
         SuspendLayout()
         ' 
@@ -37,6 +38,7 @@ Partial Class frmMDI
         btnPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         btnPanel.BackColor = Color.FromArgb(CByte(0), CByte(56), CByte(83))
         btnPanel.BorderStyle = BorderStyle.Fixed3D
+        btnPanel.Controls.Add(btnReports)
         btnPanel.Controls.Add(btnViewDeliveryCalendar)
         btnPanel.Controls.Add(lblCurrentUser)
         btnPanel.Controls.Add(btnRecipients)
@@ -126,6 +128,19 @@ Partial Class frmMDI
         btnNewDelivery.Text = "New Delivery"
         btnNewDelivery.UseVisualStyleBackColor = False
         ' 
+        ' btnReports
+        ' 
+        btnReports.BackColor = Color.FromArgb(CByte(171), CByte(208), CByte(55))
+        btnReports.FlatAppearance.BorderSize = 0
+        btnReports.FlatStyle = FlatStyle.Flat
+        btnReports.ForeColor = Color.FromArgb(CByte(0), CByte(56), CByte(81))
+        btnReports.Location = New Point(657, 0)
+        btnReports.Name = "btnReports"
+        btnReports.Size = New Size(96, 45)
+        btnReports.TabIndex = 7
+        btnReports.Text = "Reports"
+        btnReports.UseVisualStyleBackColor = False
+        ' 
         ' frmMDI
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -151,4 +166,5 @@ Partial Class frmMDI
     Friend WithEvents btnRecipients As Button
     Friend WithEvents lblCurrentUser As Label
     Friend WithEvents btnViewDeliveryCalendar As Button
+    Friend WithEvents btnReports As Button
 End Class
