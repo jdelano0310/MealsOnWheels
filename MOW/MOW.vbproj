@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FreeSpire.PDF" Version="8.6.0" />
     <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
   </ItemGroup>
 
