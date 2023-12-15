@@ -144,25 +144,8 @@ Public Class frmMDI
 
     Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
 
-        Dim outputPDF As String = Path.Combine(Application.StartupPath, $"{Format(Now, "MMddyyyyHHmmss")}.PDF")
-        Dim MSAccess As New Microsoft.Office.Interop.Access.Application
-
-        Try
-            MSAccess.OpenCurrentDatabase(My.Settings.DatabaseLocation, False)
-
-            'MSAccess.DoCmd.OpenReport("rptDeliveriesForWorkerByDate", Access.AcView.acViewPreview, , "")
-            MSAccess.DoCmd.OutputTo(Access.AcOutputObjectType.acOutputReport, "rptDeliveriesForWorkerByDate",
-                                Access.Constants.acFormatPDF, outputPDF,,,, Access.AcExportQuality.acExportQualityPrint)
-        Catch ex As Exception
-            outputPDF = ""
-        Finally
-            MSAccess.DoCmd.Quit()
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(MSAccess)
-
-        End Try
-
-
-
+        Dim frm As New frmReports
+        OpenChild(frm, "0")
 
     End Sub
 End Class
