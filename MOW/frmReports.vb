@@ -9,9 +9,9 @@ Public Class frmReports
         Dim MSAccess As New Microsoft.Office.Interop.Access.Application
 
         Try
+            ' use Access to create the report and save it as a PDF
             MSAccess.OpenCurrentDatabase(My.Settings.DatabaseLocation, False)
 
-            'MSAccess.DoCmd.OpenReport("rptDeliveriesForWorkerByDate", Access.AcView.acViewPreview, , "")
             MSAccess.DoCmd.OutputTo(Access.AcOutputObjectType.acOutputReport, "rptDeliveriesForWorkerByDate",
                                 Access.Constants.acFormatPDF, outputPDF,,,, Access.AcExportQuality.acExportQualityPrint)
         Catch ex As Exception
@@ -22,7 +22,9 @@ Public Class frmReports
 
         End Try
 
-        wvPDF.NavigateToString(outputPDF)
+        ' use the WebView control to displauy the local PDF file
+        wvPDF.CoreWebView2.Navigate(outputPDF)
+        wvPDF.Visible = True
 
     End Sub
 End Class

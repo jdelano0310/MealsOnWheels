@@ -47,7 +47,9 @@ Partial Class frmReports
         wvPDF.Location = New Point(120, 0)
         wvPDF.Name = "wvPDF"
         wvPDF.Size = New Size(778, 432)
+        wvPDF.Source = New Uri("https://www.microsoft.com", UriKind.Absolute)
         wvPDF.TabIndex = 1
+        wvPDF.Visible = False
         wvPDF.ZoomFactor = 1R
         ' 
         ' frmReports
