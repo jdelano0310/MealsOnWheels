@@ -52,15 +52,13 @@ Public Class frmMDI
                 mowDBDlg.InitialDirectory = Application.StartupPath
 
                 mowDBSelected = mowDBDlg.ShowDialog()
-                Do Until mowDBSelected = DialogResult.OK Or mowDBSelected = DialogResult.Cancel
+                If mowDBSelected = DialogResult.OK Then
                     If mowDBDlg.FileName.ToUpper.IndexOf("MOW.ACCDB") > 0 Then
                         My.Settings.DatabaseLocation = mowDBDlg.FileName
-                        Exit Do
                     Else
-                        MsgBox("Please select the mow.accdb file.", MsgBoxStyle.Exclamation, "Select Database")
-                        mowDBSelected = mowDBDlg.ShowDialog()
+                        MsgBox("The application cannot be started without a database.", MsgBoxStyle.Exclamation, "Select Database")
                     End If
-                Loop
+                End If
 
                 mowDBDlg = Nothing
 
